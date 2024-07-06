@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.webeng.auleweb.data.model.impl;
 
 import it.univaq.f4i.iw.framework.data.DataItemImpl;
@@ -20,115 +16,124 @@ public class AulaImpl extends DataItemImpl<Integer> implements Aula {
 
     public String nome;
     public String luogo;
+    public String edificio;
+    public String piano;
+    public int capienza;
+    public Responsabile responsabile;
+    public int preseElettriche;
+    public int preseRete;
+    public String note;
+    public List<Attrezzatura> attrezzature;
+    public List<Gruppo> gruppi;
     
     @Override
     public String getNome() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return nome;
     }
 
     @Override
     public void setNome(String nome) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.nome = nome;
     }
 
     @Override
     public String getLuogo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return luogo;
     }
 
     @Override
     public void setLuogo(String luogo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.luogo = luogo;
     }
 
     @Override
     public String getEdificio() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return edificio;
     }
 
     @Override
     public void setEdificio(String edificio) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.edificio = edificio;
     }
 
     @Override
     public String getPiano() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return piano;
     }
 
     @Override
     public void setPiano(String piano) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.piano = piano;
     }
 
     @Override
     public int getCapienza() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return capienza;
     }
 
     @Override
     public void setCapienza(int capienza) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.capienza = capienza;
     }
 
     @Override
     public Responsabile getResponsabile() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return responsabile;
     }
 
     @Override
     public void setResponsabile(Responsabile responsabile) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.responsabile = responsabile;
     }
 
     @Override
     public int getPreseElettriche() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return preseElettriche;
     }
 
     @Override
     public void setPreseElettriche(int preseElettriche) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.preseElettriche = preseElettriche;
     }
 
     @Override
     public int getPreseRete() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return preseRete;
     }
 
     @Override
     public void setPreseRete(int preseRete) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.preseRete = preseRete;
     }
 
     @Override
     public String getNote() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return note;
     }
 
     @Override
     public void setNote(String note) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.note = note;
     }
 
     @Override
     public List<Attrezzatura> getAttrezzature() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return attrezzature;
     }
 
     @Override
-    public void setAttrezzature(Attrezzatura attrezzature) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setAttrezzature(List<Attrezzatura> attrezzature) {
+        this.attrezzature = attrezzature;
     }
 
     @Override
     public List<Gruppo> getGruppi() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return gruppi;
     }
 
     @Override
     public void setGruppi(List<Gruppo> gruppi) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.gruppi = gruppi;
     }
     
 }

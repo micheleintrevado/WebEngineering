@@ -40,7 +40,7 @@ public interface Aula extends DataItem<Integer> {
     void setNote(String note);    
     
     List<Attrezzatura> getAttrezzature();
-    void setAttrezzature(Attrezzatura attrezzature);
+    void setAttrezzature(List<Attrezzatura> attrezzature);
     
     List<Gruppo> getGruppi();
     void setGruppi(List<Gruppo> gruppi);
