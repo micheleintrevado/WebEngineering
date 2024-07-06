@@ -11,29 +11,29 @@ import org.webeng.auleweb.data.model.Responsabile;
  *
  * @author enric
  */
-public class ResponsabileImpl extends DataItemImpl<Integer> implements Responsabile{
+public class ResponsabileImpl extends DataItemImpl<Integer> implements Responsabile {
 
     public String nome;
     public String email;
-    
+
     @Override
     public String getNome() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.nome;
     }
 
     @Override
     public void setNome(String nome) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.nome = nome;
     }
 
     @Override
     public String getEmail() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.email;
     }
 
     @Override
     public void setEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.email = email;
     }
-    
+
 }
