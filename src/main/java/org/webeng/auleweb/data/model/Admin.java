@@ -5,15 +5,17 @@
 package org.webeng.auleweb.data.model;
 
 import it.univaq.f4i.iw.framework.data.DataItem;
-
 /**
  *
  * @author enric
  */
-public interface Responsabile extends DataItem<Integer>{
-    String getNome();
-    void setNome(String nome);
+public interface Admin extends DataItem<Integer>{
+    String getUserame();
+    void setUsername(String username);
     
-    String getEmail();
-    void setEmail(String email);
+    String getPassword();
+    void setPassword(String password);
+    
+    String getToken();
+    void setToken(String token);
 }

@@ -10,10 +10,7 @@ import it.univaq.f4i.iw.framework.data.DataItem;
  *
  * @author enric
  */
-public interface Responsabile extends DataItem<Integer>{
+public interface Corso extends DataItem<Integer>{
     String getNome();
     void setNome(String nome);
-    
-    String getEmail();
-    void setEmail(String email);
 }

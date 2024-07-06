@@ -5,15 +5,16 @@
 package org.webeng.auleweb.data.model;
 
 import it.univaq.f4i.iw.framework.data.DataItem;
+import java.util.List;
 
 /**
  *
  * @author enric
  */
-public interface Responsabile extends DataItem<Integer>{
-    String getNome();
-    void setNome(String nome);
-    
-    String getEmail();
-    void setEmail(String email);
+public interface Attrezzatura extends DataItem<Integer>{
+   String getTipo();
+   void setTipo(String tipo);
+   
+   List<Aula> getAule();
+    void setAule(List<Aula> aule);
 }

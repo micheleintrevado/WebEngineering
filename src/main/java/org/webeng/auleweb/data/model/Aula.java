@@ -5,12 +5,13 @@
 package org.webeng.auleweb.data.model;
 
 import it.univaq.f4i.iw.framework.data.DataItem;
+import java.util.List;
 
 /**
  *
  * @author enric
  */
-public interface Aula extends DataItem<Object> {
+public interface Aula extends DataItem<Integer> {
     String getNome();
     void setNome(String nome);
     
@@ -37,4 +38,10 @@ public interface Aula extends DataItem<Object> {
     
     String getNote();
     void setNote(String note);    
+    
+    List<Attrezzatura> getAttrezzature();
+    void setAttrezzature(Attrezzatura attrezzature);
+    
+    List<Gruppo> getGruppi();
+    void setGruppi(List<Gruppo> gruppi);
 }
