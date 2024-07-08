@@ -30,6 +30,36 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento {
     public Aula aula;
     public Corso corso;
 
+    public EventoImpl() {
+        super();
+        this.nome = "";
+        this.giorno = null;
+        this.orarioInizio = null;
+        this.orarioFine = null;
+        this.descrizione = "";
+        this.tipoEvento = null;
+        this.responsabile = null;
+        this.ricorrenza = null;
+        this.aula = null;
+        this.corso = null;
+    }
+
+    public EventoImpl(String nome, Date giorno, Time orarioInizio, Time orarioFine, String descrizione, TipoEvento tipoEvento, Responsabile responsabile, Ricorrenza ricorrenza, Aula aula, Corso corso) {
+        this.nome = nome;
+        this.giorno = giorno;
+        this.orarioInizio = orarioInizio;
+        this.orarioFine = orarioFine;
+        this.descrizione = descrizione;
+        this.tipoEvento = tipoEvento;
+        this.responsabile = responsabile;
+        this.ricorrenza = ricorrenza;
+        this.aula = aula;
+        this.corso = corso;
+    }
+
+    
+    
+    
     @Override
     public String getNome() {
         return this.nome;

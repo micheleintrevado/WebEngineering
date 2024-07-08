@@ -14,7 +14,16 @@ import org.webeng.auleweb.data.model.Corso;
 public class CorsoImpl extends  DataItemImpl<Integer> implements Corso{
     
     public String nome;
+ 
+    public CorsoImpl() {
+        super();
+        this.nome = "";
+    }
 
+    public CorsoImpl(String nome) {
+        this.nome = nome;
+    }
+    
     @Override
     public String getNome() {
         return nome;

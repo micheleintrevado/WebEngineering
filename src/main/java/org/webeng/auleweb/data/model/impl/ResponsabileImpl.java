@@ -16,6 +16,17 @@ public class ResponsabileImpl extends DataItemImpl<Integer> implements Responsab
     public String nome;
     public String email;
 
+    public ResponsabileImpl() {
+        super();
+        this.nome = "";
+        this.email = "";
+    }
+
+    public ResponsabileImpl(String nome, String email) {
+        this.nome = nome;
+        this.email = email;
+    }
+    
     @Override
     public String getNome() {
         return this.nome;

@@ -17,7 +17,18 @@ public class RicorrenzaImpl extends DataItemImpl<Integer> implements Ricorrenza 
 
     public TipoRicorrenza tipoRicorrenza;
     public Date dataTermine;
-    
+
+    public RicorrenzaImpl() {
+        super();
+        this.tipoRicorrenza = null;
+        this.dataTermine = null;
+    }
+
+    public RicorrenzaImpl(TipoRicorrenza tipoRicorrenza, Date dataTermine) {
+        this.tipoRicorrenza = tipoRicorrenza;
+        this.dataTermine = dataTermine;
+    }
+
     @Override
     public TipoRicorrenza getTipoRicorrenza() {
         return this.tipoRicorrenza;
@@ -30,7 +41,7 @@ public class RicorrenzaImpl extends DataItemImpl<Integer> implements Ricorrenza 
 
     @Override
     public Date getDataTermine() {
-        return this.dataTermine; 
+        return this.dataTermine;
     }
 
     @Override

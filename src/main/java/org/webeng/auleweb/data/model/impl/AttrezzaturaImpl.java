@@ -13,10 +13,20 @@ import org.webeng.auleweb.data.model.Aula;
  *
  * @author miche
  */
-public class AttrezzaturaImpl extends DataItemImpl<Integer> implements Attrezzatura{
-    
+public class AttrezzaturaImpl extends DataItemImpl<Integer> implements Attrezzatura {
+
     public String tipo;
     public List<Aula> aule;
+
+    public AttrezzaturaImpl() {
+        this.tipo = "";
+        this.aule = null;
+    }
+
+    public AttrezzaturaImpl(String tipo, List<Aula> aule) {
+        this.tipo = tipo;
+        this.aule = aule;
+    }
 
     @Override
     public String getTipo() {
@@ -37,5 +47,5 @@ public class AttrezzaturaImpl extends DataItemImpl<Integer> implements Attrezzat
     public void setAule(List<Aula> aule) {
         this.aule = aule;
     }
-    
+
 }

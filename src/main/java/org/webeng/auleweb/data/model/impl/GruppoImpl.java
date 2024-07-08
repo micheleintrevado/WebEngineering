@@ -18,6 +18,19 @@ public class GruppoImpl extends DataItemImpl<Integer> implements Gruppo {
     public String nome;
     public String descrizione;
     public List<Aula> aule;
+
+    public GruppoImpl() {
+        super();
+        this.nome = "";
+        this.descrizione = "";
+        this.aule = null;
+    }
+
+    public GruppoImpl(String nome, String descrizione, List<Aula> aule) {
+        this.nome = nome;
+        this.descrizione = descrizione;
+        this.aule = aule;
+    }
     
     @Override
     public String getNome() {

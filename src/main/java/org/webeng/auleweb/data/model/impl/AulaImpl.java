@@ -25,7 +25,36 @@ public class AulaImpl extends DataItemImpl<Integer> implements Aula {
     public String note;
     public List<Attrezzatura> attrezzature;
     public List<Gruppo> gruppi;
-    
+
+    public AulaImpl() {
+        super();
+        this.nome = "";
+        this.luogo = "";
+        this.edificio = "";
+        this.piano = "";
+        this.capienza = 0;
+        this.responsabile = null;
+        this.preseElettriche = 0;
+        this.preseRete = 0;
+        this.note = "";
+        this.attrezzature = null;
+        this.gruppi = null;
+    }
+
+    public AulaImpl(String nome, String luogo, String edificio, String piano, int capienza, Responsabile responsabile, int preseElettriche, int preseRete, String note, List<Attrezzatura> attrezzature, List<Gruppo> gruppi) {
+        this.nome = nome;
+        this.luogo = luogo;
+        this.edificio = edificio;
+        this.piano = piano;
+        this.capienza = capienza;
+        this.responsabile = responsabile;
+        this.preseElettriche = preseElettriche;
+        this.preseRete = preseRete;
+        this.note = note;
+        this.attrezzature = attrezzature;
+        this.gruppi = gruppi;
+    }
+
     @Override
     public String getNome() {
         return nome;
@@ -135,5 +164,5 @@ public class AulaImpl extends DataItemImpl<Integer> implements Aula {
     public void setGruppi(List<Gruppo> gruppi) {
         this.gruppi = gruppi;
     }
-    
+
 }
