@@ -14,17 +14,17 @@ import org.webeng.auleweb.data.model.Responsabile;
  */
 public class AulaImpl extends DataItemImpl<Integer> implements Aula {
 
-    public String nome;
-    public String luogo;
-    public String edificio;
-    public String piano;
-    public int capienza;
-    public Responsabile responsabile;
-    public int preseElettriche;
-    public int preseRete;
-    public String note;
-    public List<Attrezzatura> attrezzature;
-    public List<Gruppo> gruppi;
+    private String nome;
+    private String luogo;
+    private String edificio;
+    private String piano;
+    private int capienza;
+    private Responsabile responsabile;
+    private int preseElettriche;
+    private int preseRete;
+    private String note;
+    private List<Attrezzatura> attrezzature;
+    private List<Gruppo> gruppi;
 
     public AulaImpl() {
         super();

@@ -15,9 +15,9 @@ import org.webeng.auleweb.data.model.Gruppo;
  */
 public class GruppoImpl extends DataItemImpl<Integer> implements Gruppo {
 
-    public String nome;
-    public String descrizione;
-    public List<Aula> aule;
+    private String nome;
+    private String descrizione;
+    private List<Aula> aule;
 
     public GruppoImpl() {
         super();

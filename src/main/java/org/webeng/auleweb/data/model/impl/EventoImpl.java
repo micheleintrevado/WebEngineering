@@ -20,15 +20,15 @@ import org.webeng.auleweb.data.model.TipoEvento;
  */
 public class EventoImpl extends DataItemImpl<Integer> implements Evento {
 
-    public String nome;
-    public Date giorno;
-    public Time orarioInizio, orarioFine;
-    public String descrizione;
-    public TipoEvento tipoEvento;
-    public Responsabile responsabile;
-    public Ricorrenza ricorrenza;
-    public Aula aula;
-    public Corso corso;
+    private String nome;
+    private Date giorno;
+    private Time orarioInizio, orarioFine;
+    private String descrizione;
+    private TipoEvento tipoEvento;
+    private Responsabile responsabile;
+    private Ricorrenza ricorrenza;
+    private Aula aula;
+    private Corso corso;
 
     public EventoImpl() {
         super();

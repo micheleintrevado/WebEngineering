@@ -15,8 +15,8 @@ import org.webeng.auleweb.data.model.Aula;
  */
 public class AttrezzaturaImpl extends DataItemImpl<Integer> implements Attrezzatura {
 
-    public String tipo;
-    public List<Aula> aule;
+    private String tipo;
+    private List<Aula> aule;
 
     public AttrezzaturaImpl() {
         this.tipo = "";

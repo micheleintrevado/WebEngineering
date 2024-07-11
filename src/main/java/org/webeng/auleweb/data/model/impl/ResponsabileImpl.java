@@ -13,8 +13,8 @@ import org.webeng.auleweb.data.model.Responsabile;
  */
 public class ResponsabileImpl extends DataItemImpl<Integer> implements Responsabile {
 
-    public String nome;
-    public String email;
+    private String nome;
+    private String email;
 
     public ResponsabileImpl() {
         super();

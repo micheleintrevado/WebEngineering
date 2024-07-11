@@ -13,9 +13,9 @@ import org.webeng.auleweb.data.model.Admin;
  */
 public class AdminImpl extends DataItemImpl<Integer> implements Admin {
 
-    public String username;
-    public String password;
-    public String token;
+    private String username;
+    private String password;
+    private String token;
 
     public AdminImpl() {
         this.username = "";

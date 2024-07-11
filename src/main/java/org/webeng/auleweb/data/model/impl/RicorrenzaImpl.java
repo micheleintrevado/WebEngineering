@@ -15,8 +15,8 @@ import org.webeng.auleweb.data.model.TipoRicorrenza;
  */
 public class RicorrenzaImpl extends DataItemImpl<Integer> implements Ricorrenza {
 
-    public TipoRicorrenza tipoRicorrenza;
-    public Date dataTermine;
+    private TipoRicorrenza tipoRicorrenza;
+    private Date dataTermine;
 
     public RicorrenzaImpl() {
         super();
