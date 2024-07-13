@@ -4,15 +4,16 @@
  */
 package org.webeng.auleweb.data.model.impl.proxy;
 
-import it.univaq.f4i.iw.framework.data.DataException;
-import it.univaq.f4i.iw.framework.data.DataItemProxy;
-import it.univaq.f4i.iw.framework.data.DataLayer;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.webeng.auleweb.data.dao.AulaDAO;
 import org.webeng.auleweb.data.model.Aula;
 import org.webeng.auleweb.data.model.impl.GruppoImpl;
+import org.webeng.auleweb.framework.data.DataException;
+import org.webeng.auleweb.framework.data.DataItemProxy;
+import org.webeng.auleweb.framework.data.DataLayer;
 
 
 /**
@@ -42,6 +43,15 @@ public class GruppoProxy extends GruppoImpl implements DataItemProxy{
         }
         return super.getAule();
     }
+    
+    
+    
+    @Override
+    public void addAula(Aula a) {
+        super.addAula(a);
+        this.modified = true;
+    }
+    
 
     @Override
     public void setDescrizione(String descrizione) {

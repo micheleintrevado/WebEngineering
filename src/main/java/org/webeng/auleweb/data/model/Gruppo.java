@@ -20,4 +20,6 @@ public interface Gruppo extends DataItem<Integer>{
     
     List<Aula> getAule();
     void setAule(List<Aula> aule);
+    
+    void addAula(Aula a);
 }

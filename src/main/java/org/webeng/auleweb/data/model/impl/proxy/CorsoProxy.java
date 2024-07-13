@@ -4,9 +4,10 @@
  */
 package org.webeng.auleweb.data.model.impl.proxy;
 
-import it.univaq.f4i.iw.framework.data.DataItemProxy;
-import it.univaq.f4i.iw.framework.data.DataLayer;
+
 import org.webeng.auleweb.data.model.impl.CorsoImpl;
+import org.webeng.auleweb.framework.data.DataItemProxy;
+import org.webeng.auleweb.framework.data.DataLayer;
 
 /**
  *
@@ -21,6 +22,12 @@ public class CorsoProxy extends CorsoImpl implements DataItemProxy{
         super();
         this.dataLayer = dataLayer;
         this.modified = false;
+    }
+    
+    @Override
+    public void setNome(String n){
+        super.setNome(n);
+        this.modified = true;
     }
     
     @Override

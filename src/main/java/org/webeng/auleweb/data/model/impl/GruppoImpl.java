@@ -61,5 +61,10 @@ public class GruppoImpl extends DataItemImpl<Integer> implements Gruppo {
     public void setAule(List<Aula> aule) {
         this.aule = aule;
     }
+
+    @Override
+    public void addAula(Aula a) {
+        this.aule.add(a);
+    }
     
 }
