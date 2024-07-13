@@ -4,7 +4,7 @@
  */
 package org.webeng.auleweb.data.model.impl;
 
-import it.univaq.f4i.iw.framework.data.DataItemImpl;
+import org.webeng.auleweb.framework.data.DataItemImpl;
 import java.sql.Date;
 import java.sql.Time;
 import org.webeng.auleweb.data.model.Aula;

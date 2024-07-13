@@ -4,9 +4,6 @@
  */
 package org.webeng.auleweb.data.model.impl.proxy;
 
-import it.univaq.f4i.iw.framework.data.DataException;
-import it.univaq.f4i.iw.framework.data.DataItemProxy;
-import it.univaq.f4i.iw.framework.data.DataLayer;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +14,9 @@ import org.webeng.auleweb.data.model.Attrezzatura;
 import org.webeng.auleweb.data.model.Gruppo;
 import org.webeng.auleweb.data.model.Responsabile;
 import org.webeng.auleweb.data.model.impl.AulaImpl;
+import org.webeng.auleweb.framework.data.DataException;
+import org.webeng.auleweb.framework.data.DataItemProxy;
+import org.webeng.auleweb.framework.data.DataLayer;
 
 /**
  *

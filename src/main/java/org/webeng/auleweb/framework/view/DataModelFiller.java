@@ -17,7 +17,7 @@
  * context parameter view.model_filler.
  * 
  */
-package it.univaq.f4i.iw.framework.view;
+package org.webeng.auleweb.framework.view;
 
 import java.util.Map;
 import javax.servlet.ServletContext;

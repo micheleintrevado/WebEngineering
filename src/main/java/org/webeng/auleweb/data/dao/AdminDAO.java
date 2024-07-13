@@ -4,7 +4,7 @@
  */
 package org.webeng.auleweb.data.dao;
 
-import it.univaq.f4i.iw.framework.data.DataException;
+import org.webeng.auleweb.framework.data.DataException;
 import org.webeng.auleweb.data.model.Admin;
 
 /**

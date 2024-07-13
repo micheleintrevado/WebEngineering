@@ -1,8 +1,8 @@
-package it.univaq.f4i.iw.examples.application;
+package org.webeng.auleweb.examples.application;
 
 
-import it.univaq.f4i.iw.framework.data.DataException;
-import it.univaq.f4i.iw.framework.view.DataModelFiller;
+import org.webeng.auleweb.framework.data.DataException;
+import org.webeng.auleweb.framework.view.DataModelFiller;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;

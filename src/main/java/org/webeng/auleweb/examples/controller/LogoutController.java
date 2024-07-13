@@ -3,10 +3,10 @@
  *
  *
  */
-package it.univaq.f4i.iw.examples.controller;
+package org.webeng.auleweb.examples.controller;
 
-import it.univaq.f4i.iw.examples.application.ApplicationBaseController;
-import it.univaq.f4i.iw.framework.security.SecurityHelpers;
+import org.webeng.auleweb.examples.application.ApplicationBaseController;
+import org.webeng.auleweb.framework.security.SecurityHelpers;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

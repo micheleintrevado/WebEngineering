@@ -1,15 +1,15 @@
-package it.univaq.f4i.iw.ex.newspaper.data.model.impl.proxy;
+package org.webeng.auleweb.ex.newspaper.data.model.impl.proxy;
 
-import it.univaq.f4i.iw.ex.newspaper.data.dao.AuthorDAO;
-import it.univaq.f4i.iw.ex.newspaper.data.dao.ImageDAO;
-import it.univaq.f4i.iw.ex.newspaper.data.dao.IssueDAO;
-import it.univaq.f4i.iw.ex.newspaper.data.model.impl.ArticleImpl;
+import org.webeng.auleweb.ex.newspaper.data.dao.AuthorDAO;
+import org.webeng.auleweb.ex.newspaper.data.dao.ImageDAO;
+import org.webeng.auleweb.ex.newspaper.data.dao.IssueDAO;
+import org.webeng.auleweb.ex.newspaper.data.model.impl.ArticleImpl;
 import org.webeng.auleweb.data.model.Author;
 import org.webeng.auleweb.data.model.Image;
 import org.webeng.auleweb.data.model.Issue;
-import it.univaq.f4i.iw.framework.data.DataException;
-import it.univaq.f4i.iw.framework.data.DataItemProxy;
-import it.univaq.f4i.iw.framework.data.DataLayer;
+import org.webeng.auleweb.framework.data.DataException;
+import org.webeng.auleweb.framework.data.DataItemProxy;
+import org.webeng.auleweb.framework.data.DataLayer;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -3,16 +3,16 @@
  *
  *
  */
-package it.univaq.f4i.iw.examples.controller;
+package org.webeng.auleweb.examples.controller;
 
 import org.webeng.auleweb.data.model.User;
-import it.univaq.f4i.iw.examples.application.ApplicationDataLayer;
-import it.univaq.f4i.iw.examples.application.ApplicationBaseController;
-import it.univaq.f4i.iw.framework.data.DataException;
-import it.univaq.f4i.iw.framework.view.HTMLResult;
-import it.univaq.f4i.iw.framework.security.SecurityHelpers;
-import it.univaq.f4i.iw.framework.view.TemplateManagerException;
-import it.univaq.f4i.iw.framework.view.TemplateResult;
+import org.webeng.auleweb.examples.application.ApplicationDataLayer;
+import org.webeng.auleweb.examples.application.ApplicationBaseController;
+import org.webeng.auleweb.framework.data.DataException;
+import org.webeng.auleweb.framework.view.HTMLResult;
+import org.webeng.auleweb.framework.security.SecurityHelpers;
+import org.webeng.auleweb.framework.view.TemplateManagerException;
+import org.webeng.auleweb.framework.view.TemplateResult;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;

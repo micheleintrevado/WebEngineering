@@ -1,4 +1,4 @@
-package it.univaq.f4i.iw.framework.application;
+package org.webeng.auleweb.framework.application;
 
 import java.util.Arrays;
 import java.util.logging.Level;

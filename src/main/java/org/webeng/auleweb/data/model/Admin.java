@@ -4,7 +4,7 @@
  */
 package org.webeng.auleweb.data.model;
 
-import it.univaq.f4i.iw.framework.data.DataItem;
+import org.webeng.auleweb.framework.data.DataItem;
 /**
  *
  * @author enric

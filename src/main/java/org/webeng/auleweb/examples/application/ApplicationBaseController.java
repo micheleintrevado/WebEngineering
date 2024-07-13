@@ -1,7 +1,7 @@
-package it.univaq.f4i.iw.examples.application;
+package org.webeng.auleweb.examples.application;
 
-import it.univaq.f4i.iw.framework.controller.AbstractBaseController;
-import it.univaq.f4i.iw.framework.data.DataLayer;
+import org.webeng.auleweb.framework.controller.AbstractBaseController;
+import org.webeng.auleweb.framework.data.DataLayer;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.sql.DataSource;

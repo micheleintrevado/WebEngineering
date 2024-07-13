@@ -13,7 +13,7 @@
  * init parameters (see web.xml).
  * 
  */
-package it.univaq.f4i.iw.framework.view;
+package org.webeng.auleweb.framework.view;
 
 import freemarker.core.HTMLOutputFormat;
 import freemarker.core.JSONOutputFormat;

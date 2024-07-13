@@ -1,22 +1,22 @@
-package it.univaq.f4i.iw.examples.application;
+package org.webeng.auleweb.examples.application;
 
-import it.univaq.f4i.iw.ex.newspaper.data.dao.ArticleDAO;
-import it.univaq.f4i.iw.ex.newspaper.data.dao.AuthorDAO;
-import it.univaq.f4i.iw.ex.newspaper.data.dao.ImageDAO;
-import it.univaq.f4i.iw.ex.newspaper.data.dao.IssueDAO;
-import it.univaq.f4i.iw.ex.newspaper.data.dao.UserDAO;
-import it.univaq.f4i.iw.ex.newspaper.data.dao.impl.ArticleDAO_MySQL;
-import it.univaq.f4i.iw.ex.newspaper.data.dao.impl.AuthorDAO_MySQL;
-import it.univaq.f4i.iw.ex.newspaper.data.dao.impl.ImageDAO_MySQL;
-import it.univaq.f4i.iw.ex.newspaper.data.dao.impl.IssueDAO_MySQL;
-import it.univaq.f4i.iw.ex.newspaper.data.dao.impl.UserDAO_MySQL;
+import org.webeng.auleweb.ex.newspaper.data.dao.ArticleDAO;
+import org.webeng.auleweb.ex.newspaper.data.dao.AuthorDAO;
+import org.webeng.auleweb.ex.newspaper.data.dao.ImageDAO;
+import org.webeng.auleweb.ex.newspaper.data.dao.IssueDAO;
+import org.webeng.auleweb.ex.newspaper.data.dao.UserDAO;
+import org.webeng.auleweb.ex.newspaper.data.dao.impl.ArticleDAO_MySQL;
+import org.webeng.auleweb.ex.newspaper.data.dao.impl.AuthorDAO_MySQL;
+import org.webeng.auleweb.ex.newspaper.data.dao.impl.ImageDAO_MySQL;
+import org.webeng.auleweb.ex.newspaper.data.dao.impl.IssueDAO_MySQL;
+import org.webeng.auleweb.ex.newspaper.data.dao.impl.UserDAO_MySQL;
 import org.webeng.auleweb.data.model.Article;
 import org.webeng.auleweb.data.model.Author;
 import org.webeng.auleweb.data.model.Image;
 import org.webeng.auleweb.data.model.Issue;
 import org.webeng.auleweb.data.model.User;
-import it.univaq.f4i.iw.framework.data.DataException;
-import it.univaq.f4i.iw.framework.data.DataLayer;
+import org.webeng.auleweb.framework.data.DataException;
+import org.webeng.auleweb.framework.data.DataLayer;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 

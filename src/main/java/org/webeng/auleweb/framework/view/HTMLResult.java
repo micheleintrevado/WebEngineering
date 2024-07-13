@@ -7,7 +7,7 @@
  * This class supports direct HTML output
  * 
  */
-package it.univaq.f4i.iw.framework.view;
+package org.webeng.auleweb.framework.view;
 
 import java.io.IOException;
 import java.io.PrintWriter;

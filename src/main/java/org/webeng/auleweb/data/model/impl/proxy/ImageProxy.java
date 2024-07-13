@@ -1,9 +1,9 @@
-package it.univaq.f4i.iw.ex.newspaper.data.model.impl.proxy;
+package org.webeng.auleweb.ex.newspaper.data.model.impl.proxy;
 
-import it.univaq.f4i.iw.ex.newspaper.data.model.impl.ImageImpl;
-import it.univaq.f4i.iw.framework.data.DataException;
-import it.univaq.f4i.iw.framework.data.DataItemProxy;
-import it.univaq.f4i.iw.framework.data.DataLayer;
+import org.webeng.auleweb.ex.newspaper.data.model.impl.ImageImpl;
+import org.webeng.auleweb.framework.data.DataException;
+import org.webeng.auleweb.framework.data.DataItemProxy;
+import org.webeng.auleweb.framework.data.DataLayer;
 import java.io.InputStream;
 
 public class ImageProxy extends ImageImpl implements DataItemProxy {

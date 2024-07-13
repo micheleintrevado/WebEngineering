@@ -1,12 +1,11 @@
 package org.webeng.auleweb.data.model.impl;
 
-import it.univaq.f4i.iw.framework.data.DataItemImpl;
 import java.util.List;
 import org.webeng.auleweb.data.model.Attrezzatura;
-
 import org.webeng.auleweb.data.model.Aula;
 import org.webeng.auleweb.data.model.Gruppo;
 import org.webeng.auleweb.data.model.Responsabile;
+import org.webeng.auleweb.framework.data.DataItemImpl;
 
 /**
  *

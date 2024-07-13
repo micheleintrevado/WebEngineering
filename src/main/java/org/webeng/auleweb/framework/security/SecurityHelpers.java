@@ -1,4 +1,4 @@
-package it.univaq.f4i.iw.framework.security;
+package org.webeng.auleweb.framework.security;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

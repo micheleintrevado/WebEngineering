@@ -1,4 +1,4 @@
-package it.univaq.f4i.iw.framework.view;
+package org.webeng.auleweb.framework.view;
 
 /**
  *

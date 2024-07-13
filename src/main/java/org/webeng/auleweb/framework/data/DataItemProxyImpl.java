@@ -1,4 +1,4 @@
-package it.univaq.f4i.iw.framework.data;
+package org.webeng.auleweb.framework.data;
 
 /**
  *

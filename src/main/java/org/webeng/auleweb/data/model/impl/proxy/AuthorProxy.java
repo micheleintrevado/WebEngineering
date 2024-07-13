@@ -1,8 +1,8 @@
-package it.univaq.f4i.iw.ex.newspaper.data.model.impl.proxy;
+package org.webeng.auleweb.ex.newspaper.data.model.impl.proxy;
 
-import it.univaq.f4i.iw.ex.newspaper.data.model.impl.AuthorImpl;
-import it.univaq.f4i.iw.framework.data.DataItemProxy;
-import it.univaq.f4i.iw.framework.data.DataLayer;
+import org.webeng.auleweb.ex.newspaper.data.model.impl.AuthorImpl;
+import org.webeng.auleweb.framework.data.DataItemProxy;
+import org.webeng.auleweb.framework.data.DataLayer;
 
 
 public class AuthorProxy extends AuthorImpl implements DataItemProxy  {

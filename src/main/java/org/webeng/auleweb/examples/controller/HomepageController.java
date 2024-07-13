@@ -3,11 +3,11 @@
  *
  *
  */
-package it.univaq.f4i.iw.examples.controller;
+package org.webeng.auleweb.examples.controller;
 
-import it.univaq.f4i.iw.examples.application.ApplicationBaseController;
-import it.univaq.f4i.iw.framework.view.TemplateManagerException;
-import it.univaq.f4i.iw.framework.view.TemplateResult;
+import org.webeng.auleweb.examples.application.ApplicationBaseController;
+import org.webeng.auleweb.framework.view.TemplateManagerException;
+import org.webeng.auleweb.framework.view.TemplateResult;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

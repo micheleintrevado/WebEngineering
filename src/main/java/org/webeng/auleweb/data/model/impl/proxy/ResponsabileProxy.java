@@ -4,8 +4,8 @@
  */
 package org.webeng.auleweb.data.model.impl.proxy;
 
-import it.univaq.f4i.iw.framework.data.DataItemProxy;
-import it.univaq.f4i.iw.framework.data.DataLayer;
+import org.webeng.auleweb.framework.data.DataItemProxy;
+import org.webeng.auleweb.framework.data.DataLayer;
 import org.webeng.auleweb.data.model.impl.ResponsabileImpl;
 
 /**

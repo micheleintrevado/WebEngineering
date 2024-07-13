@@ -1,6 +1,6 @@
-package it.univaq.f4i.iw.framework.utils;
+package org.webeng.auleweb.framework.utils;
 
-import it.univaq.f4i.iw.framework.view.HTMLResult;
+import org.webeng.auleweb.framework.view.HTMLResult;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

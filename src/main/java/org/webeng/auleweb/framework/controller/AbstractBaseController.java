@@ -1,8 +1,8 @@
-package it.univaq.f4i.iw.framework.controller;
+package org.webeng.auleweb.framework.controller;
 
-import it.univaq.f4i.iw.framework.data.DataLayer;
-import it.univaq.f4i.iw.framework.security.SecurityHelpers;
-import it.univaq.f4i.iw.framework.utils.ServletHelpers;
+import org.webeng.auleweb.framework.data.DataLayer;
+import org.webeng.auleweb.framework.security.SecurityHelpers;
+import org.webeng.auleweb.framework.utils.ServletHelpers;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

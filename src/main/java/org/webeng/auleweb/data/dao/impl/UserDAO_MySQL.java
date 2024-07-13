@@ -1,17 +1,17 @@
-package it.univaq.f4i.iw.ex.newspaper.data.dao.impl;
+package org.webeng.auleweb.ex.newspaper.data.dao.impl;
 
-import it.univaq.f4i.iw.ex.newspaper.data.dao.UserDAO;
+import org.webeng.auleweb.ex.newspaper.data.dao.UserDAO;
 import org.webeng.auleweb.data.model.User;
-import it.univaq.f4i.iw.ex.newspaper.data.model.impl.proxy.UserProxy;
-import it.univaq.f4i.iw.framework.data.DAO;
-import it.univaq.f4i.iw.framework.data.DataException;
-import it.univaq.f4i.iw.framework.data.DataItemProxy;
+import org.webeng.auleweb.ex.newspaper.data.model.impl.proxy.UserProxy;
+import org.webeng.auleweb.framework.data.DAO;
+import org.webeng.auleweb.framework.data.DataException;
+import org.webeng.auleweb.framework.data.DataItemProxy;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import it.univaq.f4i.iw.framework.data.DataLayer;
-import it.univaq.f4i.iw.framework.data.OptimisticLockException;
-import it.univaq.f4i.iw.framework.security.SecurityHelpers;
+import org.webeng.auleweb.framework.data.DataLayer;
+import org.webeng.auleweb.framework.data.OptimisticLockException;
+import org.webeng.auleweb.framework.security.SecurityHelpers;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Statement;

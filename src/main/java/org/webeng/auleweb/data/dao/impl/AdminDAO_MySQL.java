@@ -4,10 +4,10 @@
  */
 package org.webeng.auleweb.data.dao.impl;
 
-import it.univaq.f4i.iw.ex.newspaper.data.model.impl.proxy.ArticleProxy;
-import it.univaq.f4i.iw.framework.data.DAO;
-import it.univaq.f4i.iw.framework.data.DataException;
-import it.univaq.f4i.iw.framework.data.DataLayer;
+import org.webeng.auleweb.ex.newspaper.data.model.impl.proxy.ArticleProxy;
+import org.webeng.auleweb.framework.data.DAO;
+import org.webeng.auleweb.framework.data.DataException;
+import org.webeng.auleweb.framework.data.DataLayer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import org.webeng.auleweb.data.dao.AdminDAO;
@@ -33,7 +33,8 @@ public class AdminDAO_MySQL extends DAO implements AdminDAO{
     }
     
     public Admin createAdmin(ResultSet rs) {
-        // CODE
+        //TODO: CODE
+        return null;
     }
 
     @Override

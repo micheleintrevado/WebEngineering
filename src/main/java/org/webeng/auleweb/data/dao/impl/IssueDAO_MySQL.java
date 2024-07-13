@@ -1,19 +1,19 @@
-package it.univaq.f4i.iw.ex.newspaper.data.dao.impl;
+package org.webeng.auleweb.ex.newspaper.data.dao.impl;
 
-import it.univaq.f4i.iw.ex.newspaper.data.dao.IssueDAO;
-import it.univaq.f4i.iw.ex.newspaper.data.model.impl.proxy.IssueProxy;
+import org.webeng.auleweb.ex.newspaper.data.dao.IssueDAO;
+import org.webeng.auleweb.ex.newspaper.data.model.impl.proxy.IssueProxy;
 import org.webeng.auleweb.data.model.Issue;
-import it.univaq.f4i.iw.framework.data.DAO;
-import it.univaq.f4i.iw.framework.data.DataException;
-import it.univaq.f4i.iw.framework.data.DataItemProxy;
+import org.webeng.auleweb.framework.data.DAO;
+import org.webeng.auleweb.framework.data.DataException;
+import org.webeng.auleweb.framework.data.DataItemProxy;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import it.univaq.f4i.iw.framework.data.DataLayer;
-import it.univaq.f4i.iw.framework.data.OptimisticLockException;
+import org.webeng.auleweb.framework.data.DataLayer;
+import org.webeng.auleweb.framework.data.OptimisticLockException;
 import java.time.LocalDate;
 
 /**

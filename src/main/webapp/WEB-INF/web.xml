@@ -44,30 +44,30 @@
     </context-param>
     <context-param>
         <param-name>view.data.filler.dummy</param-name>
-        <param-value>it.univaq.f4i.iw.examples.application.DummyModelFiller</param-value>
+        <param-value>org.webeng.auleweb.examples.application.DummyModelFiller</param-value>
     </context-param>
     <listener>
-        <listener-class>it.univaq.f4i.iw.framework.application.ApplicationInitializer</listener-class>
+        <listener-class>org.webeng.auleweb.framework.application.ApplicationInitializer</listener-class>
     </listener>
     <servlet>
         <servlet-name>login</servlet-name>
-        <servlet-class>it.univaq.f4i.iw.examples.controller.LoginController</servlet-class>
+        <servlet-class>org.webeng.auleweb.examples.controller.LoginController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>logout</servlet-name>
-        <servlet-class>it.univaq.f4i.iw.examples.controller.LogoutController</servlet-class>
+        <servlet-class>org.webeng.auleweb.examples.controller.LogoutController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>homepage</servlet-name>
-        <servlet-class>it.univaq.f4i.iw.examples.controller.HomepageController</servlet-class>
+        <servlet-class>org.webeng.auleweb.examples.controller.HomepageController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>secured</servlet-name>
-        <servlet-class>it.univaq.f4i.iw.examples.controller.SecureController</servlet-class>
+        <servlet-class>org.webeng.auleweb.examples.controller.SecureController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>public</servlet-name>
-        <servlet-class>it.univaq.f4i.iw.examples.controller.PublicController</servlet-class>
+        <servlet-class>org.webeng.auleweb.examples.controller.PublicController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>login</servlet-name>
