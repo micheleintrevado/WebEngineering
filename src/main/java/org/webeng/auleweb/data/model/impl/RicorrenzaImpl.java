@@ -6,6 +6,8 @@ package org.webeng.auleweb.data.model.impl;
 
 import org.webeng.auleweb.framework.data.DataItemImpl;
 import java.sql.Date;
+import java.util.List;
+import org.webeng.auleweb.data.model.Evento;
 import org.webeng.auleweb.data.model.Ricorrenza;
 import org.webeng.auleweb.data.model.TipoRicorrenza;
 
@@ -17,6 +19,8 @@ public class RicorrenzaImpl extends DataItemImpl<Integer> implements Ricorrenza 
 
     private TipoRicorrenza tipoRicorrenza;
     private Date dataTermine;
+    private List<Evento> eventi;
+    
 
     public RicorrenzaImpl() {
         super();
@@ -47,5 +51,15 @@ public class RicorrenzaImpl extends DataItemImpl<Integer> implements Ricorrenza 
     @Override
     public void setDataTermine(Date dataTermine) {
         this.dataTermine = dataTermine;
+    }
+
+    @Override
+    public List<Evento> getEventi() {
+        return this.eventi;
+    }
+
+    @Override
+    public void setEventi(List<Evento> eventi) {
+        this.eventi = eventi;
     }
 }

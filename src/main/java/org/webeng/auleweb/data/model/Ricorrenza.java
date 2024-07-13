@@ -6,6 +6,7 @@ package org.webeng.auleweb.data.model;
 
 import org.webeng.auleweb.framework.data.DataItem;
 import java.sql.Date;
+import java.util.List;
 
 /**
  *
@@ -17,5 +18,8 @@ public interface Ricorrenza extends DataItem<Integer> {
     
     Date getDataTermine();
     void setDataTermine(Date dataTermine);
+    
+    List<Evento> getEventi();
+    void setEventi(List<Evento> eventi);
     
 }

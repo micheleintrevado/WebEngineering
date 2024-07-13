@@ -6,6 +6,7 @@ package org.webeng.auleweb.data.dao;
 
 import org.webeng.auleweb.framework.data.DataException;
 import java.util.List;
+import org.webeng.auleweb.data.model.Attrezzatura;
 import org.webeng.auleweb.data.model.Aula;
 import org.webeng.auleweb.data.model.Corso;
 import org.webeng.auleweb.data.model.Evento;
@@ -44,5 +45,8 @@ public interface AulaDAO {
     // List<Aula> getUnassignedAule(Date) throws DataException;   
     // Inserimento e aggiornamento aula in DB
     void storeAula(Aula aula) throws DataException;
+    
+    // Lista di aule dato un responsabile 
+    List<Aula> getAuleByAttrezzatura(Attrezzatura a) throws DataException;
 
 }
