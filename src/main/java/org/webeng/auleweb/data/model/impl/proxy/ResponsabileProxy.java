@@ -17,8 +17,7 @@ public class ResponsabileProxy extends ResponsabileImpl implements DataItemProxy
     protected boolean modified;
 
     protected DataLayer dataLayer;
-    
-    
+
     public ResponsabileProxy(DataLayer dataLayer) {
         super();
         this.dataLayer = dataLayer;
@@ -41,11 +40,13 @@ public class ResponsabileProxy extends ResponsabileImpl implements DataItemProxy
         this.modified = dirty;
     }
 
+    @Override
     public void setNome(String nome) {
         super.setNome(nome);
         this.modified = true;
     }
 
+    @Override
     public void setEmail(String email) {
         super.setEmail(email);
         this.modified = true;

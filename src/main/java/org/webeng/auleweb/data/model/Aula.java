@@ -41,7 +41,9 @@ public interface Aula extends DataItem<Integer> {
     
     List<Attrezzatura> getAttrezzature();
     void setAttrezzature(List<Attrezzatura> attrezzature);
+    void addAttrezzatura(Attrezzatura attrezzatura);
     
     List<Gruppo> getGruppi();
     void setGruppi(List<Gruppo> gruppi);
+    void addGruppo(Gruppo gruppo);
 }

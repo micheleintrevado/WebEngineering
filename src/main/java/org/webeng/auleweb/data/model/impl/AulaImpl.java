@@ -165,4 +165,13 @@ public class AulaImpl extends DataItemImpl<Integer> implements Aula {
         this.gruppi = gruppi;
     }
 
+    @Override
+    public void addAttrezzatura(Attrezzatura attrezzatura) {
+        this.attrezzature.add(attrezzatura);
+    }
+
+    @Override
+    public void addGruppo(Gruppo gruppo) {
+        this.gruppi.add(gruppo);
+    }
 }

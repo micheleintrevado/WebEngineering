@@ -18,7 +18,7 @@ public interface GruppoDAO {
 
     Gruppo getGruppo(int gruppo_key) throws DataException;
 
-    Gruppo getGruppoByAula(Aula aula) throws DataException;
+    List<Gruppo> getGruppiByAula(Aula aula) throws DataException;
 
     // Lista di gruppi senza aule associate
     List<Gruppo> getUnassignedGruppi() throws DataException;
