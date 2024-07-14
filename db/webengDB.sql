@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `Responsabile`(
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`email` VARCHAR(60) NOT NULL,
     `nome` VARCHAR(255) NOT NULL,
+    `version`  int unsigned DEFAULT '1',
     primary key(id));
     
 CREATE TABLE IF NOT EXISTS `Aula` (
@@ -20,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `Aula` (
     `prese_rete` INT UNSIGNED NOT NULL,
     `note` TINYTEXT NOT NULL,
     `id_responsabile` INT UNSIGNED NOT NULL,
+    `version`  int unsigned DEFAULT '1',
     FOREIGN KEY (id_responsabile)
         REFERENCES Responsabile (id),
     PRIMARY KEY (id)
@@ -28,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `Aula` (
 CREATE TABLE IF NOT EXISTS `Attrezzatura` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `tipo` VARCHAR(60) NOT NULL,
+    `version`  int unsigned DEFAULT '1',
     PRIMARY KEY (id)
 );
 
@@ -46,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `Gruppo` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(60) NOT NULL,
     `descrizione` TINYTEXT,
+    `version`  int unsigned DEFAULT '1',
     PRIMARY KEY (id)
 );
 
@@ -63,6 +67,7 @@ CREATE TABLE IF NOT EXISTS `Aula_Gruppo` (
 CREATE TABLE IF NOT EXISTS `Corso` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(60) NOT NULL,
+    `version`  int unsigned DEFAULT '1',
     PRIMARY KEY (id)
 );
 
@@ -70,6 +75,7 @@ CREATE TABLE IF NOT EXISTS `Ricorrenza` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `tipo` ENUM('giornaliera', 'settimanale', 'mensile') NOT NULL,
     `data_termine` DATETIME NOT NULL,
+    `version`  int unsigned DEFAULT '1',
     PRIMARY KEY (id)
 );
 
@@ -87,6 +93,7 @@ CREATE TABLE IF NOT EXISTS `Evento` (
     `id_master` INT UNSIGNED DEFAULT NULL,
     `id_aula` INT UNSIGNED NOT NULL,
     `id_corso` INT UNSIGNED DEFAULT NULL,
+    `version`  int unsigned DEFAULT '1',
     PRIMARY KEY (id),
     CHECK ((`tipologia` IN ('lezione' , 'esame', 'parziale') AND `id_corso` IS NOT NULL)
         OR (`tipologia` IN ('seminario' , 'riunione', 'lauree', 'altro'))),
@@ -105,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `Admin`(
     `username` VARCHAR(60) NOT NULL,
     `password` VARCHAR(60) NOT NULL,
     `token` varchar(255),
-    
+    `version`  int unsigned DEFAULT '1',
     primary key(id)
 );
 
