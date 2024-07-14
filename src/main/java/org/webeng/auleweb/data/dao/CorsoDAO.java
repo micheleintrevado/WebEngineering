@@ -21,5 +21,7 @@ public interface CorsoDAO {
     List<Corso> getCorsi() throws DataException;
     
     // Inserimento e aggiornamento corso in DB
-    void storeCorso(Corso corso) throws DataException;    
+    void storeCorso(Corso corso) throws DataException;
+    
+    void deleteCorso(Corso c) throws DataException;
 }

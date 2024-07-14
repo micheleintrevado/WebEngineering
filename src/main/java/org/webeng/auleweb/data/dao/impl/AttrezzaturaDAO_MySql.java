@@ -5,12 +5,15 @@
 package org.webeng.auleweb.data.dao.impl;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import org.webeng.auleweb.data.dao.AttrezzaturaDAO;
 import org.webeng.auleweb.data.model.Attrezzatura;
 import org.webeng.auleweb.data.model.Aula;
+import org.webeng.auleweb.data.model.impl.proxy.AttrezzaturaProxy;
 import org.webeng.auleweb.framework.data.DAO;
 import org.webeng.auleweb.framework.data.DataException;
 import org.webeng.auleweb.framework.data.DataLayer;
@@ -23,8 +26,12 @@ public class AttrezzaturaDAO_MySql extends DAO implements AttrezzaturaDAO{
 
     private PreparedStatement sAttrezzaturaById;
     private PreparedStatement sAttrezzaturaAll;
+    private PreparedStatement sAttrezzaturaByAula;
+    
     private PreparedStatement iAttrezzatura;
     private PreparedStatement iAssignAttrezzatura;
+    
+    private PreparedStatement dAttrezzatura;
     
     public AttrezzaturaDAO_MySql(DataLayer d) {
         super(d);
@@ -36,42 +43,105 @@ public class AttrezzaturaDAO_MySql extends DAO implements AttrezzaturaDAO{
             super.init();
             sAttrezzaturaById = connection.prepareStatement("select * from attrezzatura where id = ?");
             sAttrezzaturaAll = connection.prepareStatement("select * from attrezzatura");
-            iAssignAttrezzatura = connection.prepareStatement("insert into webeng.attrezzatura(`tipo`) values (?);", Statement.RETURN_GENERATED_KEYS);
-            iAssignAttrezzatura = connection.prepareStatement("");
+            sAttrezzaturaByAula = connection.prepareStatement("SELECT * FROM attrezzatura as a join aula_attrezzatura as attr on a.id = attr.id_aula where attr.id_aula = ?;");
+            
+            iAttrezzatura = connection.prepareStatement("insert into webeng.attrezzatura(`tipo`) values (?);", Statement.RETURN_GENERATED_KEYS);
+            iAssignAttrezzatura = connection.prepareStatement("insert into webeng.aula_attrezzatura(`id_aula`,`id_attrezzatura`) values (?,?);");
+            
+            dAttrezzatura = connection.prepareStatement("delete from webeng.attrezzatura where id = ?;");
         } catch (SQLException ex){
-            throw new DataException("Error initializing authors data layer", ex);
-        }
-        
+            throw new DataException("Error initializing attrezzatura data layer", ex);
+        } 
     }
 
     @Override
     public Attrezzatura createAttrezzatura() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new AttrezzaturaProxy(getDataLayer());
+    }
+    
+    private AttrezzaturaProxy createAttrezzatura(ResultSet rs) throws DataException{
+        AttrezzaturaProxy a = (AttrezzaturaProxy) createAttrezzatura();
+        try {
+            a.setKey(rs.getInt("id"));
+            a.setTipo(rs.getString("tipo"));
+        } catch (SQLException e) {
+            throw new DataException("Unable to create Attrezzatura object form ResultSet", e);
+        }
+        return a;
     }
 
     @Override
     public Attrezzatura getAttrezzatura(int attrezzatura_key) throws DataException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Attrezzatura a = null;
+        try{
+            sAttrezzaturaById.setInt(1, attrezzatura_key);
+            try(ResultSet rs = sAttrezzaturaById.executeQuery()){
+                if (rs.next()){
+                    a = createAttrezzatura(rs);
+                    dataLayer.getCache().add(Attrezzatura.class, a);
+                }
+            }
+        }catch(SQLException ex){
+            throw new DataException("Unable to load Attrezzatura by filename",ex);
+        }
+        return a;
     }
 
     @Override
     public List<Attrezzatura> getAttrezzatura() throws DataException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<Attrezzatura> attrezzature = new ArrayList<>();
+        try (ResultSet rs = sAttrezzaturaAll.executeQuery()) {
+            while (rs.next()) {
+                attrezzature.add(getAttrezzatura(rs.getInt("id")));
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load attrezzature", ex);
+        }
+        return attrezzature;
     }
 
     @Override
     public List<Attrezzatura> getAttrezzaturaByAula(Aula aula) throws DataException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<Attrezzatura> attrezzature = new ArrayList<>();
+        try (ResultSet rs = sAttrezzaturaByAula.executeQuery()) {
+            while (rs.next()) {
+                attrezzature.add(getAttrezzatura(rs.getInt("id")));
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load attrezzature filtered by aula", ex);
+        }
+        return attrezzature;
     }
 
+    // TODO: controllare l'id dell'aula
     @Override
     public void storeAttrezzatura(Attrezzatura attrezzatura) throws DataException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            iAttrezzatura.setString(1, attrezzatura.getTipo());
+            iAttrezzatura.executeUpdate();
+        } catch (SQLException ex){
+            throw new DataException("unable to store Attrezzatura", ex);
+        }
     }
 
     @Override
-    public void assignAttrezzatura(Attrezzatura attrezzatua, Aula aula) throws DataException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void assignAttrezzatura(Attrezzatura attrezzatura, Aula aula) throws DataException {
+        try{
+            iAssignAttrezzatura.setInt(1, aula.getKey());
+            iAssignAttrezzatura.setInt(2, attrezzatura.getKey());
+            iAssignAttrezzatura.executeUpdate();
+        } catch (SQLException ex){
+            throw new DataException("unable to store Attrezzatura", ex);
+        }
     }
     
+    @Override
+    public void deleteAttrezzatura(Attrezzatura a) throws DataException {
+        try {
+            dAttrezzatura.setInt(1, a.getKey());
+            dAttrezzatura.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataException("Unable to delete Attrezzatura", ex);
+        }
+    }
 }

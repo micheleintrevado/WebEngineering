@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS `Aula_Attrezzatura` (
     FOREIGN KEY (id_aula)
         REFERENCES Aula (id),
     FOREIGN KEY (id_attrezzatura)
-        REFERENCES Attrezzatura (id),
+        REFERENCES Attrezzatura (id)
+        on delete cascade,
     PRIMARY KEY (id)
 );
 
