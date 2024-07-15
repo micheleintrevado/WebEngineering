@@ -4,6 +4,7 @@
  */
 package org.webeng.auleweb.data.dao;
 
+import java.util.List;
 import org.webeng.auleweb.framework.data.DataException;
 import org.webeng.auleweb.data.model.Admin;
 
@@ -25,6 +26,8 @@ public interface AdminDAO {
     Admin getAdmin(int admin_key) throws DataException;
     
     Admin getAdminByName(String username) throws DataException;
+    
+    List<Admin> getAdmins() throws DataException;
 
     void storeAdmin(Admin admin) throws DataException;
 

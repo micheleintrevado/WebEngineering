@@ -125,7 +125,7 @@ GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on
 
 -- INSERIMENTO RESPONSABILI ****************
 INSERT INTO Responsabile (nome, email) VALUES ('Mario Rossi','m.rossi@universita.it'), ('Anna Bianchi','a.bianchi@universita.it'), ('Luigi Verdi','l.verdi@universita.it'),
-('Carlo Neri','c.neri@universita.it'), ('Elena Martini','e.martini@universita.it');
+('Carlo Neri','c.neri@universita.it'), ('Elena Martini','e.martini@universita.it'), ('Nuovo Responsabile','Nuovo@Responsabile.it');
 
 -- Inserimento AULE **************
 INSERT INTO `webeng`.`aula` (`id`, `nome`, `luogo`, `edificio`, `piano`, `capienza`, `prese_elettriche`, `prese_rete`, `note`, `id_responsabile`) VALUES 
@@ -150,7 +150,8 @@ VALUES
 ('Parziale di Chimica','2024-06-19', '08:00:00', '10:00:00', 'Parziale di chimica organica', 'parziale', 2, NULL, 1, 2),
 ('Lauree di Giugno', '2024-06-20', '09:00:00', '18:00:00', 'Cerimonia di laurea per gli studenti del dipartimento di economia', 'lauree', 3, NULL, 2, NULL),
 ('Workshop di Fotografia', '2024-06-21', '10:00:00', '13:00:00', 'Workshop pratico di fotografia', 'altro', 1, NULL, 3, NULL),
-('Seminario di Economia', '2024-06-14' ,'15:00:00', '23:00:00', 'Conferenza sulle nuove tendenze economiche', 'seminario', 5, NULL, 1, NULL);
+('Seminario di Economia', '2024-06-14' ,'15:00:00', '23:00:00', 'Conferenza sulle nuove tendenze economiche', 'seminario', 5, NULL, 1, NULL),
+('Lezione Attuale', date(now()),time(now() - interval 1 hour),time(now() + interval 3 hour),'Lezione in corso adesso','lezione',5,NULL, 2, 2);
 
 
 

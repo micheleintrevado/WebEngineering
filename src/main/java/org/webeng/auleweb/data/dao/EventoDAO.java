@@ -23,17 +23,22 @@ public interface EventoDAO {
     Evento createEvento();
 
     Evento getEvento(int evento_key) throws DataException;
-   
+
     // Lista di tutti gli eventi
     List<Evento> getEventi() throws DataException;
 
     // Eventi associati ad una specifica aula/responsabile/corso
     List<Evento> getEventiByAula(Aula aula) throws DataException;
+
     List<Evento> getEventiByResponsabile(Responsabile responsabile) throws DataException;
+
     List<Evento> getEventiByCorso(Corso corso) throws DataException;
 
+    // Eventi in un determinato giorno
+    List<Evento> getEventiGiorno(Date giorno) throws DataException;
+
     // Eventi associati ad una specifica aula in un determinato giorno
-    List<Evento> getEventiGiorno(Aula aula, Date giorno) throws DataException;
+    List<Evento> getEventiAulaGiorno(Aula aula, Date giorno) throws DataException;
 
     // Eventi associati ad una specifica aula nella settimana che parte dal giorno indicato
     List<Evento> getEventiSettimana(Aula aula, Date settimana) throws DataException;
@@ -52,15 +57,15 @@ public interface EventoDAO {
 
     //TODO: Object = file CSV
     // Lista di eventi in un determinato periodo in formato CSV
-    Object getEventiRangeCSV(Period periodo, Corso corso) throws DataException;
-    
+    Object getEventiRangeCSV(Date periodoStart, Date periodoEnd, Corso corso) throws DataException;
+
     //TODO: Object = file iCalendar
     // Lista di eventi in un determinato periodo in formato iCalendar
-    Object getEventiRangeiCalendar(Period periodo, Corso corso) throws DataException;
+    Object getEventiRangeiCalendar(Date periodoStart, Date periodoEnd, Corso corso) throws DataException;
 
     // Inserimento e aggiornamento evento in DB
     void storeEvento(Evento evento) throws DataException;
-    
+
     // TODO ??
     // Assegna una ricorrenza ad uno specifico evento
     void assignRicorrenza(Evento evento, Ricorrenza ricorrenza) throws DataException;

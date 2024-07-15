@@ -43,7 +43,7 @@ public class AulaDAO_MySQL extends DAO implements AulaDAO {
     public void init() throws DataException {
         try {
             super.init();
-            sAulaByID = connection.prepareStatement("SELECT * FROM aula WHere ID=?");
+            sAulaByID = connection.prepareStatement("SELECT * FROM aula WHERE ID=?");
             sAulaByEvento = connection.prepareStatement("SELECT aula.id FROM aula JOIN evento e ON e.id_aula = aula.ID WHERE e.id = ?");
             sAuleByResponsabile = connection.prepareStatement("Select aula.id FROM AULA WHERE aula.id_responsabile = ?");
             sAuleByGruppo = connection.prepareStatement("SELECT aula.id FROM aula JOIN aula_gruppo ag ON ag.id_aula = aula.ID WHERE ag.id_gruppo = ?");
@@ -285,7 +285,7 @@ public class AulaDAO_MySQL extends DAO implements AulaDAO {
             if (aula instanceof DataItemProxy) {
                 ((DataItemProxy) aula).setModified(false);
             }
-        } catch (SQLException ex/*| OptimisticLockException ex*/) {
+        } catch (SQLException | OptimisticLockException ex) {
             throw new DataException("Unable to store aula", ex);
         }
     }

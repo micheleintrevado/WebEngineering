@@ -23,10 +23,10 @@ public interface ResponsabileDAO {
     List<Responsabile> getResponsabili() throws DataException;
     
     // Responsabile dato un evento 
-    Responsabile getResponsabile(Evento evento) throws DataException;
+    Responsabile getResponsabileByEvento(Evento evento) throws DataException;
 
     // Lista di responsabili senza eventi
-    List<Responsabile> getUnassignedArticles() throws DataException;
+    List<Responsabile> getUnassignedResponsabili() throws DataException;
 
     // Inserimento e aggiornamento responsabile in DB
     void storeResponsabile(Responsabile responsabile) throws DataException;    
