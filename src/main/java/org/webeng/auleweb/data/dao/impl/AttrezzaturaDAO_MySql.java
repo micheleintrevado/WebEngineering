@@ -24,7 +24,7 @@ import org.webeng.auleweb.framework.data.OptimisticLockException;
  *
  * @author miche
  */
-public class AttrezzaturaDAO_MySql extends DAO implements AttrezzaturaDAO{
+public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO{
 
     private PreparedStatement sAttrezzaturaById;
     private PreparedStatement sAttrezzaturaAll;
@@ -37,7 +37,7 @@ public class AttrezzaturaDAO_MySql extends DAO implements AttrezzaturaDAO{
     
     private PreparedStatement dAttrezzatura;
     
-    public AttrezzaturaDAO_MySql(DataLayer d) {
+    public AttrezzaturaDAO_MySQL(DataLayer d) {
         super(d);
     }
     

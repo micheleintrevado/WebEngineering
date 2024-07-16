@@ -19,7 +19,7 @@ import org.webeng.auleweb.framework.data.DataItemProxy;
 import org.webeng.auleweb.framework.data.DataLayer;
 import org.webeng.auleweb.framework.data.OptimisticLockException;
 
-public class CorsoDAO_MySql extends DAO implements CorsoDAO{
+public class CorsoDAO_MySQL extends DAO implements CorsoDAO{
 
     private PreparedStatement sCorsoByID;
     private PreparedStatement sCorsiAll;
@@ -31,7 +31,7 @@ public class CorsoDAO_MySql extends DAO implements CorsoDAO{
     private PreparedStatement dCorso;
     
     
-    public CorsoDAO_MySql(DataLayer d) {
+    public CorsoDAO_MySQL(DataLayer d) {
         super(d);
     }
         

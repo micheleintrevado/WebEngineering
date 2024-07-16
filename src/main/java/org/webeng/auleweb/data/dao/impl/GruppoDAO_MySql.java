@@ -23,7 +23,7 @@ import org.webeng.auleweb.framework.data.OptimisticLockException;
  *
  * @author miche
  */
-public class GruppoDAO_MySql extends DAO implements GruppoDAO {
+public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
 
     private PreparedStatement sGruppoByID;
     private PreparedStatement sGruppoAll;
@@ -37,7 +37,7 @@ public class GruppoDAO_MySql extends DAO implements GruppoDAO {
 
     private PreparedStatement dGruppo;
 
-    public GruppoDAO_MySql(DataLayer d) {
+    public GruppoDAO_MySQL(DataLayer d) {
         super(d);
     }
 
