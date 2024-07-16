@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `Corso` (
 CREATE TABLE IF NOT EXISTS `Ricorrenza` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `tipo` ENUM('giornaliera', 'settimanale', 'mensile') NOT NULL,
-    `data_termine` DATETIME NOT NULL,
+    `data_termine` DATE NOT NULL,
     `version`  int unsigned DEFAULT '1',
     PRIMARY KEY (id)
 );
@@ -156,7 +156,7 @@ VALUES
 
 
 -- Inserimento EVENTI RICORRENTI
-INSERT INTO `webeng`.`Ricorrenza` (`id`,`tipo`,`data_termine`) VALUES ('1', 'settimanale', '2024-06-30 23:59:00');
+INSERT INTO `webeng`.`Ricorrenza` (`id`,`tipo`,`data_termine`) VALUES ('1', 'settimanale', '2024-06-30');
 INSERT INTO `webeng`.`evento` (`id`, `nome`, `giorno`, `orario_inizio`, `orario_fine`, `descrizione`, `tipologia`, `id_responsabile`, `id_aula`, `id_corso`, `id_master`) VALUES 
 ('12', 'Lezione Ricorrente1', '2024/05/14', '22:00', '23:00', 'BBB', 'lezione', '1', '1', 1, '1'), 
 ('13', 'Lezione Ricorrente2', '2024/05/15', '22:00', '23:00', 'ZZZ', 'altro', '4', '1', null, '1');
