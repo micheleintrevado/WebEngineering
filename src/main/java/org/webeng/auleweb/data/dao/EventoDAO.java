@@ -56,17 +56,19 @@ public interface EventoDAO {
     List<Evento> getEventiRicorrenti(Ricorrenza ricorrenza) throws DataException;
 
     //TODO: Object = file CSV
-    // Lista di eventi in un determinato periodo in formato CSV
-    Object getEventiRangeCSV(Date periodoStart, Date periodoEnd, Corso corso) throws DataException;
-
-    //TODO: Object = file iCalendar
-    // Lista di eventi in un determinato periodo in formato iCalendar
-    Object getEventiRangeiCalendar(Date periodoStart, Date periodoEnd, Corso corso) throws DataException;
+    // Lista di eventi per un corso in un determinato periodo in formato CSV/iCalendar
+    List<Evento> getEventiRange(Date periodoStart, Date periodoEnd, Corso corso) throws DataException;
 
     // Inserimento e aggiornamento evento in DB
     void storeEvento(Evento evento) throws DataException;
 
-    // TODO ??
-    // Assegna una ricorrenza ad uno specifico evento
+    // Assegna una ricorrenza/responsabile/aula/corso ad uno specifico evento
     void assignRicorrenza(Evento evento, Ricorrenza ricorrenza) throws DataException;
+
+    void assignResponsabile(Evento evento, Responsabile responsabile) throws DataException;
+
+    void assignAula(Evento evento, Aula aula) throws DataException;
+
+    void assignCorso(Evento evento, Corso corso) throws DataException;
+
 }

@@ -240,7 +240,7 @@ public class AulaDAO_MySQL extends DAO implements AulaDAO {
                 if (aula.getResponsabile() != null) {
                     uAula.setInt(9, (int) aula.getResponsabile().getKey());
                 } else {
-                    uAula.setNull(3, java.sql.Types.INTEGER);
+                    uAula.setNull(9, java.sql.Types.INTEGER);
                 }
 
                 long current_version = aula.getVersion();
@@ -268,7 +268,7 @@ public class AulaDAO_MySQL extends DAO implements AulaDAO {
                 if (aula.getResponsabile() != null) {
                     iAula.setInt(9, (int) aula.getResponsabile().getKey());
                 } else {
-                    iAula.setNull(3, java.sql.Types.INTEGER);
+                    iAula.setNull(9, java.sql.Types.INTEGER);
                 }
 
                 if (iAula.executeUpdate() == 1) {
