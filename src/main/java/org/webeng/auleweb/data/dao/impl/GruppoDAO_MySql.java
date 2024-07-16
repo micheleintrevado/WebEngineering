@@ -15,7 +15,9 @@ import org.webeng.auleweb.data.model.Gruppo;
 import org.webeng.auleweb.data.model.impl.proxy.GruppoProxy;
 import org.webeng.auleweb.framework.data.DAO;
 import org.webeng.auleweb.framework.data.DataException;
+import org.webeng.auleweb.framework.data.DataItemProxy;
 import org.webeng.auleweb.framework.data.DataLayer;
+import org.webeng.auleweb.framework.data.OptimisticLockException;
 
 /**
  *
@@ -30,6 +32,8 @@ public class GruppoDAO_MySql extends DAO implements GruppoDAO {
 
     private PreparedStatement iGruppo;
     private PreparedStatement assignGruppoAula;
+    
+    private PreparedStatement uGruppo;
 
     private PreparedStatement dGruppo;
 
@@ -48,6 +52,8 @@ public class GruppoDAO_MySql extends DAO implements GruppoDAO {
             iGruppo = connection.prepareStatement("insert into webeng.gruppo(`nome`,`descrizione`) values (?,?)");
             assignGruppoAula = connection.prepareStatement("insert into webeng.aula_gruppo(`id_gruppo`,`id_aula`) values (?,?);");
 
+            uGruppo = connection.prepareStatement("UPDATE gruppo set nome=?, descrizione=?, version=? WHERE id=? and version=?;");
+            
             dGruppo = connection.prepareStatement("delete from gruppo where id = ?");
 
         } catch (SQLException ex) {
@@ -155,17 +161,73 @@ public class GruppoDAO_MySql extends DAO implements GruppoDAO {
 
     @Override
     public void storeGruppo(Gruppo gruppo) throws DataException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            if (gruppo.getKey() != null && gruppo.getKey() > 0) {
+                if (gruppo instanceof DataItemProxy && !((DataItemProxy) gruppo).isModified()) {
+                    return;
+                }
+                // UPDATE
+                uGruppo.setString(1, gruppo.getNome());
+                uGruppo.setString(2, gruppo.getDescrizione());
+                
+                long current_version = gruppo.getVersion();
+                long next_version = current_version + 1;
+
+                uGruppo.setLong(10, next_version);
+                // WHERE ID = ? AND VERSION = ?
+                uGruppo.setInt(11, gruppo.getKey());
+                uGruppo.setLong(12, current_version);
+
+                if (uGruppo.executeUpdate() == 0) {
+                    throw new OptimisticLockException(gruppo);
+                } else {
+                    gruppo.setVersion(next_version);
+                }
+            } else { //INSERT
+                iGruppo.setString(1, gruppo.getNome());
+                iGruppo.setString(2, gruppo.getDescrizione());
+
+
+                if (iGruppo.executeUpdate() == 1) {
+                    try (ResultSet keys = iGruppo.getGeneratedKeys()) {
+                        if (keys.next()) {
+                            int key = keys.getInt(1);
+                            gruppo.setKey(key);
+                            dataLayer.getCache().add(Gruppo.class, gruppo);
+                        }
+                    }
+                }
+            }
+            // RESET dell'attributo modified
+            if (gruppo instanceof DataItemProxy) {
+                ((DataItemProxy) gruppo).setModified(false);
+            }
+        } catch (SQLException ex/*| OptimisticLockException ex*/) {
+            throw new DataException("Unable to store gruppo", ex);
+        }
     }
 
     @Override
     public void assignGruppo(Gruppo gruppo, Aula aula) throws DataException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            iGruppo.setInt(1, gruppo.getKey());
+            iGruppo.setInt(1, aula.getKey());
+            iGruppo.executeUpdate();
+        } catch (SQLException ex){
+            throw new DataException("unable to assign aula to gruppo", ex);
+        }
     }
 
     @Override
     public void deleteGruppo(Gruppo g) throws DataException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            dGruppo.setInt(1, g.getKey());
+            dGruppo.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataException("Unable to delete grupo", ex);
+        }
     }
+    
+    
 
 }

@@ -15,7 +15,9 @@ import org.webeng.auleweb.data.model.Corso;
 import org.webeng.auleweb.data.model.impl.proxy.CorsoProxy;
 import org.webeng.auleweb.framework.data.DAO;
 import org.webeng.auleweb.framework.data.DataException;
+import org.webeng.auleweb.framework.data.DataItemProxy;
 import org.webeng.auleweb.framework.data.DataLayer;
+import org.webeng.auleweb.framework.data.OptimisticLockException;
 
 public class CorsoDAO_MySql extends DAO implements CorsoDAO{
 
@@ -23,6 +25,8 @@ public class CorsoDAO_MySql extends DAO implements CorsoDAO{
     private PreparedStatement sCorsiAll;
     
     private PreparedStatement iCorso;
+    
+    private PreparedStatement uCorso;
     
     private PreparedStatement dCorso;
     
@@ -41,8 +45,26 @@ public class CorsoDAO_MySql extends DAO implements CorsoDAO{
 
             iCorso = connection.prepareStatement("insert into corso (`nome`) values (?)", Statement.RETURN_GENERATED_KEYS);
             
-            dCorso = connection.prepareStatement("delete from corso where id = ?");
+            uCorso = connection.prepareStatement("update corso set nome=?, version=? where id=? and version=?");
             
+            dCorso = connection.prepareStatement("delete from corso where id = ?");
+        } catch (SQLException ex){
+            throw new DataException("Error initializing Corso data layer", ex);
+        } 
+    }
+    
+    @Override
+    public void destroy() throws DataException {
+        try{
+            
+            sCorsoByID.close();
+            sCorsiAll.close();
+
+            iCorso.close();
+            
+            uCorso.close();
+            
+            dCorso.close();
         } catch (SQLException ex){
             throw new DataException("Error initializing Corso data layer", ex);
         } 
@@ -96,11 +118,46 @@ public class CorsoDAO_MySql extends DAO implements CorsoDAO{
 
     @Override
     public void storeCorso(Corso corso) throws DataException {
-        try{
-            iCorso.setString(1, corso.getNome());
-            iCorso.executeUpdate();
-        } catch (SQLException ex){
-            throw new DataException("unable to store Corso", ex);
+        try {
+            if (corso.getKey() != null && corso.getKey() > 0) {
+                if (corso instanceof DataItemProxy && !((DataItemProxy) corso).isModified()) {
+                    return;
+                }
+                // UPDATE
+                uCorso.setString(1, corso.getNome());
+
+                long current_version = corso.getVersion();
+                long next_version = current_version + 1;
+
+                uCorso.setLong(2, next_version);
+                // WHERE ID = ? AND VERSION = ?
+                uCorso.setInt(3, corso.getKey());
+                uCorso.setLong(4, current_version);
+
+                if (uCorso.executeUpdate() == 0) {
+                    throw new OptimisticLockException(corso);
+                } else {
+                    corso.setVersion(next_version);
+                }
+            } else { //INSERT
+                iCorso.setString(1, corso.getNome());
+
+                if (iCorso.executeUpdate() == 1) {
+                    try (ResultSet keys = iCorso.getGeneratedKeys()) {
+                        if (keys.next()) {
+                            int key = keys.getInt(1);
+                            corso.setKey(key);
+                            dataLayer.getCache().add(Corso.class, corso);
+                        }
+                    }
+                }
+            }
+            // RESET dell'attributo modified
+            if (corso instanceof DataItemProxy) {
+                ((DataItemProxy) corso).setModified(false);
+            }
+        } catch (SQLException | OptimisticLockException ex) {
+            throw new DataException("Unable to store corso", ex);
         }
     }
 

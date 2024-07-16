@@ -16,7 +16,9 @@ import org.webeng.auleweb.data.model.Aula;
 import org.webeng.auleweb.data.model.impl.proxy.AttrezzaturaProxy;
 import org.webeng.auleweb.framework.data.DAO;
 import org.webeng.auleweb.framework.data.DataException;
+import org.webeng.auleweb.framework.data.DataItemProxy;
 import org.webeng.auleweb.framework.data.DataLayer;
+import org.webeng.auleweb.framework.data.OptimisticLockException;
 
 /**
  *
@@ -30,6 +32,8 @@ public class AttrezzaturaDAO_MySql extends DAO implements AttrezzaturaDAO{
     
     private PreparedStatement iAttrezzatura;
     private PreparedStatement iAssignAttrezzatura;
+    
+    private PreparedStatement uAttrezzatura;
     
     private PreparedStatement dAttrezzatura;
     
@@ -48,10 +52,28 @@ public class AttrezzaturaDAO_MySql extends DAO implements AttrezzaturaDAO{
             iAttrezzatura = connection.prepareStatement("insert into webeng.attrezzatura(`tipo`) values (?);", Statement.RETURN_GENERATED_KEYS);
             iAssignAttrezzatura = connection.prepareStatement("insert into webeng.aula_attrezzatura(`id_aula`,`id_attrezzatura`) values (?,?);");
             
+            uAttrezzatura = connection.prepareStatement("UPDATE attrezzatura set tipo=?,version=? WHERE id=? and version=?");
+            
             dAttrezzatura = connection.prepareStatement("delete from webeng.attrezzatura where id = ?;");
         } catch (SQLException ex){
             throw new DataException("Error initializing attrezzatura data layer", ex);
         } 
+    }
+    
+    @Override
+    public void destroy() throws DataException {
+        try{
+            sAttrezzaturaById.close();
+            sAttrezzaturaAll.close();
+            sAttrezzaturaByAula.close();
+            
+            iAttrezzatura.close();
+            iAssignAttrezzatura.close();
+            
+            dAttrezzatura.close();
+        } catch (SQLException ex){
+            throw new DataException("Error initializing attrezzatura data layer", ex);
+        }
     }
 
     @Override
@@ -116,11 +138,46 @@ public class AttrezzaturaDAO_MySql extends DAO implements AttrezzaturaDAO{
     // TODO: controllare l'id dell'aula
     @Override
     public void storeAttrezzatura(Attrezzatura attrezzatura) throws DataException {
-        try{
-            iAttrezzatura.setString(1, attrezzatura.getTipo());
-            iAttrezzatura.executeUpdate();
-        } catch (SQLException ex){
-            throw new DataException("unable to store Attrezzatura", ex);
+        try {
+            if (attrezzatura.getKey() != null && attrezzatura.getKey() > 0) {
+                if (attrezzatura instanceof DataItemProxy && !((DataItemProxy) attrezzatura).isModified()) {
+                    return;
+                }
+                // UPDATE
+                uAttrezzatura.setString(1, attrezzatura.getTipo());
+
+                long current_version = attrezzatura.getVersion();
+                long next_version = current_version + 1;
+
+                uAttrezzatura.setLong(2, next_version);
+                // WHERE ID = ? AND VERSION = ?
+                uAttrezzatura.setInt(3, attrezzatura.getKey());
+                uAttrezzatura.setLong(12, current_version);
+
+                if (uAttrezzatura.executeUpdate() == 0) {
+                    throw new OptimisticLockException(attrezzatura);
+                } else {
+                    attrezzatura.setVersion(next_version);
+                }
+            } else { //INSERT
+                iAttrezzatura.setString(1, attrezzatura.getTipo());
+
+                if (iAttrezzatura.executeUpdate() == 1) {
+                    try (ResultSet keys = iAttrezzatura.getGeneratedKeys()) {
+                        if (keys.next()) {
+                            int key = keys.getInt(1);
+                            attrezzatura.setKey(key);
+                            dataLayer.getCache().add(Attrezzatura.class, attrezzatura);
+                        }
+                    }
+                }
+            }
+            // RESET dell'attributo modified
+            if (attrezzatura instanceof DataItemProxy) {
+                ((DataItemProxy) attrezzatura).setModified(false);
+            }
+        } catch (SQLException | OptimisticLockException ex) {
+            throw new DataException("Unable to store attrezzatura", ex);
         }
     }
 
@@ -131,7 +188,7 @@ public class AttrezzaturaDAO_MySql extends DAO implements AttrezzaturaDAO{
             iAssignAttrezzatura.setInt(2, attrezzatura.getKey());
             iAssignAttrezzatura.executeUpdate();
         } catch (SQLException ex){
-            throw new DataException("unable to store Attrezzatura", ex);
+            throw new DataException("unable to assign Attrezzatura to Aula", ex);
         }
     }
     
