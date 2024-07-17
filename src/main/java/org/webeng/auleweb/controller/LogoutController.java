@@ -3,20 +3,20 @@
  *
  *
  */
-package org.webeng.auleweb.examples.controller;
+package org.webeng.auleweb.controller;
 
-import org.webeng.auleweb.examples.application.ApplicationBaseController;
 import org.webeng.auleweb.framework.security.SecurityHelpers;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.webeng.auleweb.application.AulewebBaseController;
 
 /**
  *
  * @author Ingegneria del Web
  * @version
  */
-public class LogoutController extends ApplicationBaseController {
+public class LogoutController extends AulewebBaseController {
 
     private void action_logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         SecurityHelpers.disposeSession(request);

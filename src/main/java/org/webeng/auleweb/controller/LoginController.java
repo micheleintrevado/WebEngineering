@@ -3,13 +3,9 @@
  *
  *
  */
-package org.webeng.auleweb.examples.controller;
+package org.webeng.auleweb.controller;
 
-import org.webeng.auleweb.data.model.User;
-import org.webeng.auleweb.examples.application.ApplicationDataLayer;
-import org.webeng.auleweb.examples.application.ApplicationBaseController;
 import org.webeng.auleweb.framework.data.DataException;
-import org.webeng.auleweb.framework.view.HTMLResult;
 import org.webeng.auleweb.framework.security.SecurityHelpers;
 import org.webeng.auleweb.framework.view.TemplateManagerException;
 import org.webeng.auleweb.framework.view.TemplateResult;
@@ -20,13 +16,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.webeng.auleweb.application.AulewebBaseController;
+import org.webeng.auleweb.application.AulewebDataLayer;
+import org.webeng.auleweb.data.model.Admin;
 
 /**
  *
  * @author Ingegneria del Web
  * @version
  */
-public class LoginController extends ApplicationBaseController {
+public class LoginController extends AulewebBaseController {
 
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException {
         TemplateResult result = new TemplateResult(getServletContext());
@@ -38,14 +37,14 @@ public class LoginController extends ApplicationBaseController {
         String username = request.getParameter("u");
         String password = request.getParameter("p");
 
-        ApplicationDataLayer dl = (ApplicationDataLayer) request.getAttribute("datalayer");
+        AulewebDataLayer dl = (AulewebDataLayer) request.getAttribute("datalayer");
         if (!username.isEmpty() && !password.isEmpty()) {
-            User u = dl.getUserDAO().getUserByName(username);
+            Admin a = dl.getAdminDAO().getAdminByName(username);
             try {
-                if (u != null && SecurityHelpers.checkPasswordHashPBKDF2(password, u.getPassword())) {
+                if (a != null && SecurityHelpers.checkPasswordHashPBKDF2(password, a.getPassword())) {
                     //se la validazione ha successo
                     //if the identity validation succeeds
-                    SecurityHelpers.createSession(request, username, u.getKey());
+                    SecurityHelpers.createSession(request, username, a.getKey());
                     //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
                     //if an origin URL has been transmitted, return to it
                     if (request.getParameter("referrer") != null) {

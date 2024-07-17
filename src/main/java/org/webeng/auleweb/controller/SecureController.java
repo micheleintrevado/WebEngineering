@@ -3,54 +3,55 @@
  *
  *
  */
-package org.webeng.auleweb.examples.controller;
+package org.webeng.auleweb.controller;
 
-import org.webeng.auleweb.data.model.Article;
-import org.webeng.auleweb.data.model.Author;
-import org.webeng.auleweb.data.model.Issue;
-import org.webeng.auleweb.examples.application.ApplicationDataLayer;
-import org.webeng.auleweb.examples.application.ApplicationBaseController;
 import org.webeng.auleweb.framework.data.DataException;
 import org.webeng.auleweb.framework.security.SecurityHelpers;
 import org.webeng.auleweb.framework.view.TemplateManagerException;
 import org.webeng.auleweb.framework.view.TemplateResult;
 import java.io.IOException;
-import java.time.LocalDate;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.webeng.auleweb.application.AulewebBaseController;
+import org.webeng.auleweb.application.AulewebDataLayer;
+import org.webeng.auleweb.data.model.Aula;
+import org.webeng.auleweb.data.model.Evento;
+import org.webeng.auleweb.data.model.Responsabile;
 
 /**
  *
  * @author Ingegneria del Web
  * @version
  */
-public class SecureController extends ApplicationBaseController {
+public class SecureController extends AulewebBaseController {
 
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException, TemplateManagerException {
 
         //preleviamo il data layer 
         //get the data layer
-        ApplicationDataLayer dl = (ApplicationDataLayer) request.getAttribute("datalayer");
+        AulewebDataLayer dl = (AulewebDataLayer) request.getAttribute("datalayer");
 
         //manipoliamo i dati usando le interfacce esposta dai DAO accessibili dal data layer
         //manipulate the data using the interfaces exposed by the DAOs accessible from the data layer
-        Issue old_latest_issue = dl.getIssueDAO().getLatestIssue();
+        List<Evento> eventi_totali = dl.getEventoDAO().getEventi();
+        Evento old_latest_issue = eventi_totali.get(eventi_totali.size()-1);
         //        
-        Issue new_issue = dl.getIssueDAO().createIssue();
-        new_issue.setNumber((old_latest_issue.getNumber() + 1));
-        new_issue.setDate(LocalDate.now());
-        dl.getIssueDAO().storeIssue(new_issue);
+        Evento new_issue = dl.getEventoDAO().createEvento();
+        new_issue.setNome("A");
+        new_issue.setDescrizione("Descrizione");
+        dl.getEventoDAO().storeEvento(new_issue);
         //        
-        Article new_article = dl.getArticleDAO().createArticle();
-        Author author = dl.getAuthorDAO().getAuthor(1); //assume it already exists
+        Aula new_article = dl.getAulaDAO().createAula();
+        Responsabile author = dl.getResponsabileDAO().getResponsabile(1); //assume it already exists
         if (author != null) {
-            new_article.setAuthor(author);
-            new_article.setTitle(SecurityHelpers.addSlashes("NEW ARTICLE FOR ISSUE " + (old_latest_issue.getNumber() + 1)));
-            new_article.setText(SecurityHelpers.addSlashes("article text"));
-            new_article.setIssue(new_issue);
-            dl.getArticleDAO().storeArticle(new_article);
+            new_article.setResponsabile(author);
+            new_article.setNome(SecurityHelpers.addSlashes("NEW AULA FOR EVENTO " + (old_latest_issue.getNome())));
+            new_article.setNote(SecurityHelpers.addSlashes("aula text"));
+            new_issue.setAula(new_article);
+            dl.getAulaDAO().storeAula(new_article);
             //
-            Issue new_latest_issue = dl.getIssueDAO().getLatestIssue();
+            Evento new_latest_issue = eventi_totali.get(eventi_totali.size()-1);
 
             TemplateResult result = new TemplateResult(getServletContext());
             request.setAttribute("page_title", "Manipulation");

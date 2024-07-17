@@ -8,7 +8,7 @@
     <context-param>
         <param-name>data.source</param-name>
         <!-- qui configuriamo in nome della data source da usare nel codice -->
-        <param-value>jdbc/webdb2</param-value>
+        <param-value>jdbc/webeng</param-value>
     </context-param>
     <context-param>
         <param-name>view.outline_template</param-name>
@@ -44,30 +44,30 @@
     </context-param>
     <context-param>
         <param-name>view.data.filler.dummy</param-name>
-        <param-value>org.webeng.auleweb.examples.application.DummyModelFiller</param-value>
+        <param-value>org.webeng.auleweb.application.DummyModelFiller</param-value>
     </context-param>
     <listener>
         <listener-class>org.webeng.auleweb.framework.application.ApplicationInitializer</listener-class>
     </listener>
     <servlet>
         <servlet-name>login</servlet-name>
-        <servlet-class>org.webeng.auleweb.examples.controller.LoginController</servlet-class>
+        <servlet-class>org.webeng.auleweb.controller.LoginController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>logout</servlet-name>
-        <servlet-class>org.webeng.auleweb.examples.controller.LogoutController</servlet-class>
+        <servlet-class>org.webeng.auleweb.controller.LogoutController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>homepage</servlet-name>
-        <servlet-class>org.webeng.auleweb.examples.controller.HomepageController</servlet-class>
+        <servlet-class>org.webeng.auleweb.controller.HomepageController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>secured</servlet-name>
-        <servlet-class>org.webeng.auleweb.examples.controller.SecureController</servlet-class>
+        <servlet-class>org.webeng.auleweb.controller.SecureController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>public</servlet-name>
-        <servlet-class>org.webeng.auleweb.examples.controller.PublicController</servlet-class>
+        <servlet-class>org.webeng.auleweb.controller.PublicController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>login</servlet-name>
