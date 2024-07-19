@@ -123,7 +123,7 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
             e.setTipoEvento(TipoEvento.valueOf(rs.getString("tipologia")));
             e.setRicorrenzeKey(rs.getInt("id_master"));
             e.setAulaKey(rs.getInt("id_aula"));
-            e.setCorsoKey(rs.getInt("id_corso "));
+            e.setCorsoKey(rs.getInt("id_corso"));
             e.setVersion(rs.getLong("version"));
             // TODO: a.setAttrezzature(attrezzatura);
             // TODO: a.setGruppi(Gruppo)

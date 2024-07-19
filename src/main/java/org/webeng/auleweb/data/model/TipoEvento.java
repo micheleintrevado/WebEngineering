@@ -9,5 +9,5 @@ package org.webeng.auleweb.data.model;
  * @author enric
  */
 public enum TipoEvento {
-    LEZIONE, ESAME, SEMINARIO, PARZIALE, RIUNIONE, LAUREE, ALTRO
+    lezione, esame, seminario,parziale, riunione, lauree, altro
 }

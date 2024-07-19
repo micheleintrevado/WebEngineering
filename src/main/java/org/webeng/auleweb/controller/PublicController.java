@@ -26,7 +26,7 @@ public class PublicController extends AulewebBaseController {
         List<Aula> aule = dl.getAulaDAO().getAule();
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("page_title", "Aule");
-        request.setAttribute("articles", aule);
+        request.setAttribute("aule", aule);
         result.activate("public.ftl.html", request, response);
 
     }
