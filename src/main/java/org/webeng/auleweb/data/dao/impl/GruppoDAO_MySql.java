@@ -24,6 +24,7 @@ import org.webeng.auleweb.framework.data.OptimisticLockException;
  * @author miche
  */
 public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
+    
 
     private PreparedStatement sGruppoByID;
     private PreparedStatement sGruppoAll;
