@@ -26,6 +26,7 @@ import org.webeng.auleweb.framework.data.OptimisticLockException;
  */
 public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO{
 
+    
     private PreparedStatement sAttrezzaturaById;
     private PreparedStatement sAttrezzaturaAll;
     private PreparedStatement sAttrezzaturaByAula;
