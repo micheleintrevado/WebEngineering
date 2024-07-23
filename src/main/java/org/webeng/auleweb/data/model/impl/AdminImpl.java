@@ -46,7 +46,7 @@ public class AdminImpl extends DataItemImpl<Integer> implements Admin {
 
     @Override
     public void setPassword(String password) {
-        this.password = this.password;
+        this.password = password;
     }
 
     @Override

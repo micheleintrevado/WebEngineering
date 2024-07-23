@@ -38,7 +38,7 @@ public class AdminDAO_MySQL extends DAO implements AdminDAO {
         try {
             super.init();
             sAdminByID = connection.prepareStatement("SELECT * FROM admin WHERE ID=?");
-            sAdminByName = connection.prepareStatement("Select admin.id FROM admin WHERE admin.username = ?");
+            sAdminByName = connection.prepareStatement("Select * FROM admin WHERE admin.username = ?");
 
             sAdmins = connection.prepareStatement("SELECT id FROM admin");
 
