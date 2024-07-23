@@ -41,7 +41,8 @@ public class LoginController extends AulewebBaseController {
         if (!username.isEmpty() && !password.isEmpty()) {
             Admin a = dl.getAdminDAO().getAdminByName(username);
             try {
-                if (a != null && a.getPassword()!= null){//SecurityHelpers.checkPasswordHashPBKDF2(password, a.getPassword())) {
+                String passwordHash = a.getPassword();//SecurityHelpers.getPasswordHashPBKDF2(a.getPassword());
+                if (a != null && SecurityHelpers.checkPasswordHashPBKDF2(password, passwordHash)){
                     //se la validazione ha successo
                     //if the identity validation succeeds
                     SecurityHelpers.createSession(request, username, a.getKey());
@@ -54,7 +55,7 @@ public class LoginController extends AulewebBaseController {
                     }
                     return;
                 }
-            } catch (/*NoSuchAlgorithmException | InvalidKeySpecException*/ Exception ex) {
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

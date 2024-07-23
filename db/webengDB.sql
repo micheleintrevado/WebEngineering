@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `Evento` (
 CREATE TABLE IF NOT EXISTS `Admin`(
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `username` VARCHAR(60) NOT NULL,
-    `password` VARCHAR(60) NOT NULL,
+    `password` VARCHAR(200) NOT NULL,
     `token` varchar(255),
     `version`  int unsigned DEFAULT '1',
     primary key(id)
@@ -190,5 +190,5 @@ INSERT INTO `webeng`.`aula_attrezzatura` (`id`,`id_aula`,`id_attrezzatura`) VALU
 INSERT INTO `webeng`.`aula_attrezzatura` (`id`,`id_aula`,`id_attrezzatura`) VALUES ('2','1','2');
 INSERT INTO `webeng`.`aula_attrezzatura` (`id`,`id_aula`,`id_attrezzatura`) VALUES ('3','2','3');
 
-INSERT INTO `webeng`.`admin` (`id`,`username`,`password`,`token`) VALUES ('1','username1','pass', null);
+INSERT INTO `webeng`.`admin` (`id`,`username`,`password`,`token`) VALUES ('1','username1','b4f61cad7fa77926f82a9cc0da7a5b49945fbaf56fdea3051d7234f77f578f1d9e88754a452ac2ccb77a339723f0cd8a', null);
 -- fine 

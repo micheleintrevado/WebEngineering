@@ -1,15 +1,14 @@
-<!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
+
     <body>
-        <div>TODO write content</div>
+        <div>
+        <form>
+            <h1>Add Event</h1>
+            <p>Enter the new event details.</p>
+            <p><label for="title">Title:</label> <input name="title" id="title" type="text"/></p>
+            <p><label for="date">Date:</label> <input name="date" id="date" type="text"/></p>
+            <p><label for="description">Description:</label> <input name="description" id="description" type="text"/></p>
+            <p><input value="add" name="add" type="submit"/></p>
+        </form>
+
+</div>
     </body>
-</html>

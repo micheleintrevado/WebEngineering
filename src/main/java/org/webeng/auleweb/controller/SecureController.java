@@ -1,8 +1,3 @@
-/*
- * TestMyDAO.java
- *
- *
- */
 package org.webeng.auleweb.controller;
 
 import org.webeng.auleweb.framework.data.DataException;
@@ -27,7 +22,6 @@ import org.webeng.auleweb.data.model.Responsabile;
 public class SecureController extends AulewebBaseController {
 
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException, TemplateManagerException {
-
         //preleviamo il data layer 
         //get the data layer
         AulewebDataLayer dl = (AulewebDataLayer) request.getAttribute("datalayer");

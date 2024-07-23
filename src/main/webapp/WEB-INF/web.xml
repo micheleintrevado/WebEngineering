@@ -3,7 +3,7 @@
     <context-param>
         <param-name>security.protect.patterns</param-name>
         <!-- qui configuriamo i pattern delle URL da proteggere -->
-        <param-value>/secured,/other</param-value>
+        <param-value>/secured,/aggiungi-evento,/other</param-value>
     </context-param>
     <context-param>
         <param-name>data.source</param-name>
