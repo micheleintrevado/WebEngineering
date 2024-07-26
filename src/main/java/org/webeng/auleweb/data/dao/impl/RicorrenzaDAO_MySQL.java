@@ -11,6 +11,7 @@ import java.sql.Statement;
 import org.webeng.auleweb.data.dao.RicorrenzaDAO;
 import org.webeng.auleweb.data.model.Evento;
 import org.webeng.auleweb.data.model.Ricorrenza;
+import org.webeng.auleweb.data.model.TipoRicorrenza;
 import org.webeng.auleweb.data.model.impl.proxy.RicorrenzaProxy;
 import org.webeng.auleweb.framework.data.DAO;
 import org.webeng.auleweb.framework.data.DataException;
@@ -37,13 +38,13 @@ public class RicorrenzaDAO_MySQL extends DAO implements RicorrenzaDAO{
     public void init() throws DataException{
         try{
             super.init();
-            sRicorrenzaById = connection.prepareStatement("select id from ricorrenza where id =?");
+            sRicorrenzaById = connection.prepareStatement("select * from ricorrenza where id =?");
             sRicorrenzaByEvento = connection.prepareStatement("SELECT id_master from evento where evento.id = ?;");
             
-            iRicorrenza = connection.prepareStatement("insert into ricorrenza (`tipo`,`data_termine`) values (?,?);");
+            iRicorrenza = connection.prepareStatement("insert into ricorrenza (`tipo`,`data_termine`) values (?,?);", Statement.RETURN_GENERATED_KEYS);
             
         } catch (SQLException ex){
-            throw new DataException("Error initializing Corso data layer", ex);
+            throw new DataException("Error initializing Ricorrenza data layer", ex);
         } 
     }
 
@@ -55,7 +56,7 @@ public class RicorrenzaDAO_MySQL extends DAO implements RicorrenzaDAO{
             
             iRicorrenza.close();
         } catch (SQLException ex){
-            throw new DataException("Error initializing Corso data layer", ex);
+            throw new DataException("Error initializing Ricorrenza data layer", ex);
         } 
     }
     
@@ -68,9 +69,10 @@ public class RicorrenzaDAO_MySQL extends DAO implements RicorrenzaDAO{
         RicorrenzaProxy r = (RicorrenzaProxy)createRicorrenza();
         try {
             r.setKey(rs.getInt("id"));
+            r.setTipoRicorrenza(TipoRicorrenza.valueOf(rs.getString("tipo")));
             r.setDataTermine(rs.getDate("data_termine"));
         } catch (SQLException e) {
-            throw new DataException("Unable to create Attrezzatura object form ResultSet", e);
+            throw new DataException("Unable to create Ricorrenza object form ResultSet", e);
         }
         return r;
     }
@@ -136,7 +138,7 @@ public class RicorrenzaDAO_MySQL extends DAO implements RicorrenzaDAO{
                 ((DataItemProxy) ricorrenza).setModified(false);
             }
         } catch (SQLException ex) {
-            throw new DataException("Unable to store corso", ex);
+            throw new DataException("Unable to store ricorrenza", ex);
         }
     }
     

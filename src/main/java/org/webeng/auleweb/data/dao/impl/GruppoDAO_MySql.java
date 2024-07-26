@@ -7,6 +7,7 @@ package org.webeng.auleweb.data.dao.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import org.webeng.auleweb.data.dao.GruppoDAO;
@@ -49,7 +50,7 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
             sGruppiByAula = connection.prepareStatement("select * from gruppo as g join aula_gruppo as ag on g.id = ag.id_gruppo join aula as a on a.id = ag.id_aula where a.id = ?");
             sUnassignedGruppi = connection.prepareStatement("select * from gruppo as g left join aula_gruppo as ag on g.id = ag.id_gruppo where ag.id_aula is null");
 
-            iGruppo = connection.prepareStatement("insert into webeng.gruppo(`nome`,`descrizione`) values (?,?)");
+            iGruppo = connection.prepareStatement("insert into webeng.gruppo(`nome`,`descrizione`) values (?,?)", Statement.RETURN_GENERATED_KEYS);
             assignGruppoAula = connection.prepareStatement("insert into webeng.aula_gruppo(`id_gruppo`,`id_aula`) values (?,?);");
 
             uGruppo = connection.prepareStatement("UPDATE gruppo set nome=?, descrizione=?, version=? WHERE id=? and version=?;");

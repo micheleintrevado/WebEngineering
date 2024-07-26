@@ -9,5 +9,5 @@ package org.webeng.auleweb.data.model;
  * @author enric
  */
 public enum TipoRicorrenza {
-    GIORNALIERA, SETTIMANALE, MENSILE
+    giornaliera, settimanale, mensile
 }
