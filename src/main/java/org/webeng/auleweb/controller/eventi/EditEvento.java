@@ -72,13 +72,19 @@ public class EditEvento extends AulewebBaseController {
             Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabile(Integer.valueOf(request.getParameter("id_responsabile")));
             Aula aula = dataLayer.getAulaDAO().getAula(Integer.valueOf(request.getParameter("id_aula")));
             Corso corso = dataLayer.getCorsoDAO().getCorso(Integer.valueOf(request.getParameter("id_corso")));
-            Ricorrenza r = new RicorrenzaImpl(
-                    TipoRicorrenza.valueOf(request.getParameter("id_master")),
-                    Date.valueOf(request.getParameter("fine_ricorrenza")));
-            dataLayer.getRicorrenzaDAO().storeRicorrenza(r);
+            Ricorrenza ricorrenza;
+            if (!request.getParameter("id_master").equals("") && !request.getParameter("fine_ricorrenza").equals("")) {
+                Ricorrenza r = new RicorrenzaImpl(
+                        TipoRicorrenza.valueOf(request.getParameter("id_master")),
+                        Date.valueOf(request.getParameter("fine_ricorrenza")));
+                dataLayer.getRicorrenzaDAO().storeRicorrenza(r);
+                ricorrenza = dataLayer.getRicorrenzaDAO().getRicorrenza(r.getKey());
 
-            // ESTRARRE L'ID DELLA RICORRENZA APPENA INSERITA
-            Ricorrenza ricorrenza = dataLayer.getRicorrenzaDAO().getRicorrenza(r.getKey());
+            } else {
+                ricorrenza = null;
+            }
+
+            // FARE UPDATE INVECE DI INSERT, QUINDI BISOGNA TOGLIERE NEW IMPL()
             dataLayer.getEventoDAO().storeEvento(
                     new EventoImpl(request.getParameter("nome"),
                             Date.valueOf(request.getParameter("giorno")),

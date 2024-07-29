@@ -1,6 +1,6 @@
 <body>
     <div>
-        <form method="get" action="modifica-evento">
+        <form method="post" action="modifica-evento">
             <div>
                 <h1>Modifica Evento</h1>
                 <p>Enter the new event details.</p>
@@ -44,7 +44,7 @@
                     Ricorrenza evento
                         <p><label for="id_master">Ricorrenza</label><select name="id_master" id="id_master">
                         <#if evento.ricorrenza??> 
-                            <option value="${evento.ricorrenza.key}">${evento.ricorrenza.tipoRicorrenza}</option>
+                            <option value="${evento.ricorrenza.tipoRicorrenza}">${evento.ricorrenza.tipoRicorrenza}</option>
                             <#else>
                             <option value="">Seleziona una tipologia di ricorrenza</option>
                         </#if>

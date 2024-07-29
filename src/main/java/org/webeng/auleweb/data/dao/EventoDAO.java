@@ -70,5 +70,7 @@ public interface EventoDAO {
     void assignAula(Evento evento, Aula aula) throws DataException;
 
     void assignCorso(Evento evento, Corso corso) throws DataException;
+    
+    // void deleteEventiRicorrenti(Ricorrenza ricorrenza) CASO: MODIFICO UN EVENTO E VOGLIO ANNULLARE LA SUA RICORRENZA
 
 }
