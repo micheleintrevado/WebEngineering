@@ -7,6 +7,7 @@ package org.webeng.auleweb.controller.eventi;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -76,30 +77,77 @@ public class AddEvento extends AulewebBaseController {
             Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabile(Integer.valueOf(request.getParameter("id_responsabile")));
             Aula aula = dataLayer.getAulaDAO().getAula(Integer.valueOf(request.getParameter("id_aula")));
             Corso corso = dataLayer.getCorsoDAO().getCorso(Integer.valueOf(request.getParameter("id_corso")));
-            Ricorrenza r = new RicorrenzaImpl(
-                    TipoRicorrenza.valueOf(request.getParameter("id_master")),
-                    Date.valueOf(request.getParameter("fine_ricorrenza")));
-            dataLayer.getRicorrenzaDAO().storeRicorrenza(r);
 
-            // ESTRARRE L'ID DELLA RICORRENZA APPENA INSERITA
-            Ricorrenza ricorrenza = dataLayer.getRicorrenzaDAO().getRicorrenza(r.getKey());
-            dataLayer.getEventoDAO().storeEvento(
-                    new EventoImpl(request.getParameter("nome"),
-                            Date.valueOf(request.getParameter("giorno")),
-                            Time.valueOf(request.getParameter("orario_inizio")+":00"),
-                            Time.valueOf(request.getParameter("orario_fine")+":00"),
-                            request.getParameter("descrizione"),
-                            TipoEvento.valueOf(request.getParameter("tipologia")),
-                            responsabile,
-                            ricorrenza,
-                            aula,
-                            corso)
-            );
-            response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
+            if (!request.getParameter("fine_ricorrenza").equals("") && !request.getParameter("id_master").equals("")) {
+                // aggiunta di un evento con ricorrenza
+                var dataFineRicorrenza = Date.valueOf(request.getParameter("fine_ricorrenza"));
+                var dataInizioEvento = Date.valueOf(request.getParameter("giorno"));
+                
+                Ricorrenza r = new RicorrenzaImpl(
+                        TipoRicorrenza.valueOf(request.getParameter("id_master")),
+                        dataFineRicorrenza);
+                dataLayer.getRicorrenzaDAO().storeRicorrenza(r);
+                // ESTRARRE L'ID DELLA RICORRENZA APPENA INSERITA
+                Ricorrenza ricorrenza = dataLayer.getRicorrenzaDAO().getRicorrenza(r.getKey());
+                
+                // gestione delle singole istanze dell'evento da creare con ricorrenza
+                
+                //aggiungo a lista le date convertite in localDate, itero e infine aggiungo uno a uno
+                List<LocalDate> dateIstanzeEvento = new ArrayList<>();
+                LocalDate cursor = dataInizioEvento.toLocalDate();
+                
+                while (cursor.isBefore(dataFineRicorrenza.toLocalDate())){
+                    switch (request.getParameter("id_master")) {
+                        case "giornaliera" -> {
+                            dateIstanzeEvento.add(cursor);
+                            cursor = cursor.plusDays(1);
+                        }
+                        case "settimanale" -> {
+                            dateIstanzeEvento.add(cursor);
+                            cursor = cursor.plusWeeks(1);
+                        }
+                        case "mensile" -> {
+                            dateIstanzeEvento.add(cursor);
+                            cursor = cursor.plusMonths(1);
+                        }
+                        default -> {
+                        }
+                    }
+                }
+                
+                for (LocalDate data : dateIstanzeEvento) {
+                    dataLayer.getEventoDAO().storeEvento(new EventoImpl(request.getParameter("nome"),
+                                Date.valueOf(data),
+                                Time.valueOf(request.getParameter("orario_inizio") + ":00"),
+                                Time.valueOf(request.getParameter("orario_fine") + ":00"),
+                                request.getParameter("descrizione"),
+                                TipoEvento.valueOf(request.getParameter("tipologia")),
+                                responsabile,
+                                ricorrenza,
+                                aula,
+                                corso)
+                    );
+                }
+            } else {
+                // aggiunta di un evento non ricorrente
+                dataLayer.getEventoDAO().storeEvento(
+                        new EventoImpl(request.getParameter("nome"),
+                                Date.valueOf(request.getParameter("giorno")),
+                                Time.valueOf(request.getParameter("orario_inizio") + ":00"),
+                                Time.valueOf(request.getParameter("orario_fine") + ":00"),
+                                request.getParameter("descrizione"),
+                                TipoEvento.valueOf(request.getParameter("tipologia")),
+                                responsabile,
+                                null,
+                                aula,
+                                corso));
+            }
             //TemplateResult result = new TemplateResult(getServletContext());
             //AulewebDataLayer dataLayer = (AulewebDataLayer) request.getAttribute("datalayer");
             //List<Evento> eventi = dataLayer.getEventoDAO().getEventi();
             //result.activate("eventi/add.ftl", request, response);
+            
+            response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
         } catch (Exception ex) {
             ex.printStackTrace();
             //handleError(ex, request, response);
