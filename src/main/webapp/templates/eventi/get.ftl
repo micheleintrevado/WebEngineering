@@ -15,5 +15,20 @@
         </li>
     </#list>
 </ul>
+
+<h2> Modifica evento </h2>
+    <form method="GET" action="modifica-evento">
+        <label for="id_aula">Evento</label>
+            <select name="id_evento" id="id_evento">
+                <option value="">Seleziona un evento</option>                 
+                <#list eventi as evento>
+                    <option value="${evento.key}">${evento.nome}</option>
+                </#list>
+            </select>
+    <div>
+        <button type="submit" value="">Modifica Evento</button>
+    </div>
+    </form>
+
 </#if>
 
