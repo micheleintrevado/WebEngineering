@@ -44,6 +44,7 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
     private PreparedStatement sEventi;
 
     private PreparedStatement iEvento, uEvento, dEvento;
+    private PreparedStatement uEventiRicorrenti, dEventiRicorrenti;
 
     public EventoDAO_MySQL(DataLayer d) {
         super(d);
@@ -73,6 +74,9 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
             iEvento = connection.prepareStatement("INSERT INTO evento(nome, giorno, orario_inizio, orario_fine, descrizione, tipologia, id_responsabile, id_master, id_aula, id_corso) VALUES(?,?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uEvento = connection.prepareStatement("UPDATE evento set nome=?, giorno=?, orario_inizio=?,orario_fine=?,descrizione=?,tipologia=?,id_responsabile=?,id_master=?,id_aula=?,id_corso=?,version=? WHERE id=? and version=?");
             dEvento = connection.prepareStatement("DELETE FROM evento WHERE id=?");
+
+            uEventiRicorrenti = connection.prepareStatement("UPDATE evento set nome=?, orario_inizio=?,orario_fine=?,descrizione=?,tipologia=?,id_responsabile=?,id_aula=?,id_corso=?,id_master=?,version=? WHERE id_master=? AND giorno >= ?"); // se si vogliono modificare solo quelli successivi
+            dEventiRicorrenti = connection.prepareStatement("DELETE FROM evento WHERE id_master=? AND giorno > ?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing evento data layer", ex);
         }
@@ -468,6 +472,81 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
     public void assignCorso(Evento evento, Corso corso) throws DataException {
         evento.setCorso(corso);
         storeEvento(evento);
+    }
+
+    @Override
+    public void updateEventiRicorrenti(Evento evento, Ricorrenza ricorrenza) throws DataException {
+        try {
+            if (evento.getKey() != null && evento.getKey() > 0) {
+                if (evento instanceof DataItemProxy && !((DataItemProxy) evento).isModified()) {
+                    return;
+                }
+                // UPDATE
+                uEventiRicorrenti.setString(1, evento.getNome());
+                uEventiRicorrenti.setTime(2, evento.getOrarioInizio());
+                uEventiRicorrenti.setTime(3, evento.getOrarioFine());
+                uEventiRicorrenti.setString(4, evento.getDescrizione());
+                uEventiRicorrenti.setString(5, evento.getTipoEvento().toString());
+                if (evento.getResponsabile() != null) {
+                    uEventiRicorrenti.setInt(6, (int) evento.getResponsabile().getKey());
+                } else {
+                    uEventiRicorrenti.setNull(6, java.sql.Types.INTEGER);
+                }
+                /*if (evento.getRicorrenza() != null) {
+                    uEvento.setInt(8, (int) evento.getRicorrenza().getKey());
+                } else {
+                    uEvento.setNull(8, java.sql.Types.INTEGER);
+                }*/
+                if (evento.getAula() != null) {
+                    uEventiRicorrenti.setInt(7, (int) evento.getAula().getKey());
+                } else {
+                    uEventiRicorrenti.setNull(7, java.sql.Types.INTEGER);
+                }
+                if (evento.getCorso() != null) {
+                    uEventiRicorrenti.setInt(8, (int) evento.getCorso().getKey());
+                } else {
+                    uEventiRicorrenti.setNull(8, java.sql.Types.INTEGER);
+                }
+                if (ricorrenza != null) {
+                    uEventiRicorrenti.setInt(9, (int) ricorrenza.getKey());
+                } else {
+                    uEventiRicorrenti.setNull(9, java.sql.Types.INTEGER);
+                }
+
+                long current_version = evento.getVersion();
+                long next_version = current_version + 1;
+
+                uEventiRicorrenti.setLong(10, next_version);
+                // WHERE ID_MASTER = ? AND VERSION = ? AND giorno = ?
+                uEventiRicorrenti.setInt(11, evento.getRicorrenza().getKey());
+                //uEventiRicorrenti.setLong(12, current_version);
+                uEventiRicorrenti.setDate(12, evento.getGiorno());
+
+                if (uEventiRicorrenti.executeUpdate() == 0) {
+                    throw new OptimisticLockException(evento);
+                } else {
+                    evento.setVersion(next_version);
+                }
+            }
+            // RESET dell'attributo modified
+            if (evento instanceof DataItemProxy) {
+                ((DataItemProxy) evento).setModified(false);
+            }
+        } catch (SQLException | OptimisticLockException ex) {
+            throw new DataException("Unable to update eventi ricorrenti", ex);
+        }
+    }
+
+    @Override
+    public void deleteEventiRicorrenti(Evento evento) throws DataException {
+        // DELETE FROM evento WHERE id_master=? AND giorno > ?
+        try {
+            dEventiRicorrenti.setInt(1, evento.getRicorrenza().getKey());
+            dEventiRicorrenti.setDate(2, evento.getGiorno());
+            dEventiRicorrenti.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataException("Unable to delete eventi ricorrenti", ex);
+        }
     }
 
 }

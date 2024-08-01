@@ -61,6 +61,9 @@ public interface EventoDAO {
 
     // Inserimento e aggiornamento evento in DB
     void storeEvento(Evento evento) throws DataException;
+    
+    // Aggiorna tutti gli eventi con stesso id_master, assegnando i valori dell'evento corrente
+    void updateEventiRicorrenti(Evento evento, Ricorrenza ricorrenza) throws DataException;
 
     // Assegna una ricorrenza/responsabile/aula/corso ad uno specifico evento
     void assignRicorrenza(Evento evento, Ricorrenza ricorrenza) throws DataException;
@@ -71,6 +74,7 @@ public interface EventoDAO {
 
     void assignCorso(Evento evento, Corso corso) throws DataException;
     
-    // void deleteEventiRicorrenti(Ricorrenza ricorrenza) CASO: MODIFICO UN EVENTO E VOGLIO ANNULLARE LA SUA RICORRENZA
+    // Elimino tutti gli eventi ricorrenti a partire da quello indicato
+    void deleteEventiRicorrenti(Evento evento) throws DataException;
 
 }

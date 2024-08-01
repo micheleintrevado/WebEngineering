@@ -60,7 +60,6 @@ END //
 
 DELIMITER ;
 DELIMITER //
-
 CREATE TRIGGER after_insert_evento
 AFTER INSERT ON evento
 FOR EACH ROW
@@ -74,15 +73,63 @@ BEGIN
 
     -- Se esiste la ricorrenza corrispondente, inserisce nella tabella temporanea
     IF v_exists > 0 THEN
-        INSERT INTO eventi_da_processare (id_master) VALUES (NEW.id_master);
+        INSERT INTO eventi_da_processare (id_master) VALUES (NEW.id_master)
+        ON DUPLICATE KEY UPDATE id_master = VALUES(id_master);
+        
+        -- Chiama immediatamente la stored procedure per processare
+        CALL inserisci_eventi_ricorrenti_trig(NEW.id_master);
+    END IF;
+END;
+
+CREATE TRIGGER after_update_evento
+AFTER UPDATE ON evento
+FOR EACH ROW
+BEGIN
+    DECLARE v_exists_old INT;
+    DECLARE v_exists_new INT;
+
+    -- Controlla se esisteva una ricorrenza prima dell'update
+    SELECT COUNT(*) INTO v_exists_old
+    FROM ricorrenza
+    WHERE id = OLD.id_master;
+
+    -- Controlla se esiste una ricorrenza dopo l'update
+    SELECT COUNT(*) INTO v_exists_new
+    FROM ricorrenza
+    WHERE id = NEW.id_master;
+
+    -- Se esisteva una ricorrenza prima ma non dopo, cancella i ricorrenti
+    IF v_exists_old > 0 AND v_exists_new = 0 THEN
+        INSERT INTO eventi_da_processare (id_master) VALUES (OLD.id_master)
+        ON DUPLICATE KEY UPDATE id_master = VALUES(id_master);
+    END IF;
+
+    -- Se non esisteva una ricorrenza prima ma ora sì, inserisci i ricorrenti
+    IF v_exists_old = 0 AND v_exists_new > 0 THEN
+        INSERT INTO eventi_da_processare (id_master) VALUES (NEW.id_master)
+        ON DUPLICATE KEY UPDATE id_master = VALUES(id_master);
+    END IF;
+
+    -- Se la ricorrenza è cambiata, rimuove i vecchi e aggiunge i nuovi
+    IF OLD.id_master <> NEW.id_master THEN
+        IF v_exists_old > 0 THEN
+            INSERT INTO eventi_da_processare (id_master) VALUES (OLD.id_master)
+            ON DUPLICATE KEY UPDATE id_master = VALUES(id_master);
+        END IF;
+        IF v_exists_new > 0 THEN
+            INSERT INTO eventi_da_processare (id_master) VALUES (NEW.id_master)
+            ON DUPLICATE KEY UPDATE id_master = VALUES(id_master);
+        END IF;
     END IF;
 END //
 
+
 DELIMITER ;
+
 DELIMITER //
 
 CREATE EVENT processa_eventi_ricorrenti
-ON SCHEDULE EVERY 1 MINUTE
+ON SCHEDULE EVERY 20 second
 DO
 BEGIN
     DECLARE v_id_master INT;
@@ -115,3 +162,4 @@ INSERT INTO ricorrenza (tipo, data_termine) values ('settimanale', '2024-09-15')
 SET @id_master = LAST_INSERT_ID();
 INSERT INTO Evento (nome, giorno, orario_inizio, orario_fine, descrizione, tipologia, id_responsabile, id_master, id_aula, id_corso)
 values ('A','2024-08-15','09:00','12:00','Ricorrenza','lezione',2,@id_master,2,2);
+-- UPDATE evento SET nome='BB' WHERE id_master = @id_master

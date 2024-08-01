@@ -27,16 +27,16 @@ import org.webeng.auleweb.framework.data.DataLayer;
  * @author enric
  */
 public class EventoProxy extends EventoImpl implements DataItemProxy {
-    
+
     protected boolean modified;
-    
+
     protected DataLayer dataLayer;
-    
+
     protected int responsabile_key;
     protected int ricorrenze_key;
     protected int aula_key;
     protected int corso_key;
-    
+
     public EventoProxy(DataLayer dataLayer) {
         super();
         this.modified = false;
@@ -46,111 +46,115 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
         this.aula_key = 0;
         this.corso_key = 0;
     }
-    
+
     @Override
     public void setKey(Integer key) {
         super.setKey(key);
         this.modified = true;
     }
-    
+
     public void setResponsabileKey(int responsabile_key) {
         this.responsabile_key = responsabile_key;
         super.setResponsabile(null);
-        
+
     }
-    
+
     public void setRicorrenzeKey(int ricorrenze_key) {
         this.ricorrenze_key = ricorrenze_key;
         super.setRicorrenza(null);
     }
-    
+
     public void setAulaKey(int aula_key) {
         this.aula_key = aula_key;
         super.setAula(null);
     }
-    
+
     public void setCorsoKey(int corso_key) {
         this.corso_key = corso_key;
         super.setCorso(null);
     }
-    
+
     @Override
     public void setRicorrenza(Ricorrenza ricorrenza) {
         super.setRicorrenza(ricorrenza);
-        this.ricorrenze_key = ricorrenza.getKey();
+        if (ricorrenza != null) {
+            this.ricorrenze_key = ricorrenza.getKey();
+        } else {
+            this.ricorrenze_key = 0;
+        }
         this.modified = true;
     }
-    
+
     @Override
     public void setCorso(Corso corso) {
         super.setCorso(corso);
         this.corso_key = corso.getKey();
         this.modified = true;
     }
-    
+
     @Override
     public void setAula(Aula aula) {
         super.setAula(aula);
         this.aula_key = aula.getKey();
         this.modified = true;
     }
-    
+
     @Override
     public void setTipoEvento(TipoEvento tipoEvento) {
         super.setTipoEvento(tipoEvento);
         this.modified = true;
     }
-    
+
     @Override
     public void setDescrizione(String descrizione) {
         super.setDescrizione(descrizione);
         this.modified = true;
     }
-    
+
     @Override
     public void setResponsabile(Responsabile responsabile) {
         super.setResponsabile(responsabile);
         this.responsabile_key = responsabile.getKey();
         this.modified = true;
     }
-    
+
     @Override
     public void setOrarioFine(Time orarioFine) {
         super.setOrarioFine(orarioFine);
         this.modified = true;
     }
-    
+
     @Override
     public void setOrarioInizio(Time orarioInizio) {
         super.setOrarioInizio(orarioInizio);
         this.modified = true;
     }
-    
+
     @Override
     public void setGiorno(Date giorno) {
         super.setGiorno(giorno);
         this.modified = true;
     }
-    
+
     @Override
     public void setNome(String nome) {
         super.setNome(nome);
         this.modified = true;
     }
-    
+
     @Override
     public Responsabile getResponsabile() {
         if (super.getResponsabile() == null && responsabile_key > 0) {
             try {
                 super.setResponsabile(((ResponsabileDAO) dataLayer.getDAO(Responsabile.class)).getResponsabile(responsabile_key));
-                
+
             } catch (DataException ex) {
                 Logger.getLogger(ResponsabileProxy.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return super.getResponsabile();
     }
-    
+
     @Override
     public Ricorrenza getRicorrenza() {
         if (super.getRicorrenza() == null && ricorrenze_key > 0) {
@@ -160,9 +164,9 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
                 Logger.getLogger(RicorrenzaProxy.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return super.getRicorrenza();        
+        return super.getRicorrenza();
     }
-    
+
     @Override
     public Aula getAula() {
         if (super.getAula() == null && aula_key > 0) {
@@ -172,10 +176,10 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
                 Logger.getLogger(AulaProxy.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        return super.getAula();        
+
+        return super.getAula();
     }
-    
+
     @Override
     public Corso getCorso() {
         if (super.getCorso() == null && corso_key > 0) {
@@ -185,18 +189,18 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
                 Logger.getLogger(AulaProxy.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-               
-        return super.getCorso();        
+
+        return super.getCorso();
     }
-    
+
     @Override
     public boolean isModified() {
         return this.modified;
     }
-    
+
     @Override
     public void setModified(boolean dirty) {
         this.modified = dirty;
     }
-    
+
 }

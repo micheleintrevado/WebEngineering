@@ -143,23 +143,25 @@ INSERT INTO `webeng`.`corso` (`id`, `nome`) VALUES ('4', 'Software quality engin
 -- Inserimento EVENTI ***************************
 INSERT INTO Evento (nome, giorno, orario_inizio, orario_fine, descrizione, tipologia, id_responsabile, id_master, id_aula, id_corso)
 VALUES 
-('Lezione di Matematica','2024-06-15', '09:00:00', '11:00:00', 'Lezione sul calcolo differenziale', 'lezione', 1, NULL, 1, 2),
-('Esame di Fisica','2024-06-16','14:00:00', '17:00:00', 'Esame finale di fisica generale', 'esame', 2, NULL, 2, 2),
-('Seminario di Informatica', '2024-06-17' , '10:00:00', '12:00:00', 'Seminario su Intelligenza Artificiale', 'seminario', 3, NULL, 3, NULL),
-('Riunione del Dipartimento', '2024-06-18', '09:30:00', '11:00:00', 'Riunione mensile del dipartimento di ingegneria', 'riunione', 4, NULL, 4, NULL),
-('Parziale di Chimica','2024-06-19', '08:00:00', '10:00:00', 'Parziale di chimica organica', 'parziale', 2, NULL, 1, 2),
-('Lauree di Giugno', '2024-06-20', '09:00:00', '18:00:00', 'Cerimonia di laurea per gli studenti del dipartimento di economia', 'lauree', 3, NULL, 2, NULL),
-('Workshop di Fotografia', '2024-06-21', '10:00:00', '13:00:00', 'Workshop pratico di fotografia', 'altro', 1, NULL, 3, NULL),
-('Seminario di Economia', '2024-06-14' ,'15:00:00', '23:00:00', 'Conferenza sulle nuove tendenze economiche', 'seminario', 5, NULL, 1, NULL),
+('Lezione di Matematica','2024-09-15', '09:00:00', '11:00:00', 'Lezione sul calcolo differenziale', 'lezione', 1, NULL, 1, 2),
+('Esame di Fisica','2024-09-16','14:00:00', '17:00:00', 'Esame finale di fisica generale', 'esame', 2, NULL, 2, 2),
+('Seminario di Informatica', '2024-09-17' , '10:00:00', '12:00:00', 'Seminario su Intelligenza Artificiale', 'seminario', 3, NULL, 3, NULL),
+('Riunione del Dipartimento', '2024-09-18', '09:30:00', '11:00:00', 'Riunione mensile del dipartimento di ingegneria', 'riunione', 4, NULL, 4, NULL),
+('Parziale di Chimica','2024-09-19', '08:00:00', '10:00:00', 'Parziale di chimica organica', 'parziale', 2, NULL, 1, 2),
+('Lauree di Giugno', '2024-09-20', '09:00:00', '18:00:00', 'Cerimonia di laurea per gli studenti del dipartimento di economia', 'lauree', 3, NULL, 2, NULL),
+('Workshop di Fotografia', '2024-09-21', '10:00:00', '13:00:00', 'Workshop pratico di fotografia', 'altro', 1, NULL, 3, NULL),
+('Seminario di Economia', '2024-09-14' ,'15:00:00', '23:00:00', 'Conferenza sulle nuove tendenze economiche', 'seminario', 5, NULL, 1, NULL),
 ('Lezione Attuale', date(now()),time(now() - interval 1 hour),time(now() + interval 3 hour),'Lezione in corso adesso','lezione',5,NULL, 2, 2);
 
 
 
 -- Inserimento EVENTI RICORRENTI
-INSERT INTO `webeng`.`Ricorrenza` (`id`,`tipo`,`data_termine`) VALUES ('1', 'settimanale', '2024-06-30');
+INSERT INTO `webeng`.`Ricorrenza` (`id`,`tipo`,`data_termine`) VALUES ('1', 'settimanale', '2024-09-30');
 INSERT INTO `webeng`.`evento` (`id`, `nome`, `giorno`, `orario_inizio`, `orario_fine`, `descrizione`, `tipologia`, `id_responsabile`, `id_aula`, `id_corso`, `id_master`) VALUES 
-('12', 'Lezione Ricorrente1', '2024/05/14', '22:00', '23:00', 'BBB', 'lezione', '1', '1', 1, '1'), 
-('13', 'Lezione Ricorrente2', '2024/05/15', '22:00', '23:00', 'ZZZ', 'altro', '4', '1', null, '1');
+('12', 'Lezione Ricorrente', '2024/09/09', '22:00', '23:00', 'BBB', 'lezione', '1', '1', 1, '1'), 
+('13', 'Lezione Ricorrente', '2024/09/16', '22:00', '23:00', 'BBB', 'lezione', '1', '1', 1, '1'), 
+('14', 'Lezione Ricorrente', '2024/09/23', '22:00', '23:00', 'BBB', 'lezione', '1', '1', 1, '1'),
+('15', 'Lezione Ricorrente', '2024/09/30', '22:00', '23:00', 'BBB', 'lezione', '1', '1', 1, '1');
 
 -- Inserimento GRUPPI
 INSERT INTO `webeng`.`gruppo` (`id`, `nome`, `descrizione`) VALUES ('1', 'Gruppo1', 'Gruppo fantastico');

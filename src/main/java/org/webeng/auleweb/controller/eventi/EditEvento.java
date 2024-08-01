@@ -41,7 +41,12 @@ public class EditEvento extends AulewebBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         if (request.getMethod().equals("POST")) {
-            modifica_evento(request, response);
+            String editAll = request.getParameter("modifica-tutti");
+            if (editAll.equals("single")) {
+                modifica_evento(request, response, false);
+            } else if (editAll.equals("ricorrenti")) {
+                modifica_evento(request, response, true); // WHERE id_master = ?
+            }
         } else {
             try {
                 HttpSession s = SecurityHelpers.checkSession(request);
@@ -66,7 +71,9 @@ public class EditEvento extends AulewebBaseController {
         }
     }
 
-    private void modifica_evento(HttpServletRequest request, HttpServletResponse response) {
+    // editOthers = true --> modifica tutti gli eventi con stessa ricorrenza di quello considerato
+    // editOthers = false --> modifica solo l'evento considerato
+    private void modifica_evento(HttpServletRequest request, HttpServletResponse response, boolean editOthers) {
         try {
             AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
             Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabile(Integer.valueOf(request.getParameter("id_responsabile")));
@@ -79,24 +86,54 @@ public class EditEvento extends AulewebBaseController {
                         Date.valueOf(request.getParameter("fine_ricorrenza")));
                 dataLayer.getRicorrenzaDAO().storeRicorrenza(r);
                 ricorrenza = dataLayer.getRicorrenzaDAO().getRicorrenza(r.getKey());
-
             } else {
                 ricorrenza = null;
             }
-
-            // FARE UPDATE INVECE DI INSERT, QUINDI BISOGNA TOGLIERE NEW IMPL()
-            dataLayer.getEventoDAO().storeEvento(
-                    new EventoImpl(request.getParameter("nome"),
-                            Date.valueOf(request.getParameter("giorno")),
-                            Time.valueOf(request.getParameter("orario_inizio") + ":00"),
-                            Time.valueOf(request.getParameter("orario_fine") + ":00"),
-                            request.getParameter("descrizione"),
-                            TipoEvento.valueOf(request.getParameter("tipologia")),
-                            responsabile,
-                            ricorrenza,
-                            aula,
-                            corso)
-            );
+            int id = Integer.valueOf(request.getParameter("id"));
+            String nome = request.getParameter("nome");
+            Date giorno = Date.valueOf(request.getParameter("giorno"));
+            Time orarioInizio = Time.valueOf(request.getParameter("orario_inizio") + ":00");
+            Time orarioFine = Time.valueOf(request.getParameter("orario_fine") + ":00");
+            String descrizione = request.getParameter("descrizione");
+            TipoEvento tipoEvento = TipoEvento.valueOf(request.getParameter("tipologia"));
+            Evento evento = dataLayer.getEventoDAO().getEvento(id);
+            evento.setNome(nome);
+            evento.setGiorno(giorno);
+            evento.setOrarioInizio(orarioInizio);
+            evento.setOrarioFine(orarioFine);
+            evento.setDescrizione(descrizione);
+            evento.setTipoEvento(tipoEvento);
+            evento.setResponsabile(responsabile);
+            //if (ricorrenza != null) {
+            //    System.out.println("Set ricorrenza: " + ricorrenza.getKey());
+            //    evento.setRicorrenza(ricorrenza);
+            //}
+            evento.setAula(aula);
+            evento.setCorso(corso);
+            // MODIFICA DEL SINGOLO EVENTO
+            if (!editOthers) {
+                /*if (ricorrenza == null) {
+                    System.out.println("modifica singolo con ricorrenza null = " + editOthers);
+                    
+                    dataLayer.getEventoDAO().deleteEventiRicorrenti(evento);
+                }*/
+                evento.setRicorrenza(ricorrenza);
+                dataLayer.getEventoDAO().storeEvento(evento);
+            } else // MODIFICA ALTRI EVENTI RICORRENTI A PARTIRE DA QUELLO CORRENTE
+            if (editOthers) {
+                if (ricorrenza != null) {
+                    // AGGIORNO L'evento corrente ed i successivi con la ricorrenza impostata
+                    dataLayer.getRicorrenzaDAO().storeRicorrenza(ricorrenza);
+                    dataLayer.getEventoDAO().updateEventiRicorrenti(evento, ricorrenza);
+                } else {
+                    // AGGIORNO l'evento corrente togliendo la ricorrenza ed elimino gli eventi successivi
+                    if (evento.getRicorrenza() != null) {
+                        dataLayer.getEventoDAO().deleteEventiRicorrenti(evento);
+                    }
+                    evento.setRicorrenza(ricorrenza);
+                    dataLayer.getEventoDAO().storeEvento(evento);
+                }
+            }
             response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
             //TemplateResult result = new TemplateResult(getServletContext());
             //AulewebDataLayer dataLayer = (AulewebDataLayer) request.getAttribute("datalayer");

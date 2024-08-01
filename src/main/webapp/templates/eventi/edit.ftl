@@ -1,6 +1,6 @@
 <body>
     <div>
-        <form method="post" action="modifica-evento">
+        <form method="post" action="modifica-evento?id=${evento.key}">
             <div>
                 <h1>Modifica Evento</h1>
                 <p>Enter the new event details.</p>
@@ -48,6 +48,7 @@
                             <#else>
                             <option value="">Seleziona una tipologia di ricorrenza</option>
                         </#if>
+                            <option value="">Seleziona una tipologia di ricorrenza</option>
                             <#list TipiRicorrenza as tipoRicorrenza>
                                 <option value="${tipoRicorrenza}">${tipoRicorrenza}</option>
                             </#list>
