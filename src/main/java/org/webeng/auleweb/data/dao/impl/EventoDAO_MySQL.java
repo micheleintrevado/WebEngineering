@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,12 +23,15 @@ import org.webeng.auleweb.data.model.Evento;
 import org.webeng.auleweb.data.model.Responsabile;
 import org.webeng.auleweb.data.model.Ricorrenza;
 import org.webeng.auleweb.data.model.TipoEvento;
+import org.webeng.auleweb.data.model.TipoRicorrenza;
+import org.webeng.auleweb.data.model.impl.EventoImpl;
 import org.webeng.auleweb.data.model.impl.proxy.EventoProxy;
 import org.webeng.auleweb.framework.data.DAO;
 import org.webeng.auleweb.framework.data.DataException;
 import org.webeng.auleweb.framework.data.DataItemProxy;
 import org.webeng.auleweb.framework.data.DataLayer;
 import org.webeng.auleweb.framework.data.OptimisticLockException;
+import org.webeng.auleweb.framework.utils.ServletHelpers;
 
 /**
  *
@@ -45,6 +49,7 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
 
     private PreparedStatement iEvento, uEvento, dEvento;
     private PreparedStatement uEventiRicorrenti, dEventiRicorrenti;
+    private PreparedStatement checkEventi, checkEventi2, getEventiNonInseriti;
 
     public EventoDAO_MySQL(DataLayer d) {
         super(d);
@@ -77,6 +82,18 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
 
             uEventiRicorrenti = connection.prepareStatement("UPDATE evento set nome=?, orario_inizio=?,orario_fine=?,descrizione=?,tipologia=?,id_responsabile=?,id_aula=?,id_corso=?,id_master=?,version=? WHERE id_master=? AND giorno >= ?"); // se si vogliono modificare solo quelli successivi
             dEventiRicorrenti = connection.prepareStatement("DELETE FROM evento WHERE id_master=? AND giorno > ?");
+            checkEventi = connection.prepareStatement("DELETE e FROM Evento e JOIN Ricorrenza r ON e.id_master = r.id WHERE e.giorno > r.data_termine");
+            checkEventi2 = connection.prepareStatement("DELETE e FROM Evento e JOIN ( SELECT MIN(id) AS id, giorno, orario_inizio, orario_fine, id_aula FROM Evento GROUP BY giorno, orario_inizio, orario_fine, id_aula ) AS keep on e.giorno = keep.giorno AND e.id_aula = keep.id_aula AND (\n"
+                    + "(e.orario_inizio BETWEEN keep.orario_inizio AND keep.orario_fine)\n"
+                    + "       OR (e.orario_fine BETWEEN keep.orario_inizio AND keep.orario_fine)\n"
+                    + "       OR (keep.orario_inizio BETWEEN e.orario_inizio AND e.orario_fine)\n"
+                    + "       OR (keep.orario_fine BETWEEN e.orario_inizio AND e.orario_fine)) WHERE e.id > keep.id;");
+            getEventiNonInseriti = connection.prepareStatement("SELECT e.id, e.giorno, e.id_aula FROM Evento e JOIN ( SELECT MIN(id) AS id, giorno, orario_inizio, orario_fine, id_aula FROM Evento GROUP BY giorno, orario_inizio, orario_fine, id_aula ) AS keep on e.giorno = keep.giorno AND e.id_aula = keep.id_aula AND (\n"
+                    + "(e.orario_inizio BETWEEN keep.orario_inizio AND keep.orario_fine)\n"
+                    + "       OR (e.orario_fine BETWEEN keep.orario_inizio AND keep.orario_fine)\n"
+                    + "       OR (keep.orario_inizio BETWEEN e.orario_inizio AND e.orario_fine)\n"
+                    + "       OR (keep.orario_fine BETWEEN e.orario_inizio AND e.orario_fine)) WHERE e.id > keep.id;");
+            checkEventi();
         } catch (SQLException ex) {
             throw new DataException("Error initializing evento data layer", ex);
         }
@@ -546,6 +563,80 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
             dEventiRicorrenti.executeUpdate();
         } catch (SQLException ex) {
             throw new DataException("Unable to delete eventi ricorrenti", ex);
+        }
+    }
+
+    @Override
+    public List<Evento> createEventiRicorrenti(Evento evento, Ricorrenza ricorrenza) throws DataException {
+        ArrayList<Evento> eventiRicorrenti = new ArrayList();
+        LocalDate giornoCounter = evento.getGiorno().toLocalDate();
+        while (giornoCounter.isBefore(ricorrenza.getDataTermine().toLocalDate())) {
+            switch (ricorrenza.getTipoRicorrenza()) {
+                case giornaliera -> {
+                    evento.setGiorno(java.sql.Date.valueOf(giornoCounter));
+                    giornoCounter = giornoCounter.plusDays(1);
+                }
+                case settimanale -> {
+                    evento.setGiorno(java.sql.Date.valueOf(giornoCounter));
+                    giornoCounter = giornoCounter.plusWeeks(1);
+                }
+                case mensile -> {
+                    evento.setGiorno(java.sql.Date.valueOf(giornoCounter));
+                    giornoCounter = giornoCounter.plusMonths(1);
+                }
+            }
+            Evento e = new EventoImpl(evento.getNome(),
+                    java.sql.Date.valueOf(giornoCounter),
+                    evento.getOrarioInizio(), evento.getOrarioFine(), evento.getDescrizione(),
+                    evento.getTipoEvento(),
+                    evento.getResponsabile(),
+                    ricorrenza,
+                    evento.getAula(),
+                    evento.getCorso());
+            eventiRicorrenti.add(e);
+            storeEvento(e);
+        }
+        return eventiRicorrenti;
+    }
+
+    @Override
+    public List<Evento> getEventiNonInseriti(List<Evento> eventi) throws DataException {
+        List<Evento> result = new ArrayList<>();
+        try {
+            // Esegui la query per ottenere tutti gli eventi
+            try (ResultSet rs = getEventiNonInseriti.executeQuery()) {
+                while (rs.next()) {
+                    int eventoId = rs.getInt("id");
+                    Evento evento = (Evento) getEvento(eventoId);
+                    // Aggiungi l'evento alla lista dei risultati solo se è presente nella lista degli eventi
+                    if (isEventoInList(evento, eventi)) {
+                        result.add(evento);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load eventi by ricorrenza", ex);
+        }
+        return result;
+    }
+
+    // Metodo di utilità per verificare se un evento è nella lista
+    private boolean isEventoInList(Evento evento, List<Evento> eventi) {
+        for (Evento e : eventi) {
+            if (e.getKey() == evento.getKey()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Verifica gli eventi in eccesso/non più utili
+    private void checkEventi() throws DataException {
+        try {
+            checkEventi.executeUpdate();
+            checkEventi2.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataException("Error initializing evento data layer", ex);
         }
     }
 

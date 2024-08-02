@@ -89,7 +89,7 @@ public class EditEvento extends AulewebBaseController {
             } else {
                 ricorrenza = null;
             }
-            int id = Integer.valueOf(request.getParameter("id"));
+            int id = Integer.parseInt(request.getParameter("id"));
             String nome = request.getParameter("nome");
             Date giorno = Date.valueOf(request.getParameter("giorno"));
             Time orarioInizio = Time.valueOf(request.getParameter("orario_inizio") + ":00");
@@ -110,6 +110,8 @@ public class EditEvento extends AulewebBaseController {
             //}
             evento.setAula(aula);
             evento.setCorso(corso);
+            List<Evento> eventiRicorrenti = new ArrayList();
+            List<Evento> eventiWarning = new ArrayList();
             // MODIFICA DEL SINGOLO EVENTO
             if (!editOthers) {
                 /*if (ricorrenza == null) {
@@ -125,8 +127,13 @@ public class EditEvento extends AulewebBaseController {
                     // AGGIORNO L'evento corrente ed i successivi con la ricorrenza impostata
                     dataLayer.getRicorrenzaDAO().storeRicorrenza(ricorrenza);
                     dataLayer.getEventoDAO().updateEventiRicorrenti(evento, ricorrenza);
+                    eventiRicorrenti = dataLayer.getEventoDAO().createEventiRicorrenti(evento, ricorrenza);
+                    eventiWarning = dataLayer.getEventoDAO().getEventiNonInseriti(eventiRicorrenti);
+                    //if (eventiWarning.size() > 0) {
+                    //    request.setAttribute("eventiWarning", eventiWarning);
+                    //}
                 } else {
-                    // AGGIORNO l'evento corrente togliendo la ricorrenza ed elimino gli eventi successivi
+                    // AGGIORNO l'evento corrente aggiornando la ricorrenza ed elimino gli eventi successivi
                     if (evento.getRicorrenza() != null) {
                         dataLayer.getEventoDAO().deleteEventiRicorrenti(evento);
                     }
@@ -134,14 +141,39 @@ public class EditEvento extends AulewebBaseController {
                     dataLayer.getEventoDAO().storeEvento(evento);
                 }
             }
-            response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
+            // ALTERNATIVA
+            /*
+            if (!eventiWarning.isEmpty()) {
+                // Usa la sessione per passare l'attributo eventiWarning
+                HttpSession session = request.getSession();
+                session.setAttribute("eventiWarning", eventiWarning);
+            }
+
+            // Redirect alla pagina del form o a un'altra pagina appropriata
+            response.sendRedirect("modifica-evento?id=" + evento.getId());
+             */
+            if (request.getAttribute("isRedirect") == null) {
+                if (!eventiWarning.isEmpty()) {
+                    request.setAttribute("eventiWarning", eventiWarning);
+                }
+                request.setAttribute("isRedirect", true); // Flag per evitare loop
+                request.getRequestDispatcher("/modifica-evento?id_evento=" + id).forward(request, response);
+            }
+            /*else {
+                response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
+            }*/
+
+            // Inoltra alla pagina del form per mostrare l'alert
+            //request.getRequestDispatcher("/modifica-evento?id_evento=" + id).forward(request, response);
+
+            // response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
             //TemplateResult result = new TemplateResult(getServletContext());
             //AulewebDataLayer dataLayer = (AulewebDataLayer) request.getAttribute("datalayer");
             //List<Evento> eventi = dataLayer.getEventoDAO().getEventi();
             //result.activate("eventi/add.ftl", request, response);
         } catch (Exception ex) {
-            ex.printStackTrace();
-            //handleError(ex, request, response);
+            // ex.printStackTrace();
+            handleError(ex, request, response);
         }
     }
 

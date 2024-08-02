@@ -1,6 +1,17 @@
 <body>
+
+<#-- Verifica se ci sono eventi di avvertimento e mostra un alert -->
+    <#if eventiWarning?? && eventiWarning?size > 0>
+        <script>
+            alert('Attenzione: Alcuni eventi non sono stati inseriti:\n'
+            <#list eventiWarning as evento>
+                + '${evento.nome} il ${evento.giorno} dalle ${evento.orarioInizio} alle ${evento.orarioFine}\n'
+            </#list>
+            );
+        </script>
+    </#if>
     <div>
-        <form method="post" action="modifica-evento?id=${evento.key}">
+        <form id="modificaEventoForm" method="post" action="modifica-evento?id_evento=${evento.key}">
             <div>
                 <h1>Modifica Evento</h1>
                 <p>Enter the new event details.</p>
@@ -72,4 +83,4 @@
             </div>
         </form>
     </div>
-</body>
+    </body>

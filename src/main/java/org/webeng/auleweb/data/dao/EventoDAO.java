@@ -59,9 +59,12 @@ public interface EventoDAO {
     // Lista di eventi per un corso in un determinato periodo in formato CSV/iCalendar
     List<Evento> getEventiRange(Date periodoStart, Date periodoEnd, Corso corso) throws DataException;
 
+    // Lista di eventi non inseriti durante le operazioni di ricorrenza evento
+    List<Evento> getEventiNonInseriti(List<Evento> eventi) throws DataException;
+
     // Inserimento e aggiornamento evento in DB
     void storeEvento(Evento evento) throws DataException;
-    
+
     // Aggiorna tutti gli eventi con stesso id_master, assegnando i valori dell'evento corrente
     void updateEventiRicorrenti(Evento evento, Ricorrenza ricorrenza) throws DataException;
 
@@ -73,7 +76,9 @@ public interface EventoDAO {
     void assignAula(Evento evento, Aula aula) throws DataException;
 
     void assignCorso(Evento evento, Corso corso) throws DataException;
-    
+
+    List<Evento> createEventiRicorrenti(Evento evento, Ricorrenza ricorrenza) throws DataException;
+
     // Elimino tutti gli eventi ricorrenti a partire da quello indicato
     void deleteEventiRicorrenti(Evento evento) throws DataException;
 
