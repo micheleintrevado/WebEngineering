@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,6 +49,12 @@ public class EditEvento extends AulewebBaseController {
                 modifica_evento(request, response, false);
             } else if (editAll.equals("ricorrenti")) {
                 modifica_evento(request, response, true); // WHERE id_master = ?
+            }
+            if (request.getAttribute("eventiWarning") != null) {
+                warning_eventi(request, response);
+            } else {
+                String completeRequestURL = request.getRequestURL() + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
+                request.getRequestDispatcher(completeRequestURL).forward(request, response);
             }
         } else {
             try {
@@ -92,7 +100,7 @@ public class EditEvento extends AulewebBaseController {
                 ricorrenza = null;
             }
             int id = Integer.valueOf(request.getParameter("id_evento"));
-            
+
             String nome = request.getParameter("nome");
             Date giorno = Date.valueOf(request.getParameter("giorno"));
             Time orarioInizio = Time.valueOf(request.getParameter("orario_inizio") + ":00");
@@ -117,13 +125,14 @@ public class EditEvento extends AulewebBaseController {
             List<Evento> eventiWarning = new ArrayList();
             // MODIFICA DEL SINGOLO EVENTO
             if (!editOthers) {
+                // CHECK CONFLITTO EVENTI NELLO STESSO SLOT
                 /*if (ricorrenza == null) {
                     System.out.println("modifica singolo con ricorrenza null = " + editOthers);
                     
                     dataLayer.getEventoDAO().deleteEventiRicorrenti(evento);
                 }*/
-                evento.setRicorrenza(ricorrenza);
-                dataLayer.getEventoDAO().storeEvento(evento);
+                // evento.setRicorrenza(ricorrenza);
+                // dataLayer.getEventoDAO().storeEvento(evento);
             } else // MODIFICA ALTRI EVENTI RICORRENTI A PARTIRE DA QUELLO CORRENTE
             if (editOthers) {
                 if (ricorrenza != null) {
@@ -132,7 +141,7 @@ public class EditEvento extends AulewebBaseController {
                     dataLayer.getEventoDAO().updateEventiRicorrenti(evento, ricorrenza);
                     eventiRicorrenti = dataLayer.getEventoDAO().createEventiRicorrenti(evento, ricorrenza);
                     eventiWarning = dataLayer.getEventoDAO().getEventiNonInseriti(eventiRicorrenti);
-                    
+
                     //if (eventiWarning.size() > 0) {
                     //    request.setAttribute("eventiWarning", eventiWarning);
                     //}
@@ -141,11 +150,13 @@ public class EditEvento extends AulewebBaseController {
                     if (evento.getRicorrenza() != null) {
                         dataLayer.getEventoDAO().deleteEventiRicorrenti(evento);
                     }
-                    evento.setRicorrenza(ricorrenza);
-                    dataLayer.getEventoDAO().storeEvento(evento);
-                    
+                    // evento.setRicorrenza(ricorrenza);
+                    // dataLayer.getEventoDAO().storeEvento(evento);
+
                 }
             }
+            evento.setRicorrenza(ricorrenza);
+            dataLayer.getEventoDAO().storeEvento(evento); // CHECK COSE STRANE NEL CASO editOthers + ricorrenza not null
             // ALTERNATIVA
             /*
             if (!eventiWarning.isEmpty()) {
@@ -157,7 +168,7 @@ public class EditEvento extends AulewebBaseController {
             // Redirect alla pagina del form o a un'altra pagina appropriata
             response.sendRedirect("modifica-evento?id=" + evento.getId());
              */
-            /*if (request.getAttribute("isRedirect") == null) {
+ /*if (request.getAttribute("isRedirect") == null) {
                 if (!eventiWarning.isEmpty()) {
                     request.setAttribute("eventiWarning", eventiWarning);
                 }
@@ -166,25 +177,16 @@ public class EditEvento extends AulewebBaseController {
                
                 
             }*/
-            if (!eventiWarning.isEmpty()){
+            if (!eventiWarning.isEmpty()) {
                 request.setAttribute("eventiWarning", eventiWarning);
-                loadEventoData(request, response);
-                
-                result.activate("eventi/edit.ftl", request, response);               
-                String completeRequestURL = request.getRequestURL() + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
-                request.getRequestDispatcher(completeRequestURL).forward(request, response);
-                
-                //return;
             }
-            
+
             /*else {
                 response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
             }*/
-
             // Inoltra alla pagina del form per mostrare l'alert
             //request.getRequestDispatcher("/modifica-evento?id_evento=" + id).forward(request, response);
-
-            response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
+            // response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
             //TemplateResult result = new TemplateResult(getServletContext());
             //AulewebDataLayer dataLayer = (AulewebDataLayer) request.getAttribute("datalayer");
             //List<Evento> eventi = dataLayer.getEventoDAO().getEventi();
@@ -200,8 +202,8 @@ public class EditEvento extends AulewebBaseController {
         loadEventoData(request, response);
         result.activate("eventi/edit.ftl", request, response);
     }
-    
-    private void loadEventoData(HttpServletRequest request, HttpServletResponse response) throws DataException{
+
+    private void loadEventoData(HttpServletRequest request, HttpServletResponse response) throws DataException {
         AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
         Evento eventoDaModificare = dataLayer.getEventoDAO().getEvento(Integer.valueOf(request.getParameter("id_evento")));
         //List<Evento> eventi = ((AulewebDataLayer) request.getAttribute("datalayer")).getEventoDAO().getEventi();
@@ -229,6 +231,15 @@ public class EditEvento extends AulewebBaseController {
     @Override
     public String getServletInfo() {
         return "Servlet Modifica Evento";
+    }
+
+    private void warning_eventi(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, DataException {
+        TemplateResult result = new TemplateResult(getServletContext());
+        loadEventoData(request, response);
+        // request.setAttribute("evento", evento);
+        result.activate("eventi/edit.ftl", request, response);
+        // String completeRequestURL = request.getRequestURL() + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
+        // request.getRequestDispatcher(completeRequestURL).forward(request, response);
     }
 
 }
