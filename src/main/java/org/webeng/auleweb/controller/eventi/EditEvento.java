@@ -25,6 +25,7 @@ import org.webeng.auleweb.data.model.TipoRicorrenza;
 import org.webeng.auleweb.data.model.impl.EventoImpl;
 import org.webeng.auleweb.data.model.impl.RicorrenzaImpl;
 import org.webeng.auleweb.framework.data.DataException;
+import org.webeng.auleweb.framework.data.DataLayer;
 import org.webeng.auleweb.framework.security.SecurityHelpers;
 import org.webeng.auleweb.framework.view.TemplateManagerException;
 import org.webeng.auleweb.framework.view.TemplateResult;
@@ -75,6 +76,7 @@ public class EditEvento extends AulewebBaseController {
     // editOthers = false --> modifica solo l'evento considerato
     private void modifica_evento(HttpServletRequest request, HttpServletResponse response, boolean editOthers) {
         try {
+            TemplateResult result = new TemplateResult(getServletContext());
             AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
             Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabile(Integer.valueOf(request.getParameter("id_responsabile")));
             Aula aula = dataLayer.getAulaDAO().getAula(Integer.valueOf(request.getParameter("id_aula")));
@@ -89,7 +91,8 @@ public class EditEvento extends AulewebBaseController {
             } else {
                 ricorrenza = null;
             }
-            int id = Integer.parseInt(request.getParameter("id"));
+            int id = Integer.valueOf(request.getParameter("id_evento"));
+            
             String nome = request.getParameter("nome");
             Date giorno = Date.valueOf(request.getParameter("giorno"));
             Time orarioInizio = Time.valueOf(request.getParameter("orario_inizio") + ":00");
@@ -129,6 +132,7 @@ public class EditEvento extends AulewebBaseController {
                     dataLayer.getEventoDAO().updateEventiRicorrenti(evento, ricorrenza);
                     eventiRicorrenti = dataLayer.getEventoDAO().createEventiRicorrenti(evento, ricorrenza);
                     eventiWarning = dataLayer.getEventoDAO().getEventiNonInseriti(eventiRicorrenti);
+                    
                     //if (eventiWarning.size() > 0) {
                     //    request.setAttribute("eventiWarning", eventiWarning);
                     //}
@@ -139,6 +143,7 @@ public class EditEvento extends AulewebBaseController {
                     }
                     evento.setRicorrenza(ricorrenza);
                     dataLayer.getEventoDAO().storeEvento(evento);
+                    
                 }
             }
             // ALTERNATIVA
@@ -152,13 +157,23 @@ public class EditEvento extends AulewebBaseController {
             // Redirect alla pagina del form o a un'altra pagina appropriata
             response.sendRedirect("modifica-evento?id=" + evento.getId());
              */
-            if (request.getAttribute("isRedirect") == null) {
+            /*if (request.getAttribute("isRedirect") == null) {
                 if (!eventiWarning.isEmpty()) {
                     request.setAttribute("eventiWarning", eventiWarning);
                 }
                 request.setAttribute("isRedirect", true); // Flag per evitare loop
-                request.getRequestDispatcher("/modifica-evento?id_evento=" + id).forward(request, response);
+                //request.getRequestDispatcher("/modifica-evento?id_evento=" + id).forward(request, response);
+               
+                
+            }*/
+            if (!eventiWarning.isEmpty()){
+                request.setAttribute("eventiWarning", eventiWarning);
+                //loadEventoData(request, response);
+                
+                result.activate("eventi/edit.ftl", request, response);
+                return;
             }
+            
             /*else {
                 response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
             }*/
@@ -166,25 +181,31 @@ public class EditEvento extends AulewebBaseController {
             // Inoltra alla pagina del form per mostrare l'alert
             //request.getRequestDispatcher("/modifica-evento?id_evento=" + id).forward(request, response);
 
-            // response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
+            response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
             //TemplateResult result = new TemplateResult(getServletContext());
             //AulewebDataLayer dataLayer = (AulewebDataLayer) request.getAttribute("datalayer");
             //List<Evento> eventi = dataLayer.getEventoDAO().getEventi();
             //result.activate("eventi/add.ftl", request, response);
         } catch (Exception ex) {
-            // ex.printStackTrace();
-            handleError(ex, request, response);
+            ex.printStackTrace();
+            // handleError(ex, request, response);
         }
     }
 
     private void action_logged(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, DataException {
         TemplateResult result = new TemplateResult(getServletContext());
-        Evento eventoDaModificare = ((AulewebDataLayer) request.getAttribute("datalayer")).getEventoDAO().getEvento(Integer.valueOf(request.getParameter("id_evento")));
+        loadEventoData(request, response);
+        result.activate("eventi/edit.ftl", request, response);
+    }
+    
+    private void loadEventoData(HttpServletRequest request, HttpServletResponse response) throws DataException{
+        AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
+        Evento eventoDaModificare = dataLayer.getEventoDAO().getEvento(Integer.valueOf(request.getParameter("id_evento")));
         //List<Evento> eventi = ((AulewebDataLayer) request.getAttribute("datalayer")).getEventoDAO().getEventi();
         List<TipoEvento> tipologieEvento = new ArrayList<>(Arrays.asList(TipoEvento.values()));
-        List<Responsabile> responsabili = ((AulewebDataLayer) request.getAttribute("datalayer")).getResponsabileDAO().getResponsabili();
-        List<Aula> aule = ((AulewebDataLayer) request.getAttribute("datalayer")).getAulaDAO().getAule();
-        List<Corso> corsi = ((AulewebDataLayer) request.getAttribute("datalayer")).getCorsoDAO().getCorsi();
+        List<Responsabile> responsabili = dataLayer.getResponsabileDAO().getResponsabili();
+        List<Aula> aule = dataLayer.getAulaDAO().getAule();
+        List<Corso> corsi = dataLayer.getCorsoDAO().getCorsi();
         List<TipoRicorrenza> tipiRicorrenza = new ArrayList<>(Arrays.asList(TipoRicorrenza.values()));
 
         // request.setAttribute("eventi", Objects.requireNonNullElse(eventi, ""));
@@ -194,7 +215,6 @@ public class EditEvento extends AulewebBaseController {
         request.setAttribute("Aule", aule);
         request.setAttribute("Corsi", corsi);
         request.setAttribute("TipiRicorrenza", tipiRicorrenza);
-        result.activate("eventi/edit.ftl", request, response);
     }
 
     private void action_anonymous(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

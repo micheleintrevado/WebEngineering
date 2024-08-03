@@ -94,6 +94,7 @@ public class AddEvento extends AulewebBaseController {
                 
                 //aggiungo a lista le date convertite in localDate, itero e infine aggiungo uno a uno
                 List<LocalDate> dateIstanzeEvento = new ArrayList<>();
+                // inizializzo l'indice dell'evento alla data di inizio dell'evento
                 LocalDate cursor = dataInizioEvento.toLocalDate();
                 
                 while (cursor.isBefore(dataFineRicorrenza.toLocalDate())){
