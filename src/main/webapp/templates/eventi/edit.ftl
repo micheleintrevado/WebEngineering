@@ -1,24 +1,12 @@
 <body>
 
 <#-- Verifica se ci sono eventi di avvertimento e mostra un alert -->
-    <#if eventiWarning?exists>     <
-script
-type
-=
-"text/javascript"
->
-// Crea il messaggio di avviso concatenando tutti i warning
-var
-warningMessage =
-"<#list eventiWarning as warning>${warning.nome}<#if warning_has_next><br/><#else></#if></#list>"
-;                
-// Mostra l'alert e reindirizza l'utente dopo la chiusura
-alert
-(warningMessage);         window.location.href =
-"http://localhost:8080/AuleWeb/eventi"
-; </
-script
-> </#if>
+
+    <#if eventiWarning??>
+        <#list eventiWarning as ev>
+            <p style="color:red;">evento NON inserito: ${ev.nome} ${ev.giorno} </p>
+        </#list>
+    </#if >
     <div>
         <form id="modificaEventoForm" method="post" action="modifica-evento?id_evento=${evento.key}">
             <div>

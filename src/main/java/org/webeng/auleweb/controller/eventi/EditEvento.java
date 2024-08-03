@@ -168,10 +168,13 @@ public class EditEvento extends AulewebBaseController {
             }*/
             if (!eventiWarning.isEmpty()){
                 request.setAttribute("eventiWarning", eventiWarning);
-                //loadEventoData(request, response);
+                loadEventoData(request, response);
                 
-                result.activate("eventi/edit.ftl", request, response);
-                return;
+                result.activate("eventi/edit.ftl", request, response);               
+                String completeRequestURL = request.getRequestURL() + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
+                request.getRequestDispatcher(completeRequestURL).forward(request, response);
+                
+                //return;
             }
             
             /*else {

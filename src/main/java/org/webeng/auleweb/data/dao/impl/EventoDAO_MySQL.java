@@ -132,6 +132,7 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
     }
 
     private EventoProxy createEvento(ResultSet rs) throws DataException {
+        checkEventi();
         EventoProxy e = (EventoProxy) createEvento();
         try {
             e.setKey(rs.getInt("id"));
@@ -156,6 +157,7 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
 
     @Override
     public Evento getEvento(int evento_key) throws DataException {
+        checkEventi();
         Evento e = null;
         if (dataLayer.getCache().has(Evento.class, evento_key)) {
             e = dataLayer.getCache().get(Evento.class, evento_key);
