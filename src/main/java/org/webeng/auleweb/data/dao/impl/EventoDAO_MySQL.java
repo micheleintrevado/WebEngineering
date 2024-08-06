@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ import org.webeng.auleweb.framework.utils.ServletHelpers;
 public class EventoDAO_MySQL extends DAO implements EventoDAO {
 
     private PreparedStatement sEventoByID, sEventiByAula, sEventiByResponsabile, sEventiByCorso,
-            sEventiByRicorrenza, sEventiByGiorno, sEventiByAulaAndGiorno,
+            sEventiByRicorrenza, sEventiByGiorno, sEventiByAulaAndGiorno, sEventiSovrapposti,
             sEventiBySettimanaAula, sEventiBySettimanaCorso,
             sEventiAttuali, sEventiProssimi;
 
@@ -66,6 +67,7 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
             sEventiByRicorrenza = connection.prepareStatement("SELECT id FROM evento WHERE evento.id_master = ?");
             sEventiByGiorno = connection.prepareStatement("SELECT id FROM evento WHERE evento.giorno = ?"); // GIORNO = '2024-05-14'
             sEventiByAulaAndGiorno = connection.prepareStatement("SELECT id FROM evento WHERE evento.id_aula = ? AND evento.giorno = ?"); // GIORNO = '2024-05-14'
+            sEventiSovrapposti = connection.prepareStatement("SELECT * FROM evento WHERE id <> ? AND id_aula = ? AND giorno = ? AND ((orario_inizio < ? AND orario_fine > ?))");
 
             sEventiBySettimanaAula = connection.prepareStatement("SELECT id FROM evento WHERE evento.id_aula = ? and evento.giorno BETWEEN ? AND date_add(?, interval 1 week)");
             sEventiBySettimanaCorso = connection.prepareStatement("SELECT id FROM evento WHERE evento.id_corso = ? and evento.giorno BETWEEN ? AND date_add(?, interval 1 week)");
@@ -147,8 +149,6 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
             e.setAulaKey(rs.getInt("id_aula"));
             e.setCorsoKey(rs.getInt("id_corso"));
             e.setVersion(rs.getLong("version"));
-            // TODO: a.setAttrezzature(attrezzatura);
-            // TODO: a.setGruppi(Gruppo)
         } catch (SQLException ex) {
             throw new DataException("Unable to create evento object form ResultSet", ex);
         }
@@ -642,4 +642,25 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
         }
     }
 
+    @Override
+    public Evento getEventiSovrapposti(Evento evento, Aula aula, Date giorno, Time orarioInizio, Time orarioFine) throws DataException {
+        Evento e = null;
+        try {
+            sEventiSovrapposti.setInt(1, evento.getKey());
+            sEventiSovrapposti.setInt(2,aula.getKey());
+            sEventiSovrapposti.setDate(3, new java.sql.Date(giorno.getTime()));
+            sEventiSovrapposti.setTime(4, orarioFine);
+            sEventiSovrapposti.setTime(5,orarioInizio);
+            try (ResultSet rs = sEventiSovrapposti.executeQuery()) {
+                if (rs.next()) {
+                    e = createEvento(rs);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load evento by ID", ex);
+
+        }
+
+        return e;
+    }
 }

@@ -4,6 +4,7 @@
  */
 package org.webeng.auleweb.data.dao;
 
+import java.sql.Time;
 import org.webeng.auleweb.framework.data.DataException;
 import java.time.Period;
 import java.util.Date;
@@ -39,6 +40,9 @@ public interface EventoDAO {
 
     // Eventi associati ad una specifica aula in un determinato giorno
     List<Evento> getEventiAulaGiorno(Aula aula, Date giorno) throws DataException;
+
+    // Evento associati ad una specifica aula in un determinato giorno e orario
+    Evento getEventiSovrapposti(Evento evento, Aula aula, Date giorno, Time OrarioInizio, Time OrarioFine) throws DataException;
 
     // Eventi associati ad una specifica aula nella settimana che parte dal giorno indicato
     List<Evento> getEventiSettimana(Aula aula, Date settimana) throws DataException;

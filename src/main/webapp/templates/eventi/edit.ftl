@@ -1,6 +1,9 @@
 <body>
 
 <#-- Verifica se ci sono eventi di avvertimento e mostra un alert -->
+    <#if conflitto??>
+        <p>C'è già un evento nell'aula ${conflitto.aula.nome} nel giorno ${conflitto.giorno}</p>
+    </#if>
 
     <#if eventiWarning??>
         <#list eventiWarning as ev>

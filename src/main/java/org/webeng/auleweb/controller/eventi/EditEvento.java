@@ -50,11 +50,13 @@ public class EditEvento extends AulewebBaseController {
             } else if (editAll.equals("ricorrenti")) {
                 modifica_evento(request, response, true); // WHERE id_master = ?
             }
-            if (request.getAttribute("eventiWarning") != null) {
+            if (request.getAttribute("eventiWarning") != null || request.getAttribute("conflitto") != null) {
                 warning_eventi(request, response);
             } else {
-                String completeRequestURL = request.getRequestURL() + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
-                request.getRequestDispatcher(completeRequestURL).forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/modifica-evento?id_evento=" + request.getParameter("id_evento"));
+                // request.getRequestDispatcher("/modifica-evento?id_evento=" + request.getParameter("id_evento")).forward(request, response);
+                // String completeRequestURL = request.getRequestURL() + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
+                // request.getRequestDispatcher(completeRequestURL).forward(request, response);
             }
         } else {
             try {
@@ -89,16 +91,7 @@ public class EditEvento extends AulewebBaseController {
             Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabile(Integer.valueOf(request.getParameter("id_responsabile")));
             Aula aula = dataLayer.getAulaDAO().getAula(Integer.valueOf(request.getParameter("id_aula")));
             Corso corso = dataLayer.getCorsoDAO().getCorso(Integer.valueOf(request.getParameter("id_corso")));
-            Ricorrenza ricorrenza;
-            if (!request.getParameter("id_master").equals("") && !request.getParameter("fine_ricorrenza").equals("")) {
-                Ricorrenza r = new RicorrenzaImpl(
-                        TipoRicorrenza.valueOf(request.getParameter("id_master")),
-                        Date.valueOf(request.getParameter("fine_ricorrenza")));
-                dataLayer.getRicorrenzaDAO().storeRicorrenza(r);
-                ricorrenza = dataLayer.getRicorrenzaDAO().getRicorrenza(r.getKey());
-            } else {
-                ricorrenza = null;
-            }
+
             int id = Integer.valueOf(request.getParameter("id_evento"));
 
             String nome = request.getParameter("nome");
@@ -108,24 +101,47 @@ public class EditEvento extends AulewebBaseController {
             String descrizione = request.getParameter("descrizione");
             TipoEvento tipoEvento = TipoEvento.valueOf(request.getParameter("tipologia"));
             Evento evento = dataLayer.getEventoDAO().getEvento(id);
-            evento.setNome(nome);
-            evento.setGiorno(giorno);
-            evento.setOrarioInizio(orarioInizio);
-            evento.setOrarioFine(orarioFine);
-            evento.setDescrizione(descrizione);
-            evento.setTipoEvento(tipoEvento);
-            evento.setResponsabile(responsabile);
-            //if (ricorrenza != null) {
-            //    System.out.println("Set ricorrenza: " + ricorrenza.getKey());
-            //    evento.setRicorrenza(ricorrenza);
-            //}
-            evento.setAula(aula);
-            evento.setCorso(corso);
+            Ricorrenza ricorrenza = evento.getRicorrenza();
+            TipoRicorrenza tipoRicorrenza = null;
+            Date fineRicorrenza = null;
+            if (!request.getParameter("id_master").equals("")) {
+                tipoRicorrenza = TipoRicorrenza.valueOf(request.getParameter("id_master"));
+            }
+            if (!request.getParameter("fine_ricorrenza").equals("")) {
+                fineRicorrenza = Date.valueOf(request.getParameter("fine_ricorrenza"));
+            }
+            if (tipoRicorrenza == null || fineRicorrenza == null) {
+                // TOLGO LA RICORRENZA DI UN EVENTO
+                ricorrenza = null;
+            }
+            if (ricorrenza != null) {
+                // MODIFICO LA RICORRENZA GIA' ESISTENTE
+                ricorrenza.setTipoRicorrenza(tipoRicorrenza);
+                ricorrenza.setDataTermine(fineRicorrenza);
+                dataLayer.getRicorrenzaDAO().storeRicorrenza(ricorrenza);
+            } else if (ricorrenza == null && tipoRicorrenza != null && fineRicorrenza != null) {
+                // AGGIUNGO UNA RICORRENZA AD UN EVENTO
+                Ricorrenza r = new RicorrenzaImpl(
+                        tipoRicorrenza,
+                        fineRicorrenza);
+                dataLayer.getRicorrenzaDAO().storeRicorrenza(r);
+                ricorrenza = dataLayer.getRicorrenzaDAO().getRicorrenza(r.getKey());
+            }
+
             List<Evento> eventiRicorrenti = new ArrayList();
             List<Evento> eventiWarning = new ArrayList();
+            Evento conflitto = null;
+
+            conflitto = dataLayer.getEventoDAO().getEventiSovrapposti(evento, aula, giorno, orarioInizio, orarioFine);
+            System.out.println(conflitto);
+            if (conflitto != null) {
+                request.setAttribute("conflitto", conflitto);
+            }
+
             // MODIFICA DEL SINGOLO EVENTO
             if (!editOthers) {
                 // CHECK CONFLITTO EVENTI NELLO STESSO SLOT
+
                 /*if (ricorrenza == null) {
                     System.out.println("modifica singolo con ricorrenza null = " + editOthers);
                     
@@ -137,26 +153,48 @@ public class EditEvento extends AulewebBaseController {
             if (editOthers) {
                 if (ricorrenza != null) {
                     // AGGIORNO L'evento corrente ed i successivi con la ricorrenza impostata
-                    dataLayer.getRicorrenzaDAO().storeRicorrenza(ricorrenza);
-                    dataLayer.getEventoDAO().updateEventiRicorrenti(evento, ricorrenza);
-                    eventiRicorrenti = dataLayer.getEventoDAO().createEventiRicorrenti(evento, ricorrenza);
-                    eventiWarning = dataLayer.getEventoDAO().getEventiNonInseriti(eventiRicorrenti);
-
-                    //if (eventiWarning.size() > 0) {
-                    //    request.setAttribute("eventiWarning", eventiWarning);
-                    //}
+                    //dataLayer.getRicorrenzaDAO().storeRicorrenza(ricorrenza);
+                    //dataLayer.getEventoDAO().updateEventiRicorrenti(evento, ricorrenza);
+                    //eventiRicorrenti = dataLayer.getEventoDAO().createEventiRicorrenti(evento, ricorrenza);
+                    //eventiWarning = dataLayer.getEventoDAO().getEventiNonInseriti(eventiRicorrenti);
                 } else {
                     // AGGIORNO l'evento corrente aggiornando la ricorrenza ed elimino gli eventi successivi
                     if (evento.getRicorrenza() != null) {
-                        dataLayer.getEventoDAO().deleteEventiRicorrenti(evento);
+                        System.out.println("evento.getRicorrenza non è null");
+                        // dataLayer.getEventoDAO().deleteEventiRicorrenti(evento);
                     }
                     // evento.setRicorrenza(ricorrenza);
                     // dataLayer.getEventoDAO().storeEvento(evento);
 
                 }
             }
-            evento.setRicorrenza(ricorrenza);
-            dataLayer.getEventoDAO().storeEvento(evento); // CHECK COSE STRANE NEL CASO editOthers + ricorrenza not null
+            if (conflitto == null) {
+                evento.setNome(nome);
+                evento.setGiorno(giorno);
+                evento.setOrarioInizio(orarioInizio);
+                evento.setOrarioFine(orarioFine);
+                evento.setDescrizione(descrizione);
+                evento.setTipoEvento(tipoEvento);
+                evento.setResponsabile(responsabile);
+                evento.setAula(aula);
+                evento.setCorso(corso);
+                if (ricorrenza != null) { // !evento.getRicorrenza().getDataTermine().equals(ricorrenza.getDataTermine())
+                    evento.setRicorrenza(ricorrenza);
+                    dataLayer.getRicorrenzaDAO().storeRicorrenza(ricorrenza);
+                    if (editOthers) {
+                        dataLayer.getEventoDAO().updateEventiRicorrenti(evento, ricorrenza);
+                        eventiRicorrenti = dataLayer.getEventoDAO().createEventiRicorrenti(evento, ricorrenza);
+                        eventiWarning = dataLayer.getEventoDAO().getEventiNonInseriti(eventiRicorrenti);
+                    }
+                } else {
+                    if (evento.getRicorrenza() != null && editOthers) {
+                        dataLayer.getEventoDAO().deleteEventiRicorrenti(evento);
+                    }
+                    evento.setRicorrenza(ricorrenza);
+                    // CHECK COSE STRANE NEL CASO editOthers + ricorrenza not null
+                }
+                dataLayer.getEventoDAO().storeEvento(evento);
+            }
             // ALTERNATIVA
             /*
             if (!eventiWarning.isEmpty()) {
