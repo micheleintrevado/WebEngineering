@@ -52,6 +52,7 @@
                         </#list>
                     </select></p>
                    <div>
+                   <fieldset>
                     Ricorrenza evento
                         <p><label for="id_master">Ricorrenza</label><select name="id_master" id="id_master">
                         <#if evento.ricorrenza??> 
@@ -66,20 +67,21 @@
                             <label for="fine_ricorrenza">Data di fine ricorrenza:</label>
                             <#if evento.ricorrenza??> 
                                 <input name="fine_ricorrenza" id="fine_ricorrenza" type="date" value="${evento.ricorrenza.dataTermine?string["yyyy-MM-dd"]}"/>
-                                <#else>
+                            <#else>
                                 <input name="fine_ricorrenza" id="fine_ricorrenza" type="date"/>
                             </#if>
                             </select>
                         </p>
                     <label for="modifica-tutti">Vuoi modificare solo questo evento o anche tutti quelli successivi?</label>
                         <div>
-                        <input type="radio" name="modifica-tutti" id="modifica-singolo" value="single"> Solo questo
+                        <input type="radio" name="modifica-tutti" id="modifica-singolo" value="single" checked="checked"> Solo questo
                         <input type="radio" name="modifica-tutti" id="modifica-tutti" value="ricorrenti"> Tutti i successivi
                         </div>
                     </div>
                 <div>
                     <button type="submit">Modifica Evento</button>
                 </div>
+                </fieldset>
             </div>
         </form>
     </div>

@@ -575,15 +575,12 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
         while (giornoCounter.isBefore(ricorrenza.getDataTermine().toLocalDate())) {
             switch (ricorrenza.getTipoRicorrenza()) {
                 case giornaliera -> {
-                    evento.setGiorno(java.sql.Date.valueOf(giornoCounter));
                     giornoCounter = giornoCounter.plusDays(1);
                 }
                 case settimanale -> {
-                    evento.setGiorno(java.sql.Date.valueOf(giornoCounter));
                     giornoCounter = giornoCounter.plusWeeks(1);
                 }
                 case mensile -> {
-                    evento.setGiorno(java.sql.Date.valueOf(giornoCounter));
                     giornoCounter = giornoCounter.plusMonths(1);
                 }
             }
@@ -657,7 +654,7 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
                 }
             }
         } catch (SQLException ex) {
-            throw new DataException("Unable to load evento by ID", ex);
+            throw new DataException("Unable to load eventi sovrapposti", ex);
 
         }
 
