@@ -45,7 +45,7 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
     public void init() throws DataException {
         try {
             super.init();
-            sGruppoAll = connection.prepareStatement("select * from gruppi");
+            sGruppoAll = connection.prepareStatement("select * from gruppo");
             sGruppoByID = connection.prepareStatement("select * from gruppo where id = ?");
             sGruppiByAula = connection.prepareStatement("select * from gruppo as g join aula_gruppo as ag on g.id = ag.id_gruppo join aula as a on a.id = ag.id_aula where a.id = ?");
             sUnassignedGruppi = connection.prepareStatement("select * from gruppo as g left join aula_gruppo as ag on g.id = ag.id_gruppo where ag.id_aula is null");

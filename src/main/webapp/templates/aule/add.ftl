@@ -20,10 +20,22 @@
                         </#list>
                     </select>
                 </p>
+
+                    ASSOCIA ATTREZZATURE<br>
                     <#list Attrezzature as attrezzatura>
-                    <label for="${attrezzatura.tipo}">
-                    <input type="checkbox" name="${attrezzatura.tipo}" value="${attrezzatura.tipo}">
+                    <label for="attrezzatura">
+                    <input type="checkbox" name="attrezzatura" value="${attrezzatura.key}">
                     ${attrezzatura.tipo?capitalize}
+                    </label><br>
+                    </#list>
+                <p>
+                </p>
+                    ASSOCIA GRUPPI<br>
+
+                    <#list Gruppi as gruppo>
+                    <label for="gruppo">
+                    <input type="checkbox" name="gruppo" value="${gruppo.key}">
+                    ${gruppo.nome?capitalize} - ${gruppo.descrizione}
                     </label><br>
                     </#list>
                 <p>

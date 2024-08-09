@@ -5,6 +5,7 @@
 package org.webeng.auleweb.controller.aule;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.servlet.ServletException;
@@ -64,6 +65,18 @@ public class AddAula extends AulewebBaseController{
         try {
             AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
             Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabile(Integer.valueOf(request.getParameter("id_responsabile")));
+            
+            List <Attrezzatura> attrezzature = new ArrayList<>();
+            for( var att :  request.getParameterValues("attrezzatura")){
+                attrezzature.add(dataLayer.getAttrezzaturaDAO().getAttrezzatura(Integer.valueOf(att)));
+            }
+            
+            List <Gruppo> gruppi = new ArrayList<>();
+            for( var gruppo :  request.getParameterValues("gruppi")){
+                gruppi.add(dataLayer.getGruppoDAO().getGruppo(Integer.valueOf(gruppo)));
+                
+            }
+            
             dataLayer.getAulaDAO().storeAula(
                     new AulaImpl(
                             request.getParameter("nome"),
@@ -80,8 +93,10 @@ public class AddAula extends AulewebBaseController{
                             )
             );
             
+            
+            
             // TODO: PRENDERE ID AULA APPENA CREATA E GEGSTIRE INSERIMENTO ATTREZZATURA CON DAO
-            response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
+            response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "aule"));
         }            
         catch (Exception ex) {
             ex.printStackTrace();
@@ -93,11 +108,11 @@ public class AddAula extends AulewebBaseController{
         TemplateResult result = new TemplateResult(getServletContext());
         List<Responsabile> responsabili = ((AulewebDataLayer) request.getAttribute("datalayer")).getResponsabileDAO().getResponsabili();
         List<Attrezzatura> attrezzature = ((AulewebDataLayer) request.getAttribute("datalayer")).getAttrezzaturaDAO().getAttrezzatura();
-        //List<Gruppo> gruppi = ((AulewebDataLayer) request.getAttribute("datalayer")).getGruppoDAO().getGruppi();
+        List<Gruppo> gruppi = ((AulewebDataLayer) request.getAttribute("datalayer")).getGruppoDAO().getGruppi();
 
         request.setAttribute("Responsabili", responsabili);
         request.setAttribute("Attrezzature", attrezzature);
-        //request.setAttribute("Gruppi", gruppi);
+        request.setAttribute("Gruppi", gruppi);
         
         result.activate("aule/add.ftl", request, response);
     }
