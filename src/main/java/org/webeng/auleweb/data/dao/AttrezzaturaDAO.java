@@ -35,5 +35,6 @@ public interface AttrezzaturaDAO {
     void assignAttrezzatura(Attrezzatura attrezzatura, Aula aula) throws DataException;
     
     void deleteAttrezzatura(Attrezzatura at) throws DataException;
+    void deleteAttrezzatureAula(Aula a) throws DataException;
 
 }

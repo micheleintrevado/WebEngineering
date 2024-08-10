@@ -201,8 +201,8 @@ public class EditEvento extends AulewebBaseController {
 
             // response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
         } catch (Exception ex) {
-            ex.printStackTrace();
-            // handleError(ex, request, response);
+            //ex.printStackTrace();
+            handleError(ex, request, response);
         }
     }
 

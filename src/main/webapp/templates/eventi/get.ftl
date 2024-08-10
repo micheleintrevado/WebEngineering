@@ -18,7 +18,7 @@
 
 <h2> Modifica evento </h2>
     <form method="GET" action="modifica-evento">
-        <label for="id_aula">Evento</label>
+        <label for="id_evento">Evento</label>
             <select name="id_evento" id="id_evento">
                 <option value="">Seleziona un evento</option>                 
                 <#list eventi as evento>

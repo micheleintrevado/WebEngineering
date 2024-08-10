@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.webeng.auleweb.data.dao.impl;
 
 import java.sql.PreparedStatement;
@@ -10,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.webeng.auleweb.data.dao.AttrezzaturaDAO;
 import org.webeng.auleweb.data.model.Attrezzatura;
 import org.webeng.auleweb.data.model.Aula;
@@ -24,55 +22,56 @@ import org.webeng.auleweb.framework.data.OptimisticLockException;
  *
  * @author miche
  */
-public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO{
+public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO {
 
-    
     private PreparedStatement sAttrezzaturaById;
     private PreparedStatement sAttrezzaturaAll;
     private PreparedStatement sAttrezzaturaByAula;
-    
+
     private PreparedStatement iAttrezzatura;
     private PreparedStatement iAssignAttrezzatura;
-    
+
     private PreparedStatement uAttrezzatura;
-    
+
     private PreparedStatement dAttrezzatura;
-    
+    private PreparedStatement dAttrezzaturaAula;
+
     public AttrezzaturaDAO_MySQL(DataLayer d) {
         super(d);
     }
-    
+
     @Override
-    public void init() throws DataException{
-        try{
+    public void init() throws DataException {
+        try {
             super.init();
             sAttrezzaturaById = connection.prepareStatement("select * from attrezzatura where id = ?");
             sAttrezzaturaAll = connection.prepareStatement("select * from attrezzatura");
-            sAttrezzaturaByAula = connection.prepareStatement("SELECT * FROM attrezzatura as a join aula_attrezzatura as attr on a.id = attr.id_aula where attr.id_aula = ?;");
-            
+            sAttrezzaturaByAula = connection.prepareStatement("SELECT attrezzatura.id, attrezzatura.tipo FROM attrezzatura join aula_attrezzatura on attrezzatura.id = aula_attrezzatura.id_attrezzatura where aula_attrezzatura.id_aula = ?;");
+
             iAttrezzatura = connection.prepareStatement("insert into webeng.attrezzatura(`tipo`) values (?);", Statement.RETURN_GENERATED_KEYS);
             iAssignAttrezzatura = connection.prepareStatement("insert into webeng.aula_attrezzatura(`id_aula`,`id_attrezzatura`) values (?,?);");
-            
+
             uAttrezzatura = connection.prepareStatement("UPDATE attrezzatura set tipo=?,version=? WHERE id=? and version=?");
-            
+
             dAttrezzatura = connection.prepareStatement("delete from webeng.attrezzatura where id = ?;");
-        } catch (SQLException ex){
+            dAttrezzaturaAula = connection.prepareStatement("delete from aula_attrezzatura where id_aula = ?;");
+        } catch (SQLException ex) {
             throw new DataException("Error initializing attrezzatura data layer", ex);
-        } 
+        }
     }
-    
+
     @Override
     public void destroy() throws DataException {
-        try{
+        try {
             sAttrezzaturaById.close();
             sAttrezzaturaAll.close();
             sAttrezzaturaByAula.close();
-            
+
             iAttrezzatura.close();
             iAssignAttrezzatura.close();
-            
+
             dAttrezzatura.close();
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             throw new DataException("Error initializing attrezzatura data layer", ex);
         }
     }
@@ -81,8 +80,8 @@ public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO{
     public Attrezzatura createAttrezzatura() {
         return new AttrezzaturaProxy(getDataLayer());
     }
-    
-    private AttrezzaturaProxy createAttrezzatura(ResultSet rs) throws DataException{
+
+    private AttrezzaturaProxy createAttrezzatura(ResultSet rs) throws DataException {
         AttrezzaturaProxy a = (AttrezzaturaProxy) createAttrezzatura();
         try {
             a.setKey(rs.getInt("id"));
@@ -96,16 +95,16 @@ public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO{
     @Override
     public Attrezzatura getAttrezzatura(int attrezzatura_key) throws DataException {
         Attrezzatura a = null;
-        try{
+        try {
             sAttrezzaturaById.setInt(1, attrezzatura_key);
-            try(ResultSet rs = sAttrezzaturaById.executeQuery()){
-                if (rs.next()){
+            try (ResultSet rs = sAttrezzaturaById.executeQuery()) {
+                if (rs.next()) {
                     a = createAttrezzatura(rs);
                     dataLayer.getCache().add(Attrezzatura.class, a);
                 }
             }
-        }catch(SQLException ex){
-            throw new DataException("Unable to load Attrezzatura by filename",ex);
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load Attrezzatura by filename", ex);
         }
         return a;
     }
@@ -126,6 +125,11 @@ public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO{
     @Override
     public List<Attrezzatura> getAttrezzaturaByAula(Aula aula) throws DataException {
         List<Attrezzatura> attrezzature = new ArrayList<>();
+        try {
+            sAttrezzaturaByAula.setInt(1, aula.getKey());
+        } catch (SQLException ex) {
+            Logger.getLogger(AttrezzaturaDAO_MySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try (ResultSet rs = sAttrezzaturaByAula.executeQuery()) {
             while (rs.next()) {
                 attrezzature.add(getAttrezzatura(rs.getInt("id")));
@@ -184,15 +188,15 @@ public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO{
 
     @Override
     public void assignAttrezzatura(Attrezzatura attrezzatura, Aula aula) throws DataException {
-        try{
+        try {
             iAssignAttrezzatura.setInt(1, aula.getKey());
             iAssignAttrezzatura.setInt(2, attrezzatura.getKey());
             iAssignAttrezzatura.executeUpdate();
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             throw new DataException("unable to assign Attrezzatura to Aula", ex);
         }
     }
-    
+
     @Override
     public void deleteAttrezzatura(Attrezzatura a) throws DataException {
         try {
@@ -200,6 +204,16 @@ public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO{
             dAttrezzatura.executeUpdate();
         } catch (SQLException ex) {
             throw new DataException("Unable to delete Attrezzatura", ex);
+        }
+    }
+
+    @Override
+    public void deleteAttrezzatureAula(Aula a) throws DataException {
+        try {
+            dAttrezzaturaAula.setInt(1, a.getKey());
+            dAttrezzaturaAula.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataException("Unable to delete grupo", ex);
         }
     }
 }

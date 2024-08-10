@@ -32,4 +32,6 @@ public interface GruppoDAO {
     void assignGruppo(Gruppo gruppo, Aula aula) throws DataException;
     
     void deleteGruppo(Gruppo g) throws DataException;
+    
+    void deleteGruppiAula(Aula a) throws DataException;
 }

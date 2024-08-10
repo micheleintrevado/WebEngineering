@@ -9,6 +9,20 @@
         </small>
     </li>
     </#list>
+
 </ul>
 </#if>
 
+<h2> Modifica aula </h2>
+    <form method="GET" action="modifica-aula">
+        <label for="id_aula">Aula: </label>
+            <select name="id_aula" id="id_aula">
+                <option value="">Seleziona un aula</option>                 
+                <#list aule as aula>
+                    <option value="${aula.key}">${aula.nome}</option>
+                </#list>
+            </select>
+    <div>
+        <button type="submit" value="">Modifica Aula</button>
+    </div>
+    </form>

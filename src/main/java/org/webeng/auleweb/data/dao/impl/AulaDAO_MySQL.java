@@ -102,8 +102,9 @@ public class AulaDAO_MySQL extends DAO implements AulaDAO {
             a.setPreseRete(rs.getInt("prese_rete"));
             a.setNote(rs.getString("note"));
             a.setVersion(rs.getLong("version"));
+            
             // TODO: a.setAttrezzature(attrezzatura);
-            // TODO: a.setGruppi(Gruppo)
+            // TODO: a.setGruppi(gruppi)
         } catch (SQLException ex) {
             throw new DataException("Unable to create aula object form ResultSet", ex);
         }

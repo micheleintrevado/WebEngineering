@@ -36,6 +36,7 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
     
     private PreparedStatement uGruppo;
 
+    private PreparedStatement dGruppoAula;
     private PreparedStatement dGruppo;
 
     public GruppoDAO_MySQL(DataLayer d) {
@@ -47,7 +48,7 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
             super.init();
             sGruppoAll = connection.prepareStatement("select * from gruppo");
             sGruppoByID = connection.prepareStatement("select * from gruppo where id = ?");
-            sGruppiByAula = connection.prepareStatement("select * from gruppo as g join aula_gruppo as ag on g.id = ag.id_gruppo join aula as a on a.id = ag.id_aula where a.id = ?");
+            sGruppiByAula = connection.prepareStatement("select gruppo.id, gruppo.nome, gruppo.descrizione from gruppo join aula_gruppo on gruppo.id = aula_gruppo.id_gruppo where aula_gruppo.id_aula = ?;");
             sUnassignedGruppi = connection.prepareStatement("select * from gruppo as g left join aula_gruppo as ag on g.id = ag.id_gruppo where ag.id_aula is null");
 
             iGruppo = connection.prepareStatement("insert into webeng.gruppo(`nome`,`descrizione`) values (?,?)", Statement.RETURN_GENERATED_KEYS);
@@ -55,6 +56,7 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
 
             uGruppo = connection.prepareStatement("UPDATE gruppo set nome=?, descrizione=?, version=? WHERE id=? and version=?;");
             
+            dGruppoAula = connection.prepareStatement("delete from aula_gruppo where id_aula = ?;");
             dGruppo = connection.prepareStatement("delete from gruppo where id = ?");
 
         } catch (SQLException ex) {
@@ -135,8 +137,8 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
     public List<Gruppo> getGruppiByAula(Aula aula) throws DataException {
         List<Gruppo> result = new ArrayList();
         try {
-            sUnassignedGruppi.setInt(1, aula.getKey());
-            try (ResultSet rs = sUnassignedGruppi.executeQuery()) {
+            sGruppiByAula.setInt(1, aula.getKey());
+            try (ResultSet rs = sGruppiByAula.executeQuery()) {
                 while (rs.next()) {
                     result.add((Gruppo) getGruppo(rs.getInt("id")));
                 }
@@ -229,6 +231,14 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
         }
     }
     
-    
+    @Override
+    public void deleteGruppiAula(Aula a) throws DataException {
+        try {
+            dGruppoAula.setInt(1, a.getKey());
+            dGruppoAula.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataException("Unable to delete grupo", ex);
+        }
+    }
 
 }

@@ -38,12 +38,11 @@
                     ${gruppo.nome?capitalize} - ${gruppo.descrizione}
                     </label><br>
                     </#list>
-                <p>
-                    
+                <p>    
                 </p>
 
                 <div>
-                    <button type="submit">Aggiungi Evento</button>
+                    <button type="submit">Aggiungi Aula</button>
                 </div>
             </div>
         </form>
