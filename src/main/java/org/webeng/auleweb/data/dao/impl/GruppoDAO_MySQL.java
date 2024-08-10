@@ -211,9 +211,9 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
     @Override
     public void assignGruppo(Gruppo gruppo, Aula aula) throws DataException {
         try{
-            iGruppo.setInt(1, gruppo.getKey());
-            iGruppo.setInt(1, aula.getKey());
-            iGruppo.executeUpdate();
+            assignGruppoAula.setInt(1, gruppo.getKey());
+            assignGruppoAula.setInt(2, aula.getKey());
+            assignGruppoAula.executeUpdate();
         } catch (SQLException ex){
             throw new DataException("unable to assign aula to gruppo", ex);
         }

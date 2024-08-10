@@ -17,6 +17,7 @@ import org.webeng.auleweb.application.AulewebDataLayer;
 import org.webeng.auleweb.data.dao.AdminDAO;
 import org.webeng.auleweb.data.model.Admin;
 import org.webeng.auleweb.data.model.Attrezzatura;
+import org.webeng.auleweb.data.model.Aula;
 import org.webeng.auleweb.data.model.Gruppo;
 import org.webeng.auleweb.data.model.Responsabile;
 import org.webeng.auleweb.data.model.impl.AulaImpl;
@@ -72,13 +73,11 @@ public class AddAula extends AulewebBaseController{
             }
             
             List <Gruppo> gruppi = new ArrayList<>();
-            for( var gruppo :  request.getParameterValues("gruppi")){
+            for( var gruppo :  request.getParameterValues("gruppo")){
                 gruppi.add(dataLayer.getGruppoDAO().getGruppo(Integer.valueOf(gruppo)));
-                
             }
             
-            dataLayer.getAulaDAO().storeAula(
-                    new AulaImpl(
+            Aula a = new AulaImpl(
                             request.getParameter("nome"),
                             request.getParameter("luogo"),
                             request.getParameter("edificio"),
@@ -89,13 +88,18 @@ public class AddAula extends AulewebBaseController{
                             Integer.valueOf(request.getParameter("prese_rete")),
                             request.getParameter("note"),
                             null,
-                            null
-                            )
-            );
+                            null);
             
+            dataLayer.getAulaDAO().storeAula(a);
             
+            for (var att : attrezzature){
+                dataLayer.getAttrezzaturaDAO().assignAttrezzatura(att, a);
+            }
             
-            // TODO: PRENDERE ID AULA APPENA CREATA E GEGSTIRE INSERIMENTO ATTREZZATURA CON DAO
+            for (var g : gruppi){
+                dataLayer.getGruppoDAO().assignGruppo(g, a);
+            }
+            
             response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "aule"));
         }            
         catch (Exception ex) {
