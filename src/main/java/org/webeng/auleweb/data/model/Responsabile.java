@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package org.webeng.auleweb.data.model;
 
+import java.util.List;
 import org.webeng.auleweb.framework.data.DataItem;
 
 /**
@@ -16,4 +13,13 @@ public interface Responsabile extends DataItem<Integer>{
     
     String getEmail();
     void setEmail(String email);
+    
+    List<Aula> getAule();
+    void setAule(List<Aula> aula);
+    void addAula(Aula aula);
+    
+    List<Evento> getEventi();
+    void setEventi(List<Evento> eventi);
+    void addEvento(Evento evento);
+
 }
