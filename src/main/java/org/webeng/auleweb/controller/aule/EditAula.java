@@ -59,7 +59,35 @@ public class EditAula extends AulewebBaseController {
 
     private void modifica_aula(HttpServletRequest request, HttpServletResponse response) {
         try {
+            AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
+            Aula aulaDaModificare = dataLayer.getAulaDAO().getAula(Integer.valueOf(request.getParameter("id_aula")));
             
+            dataLayer.getAttrezzaturaDAO().deleteAttrezzatureAula(aulaDaModificare);
+            dataLayer.getGruppoDAO().deleteGruppiAula(aulaDaModificare);
+            
+            aulaDaModificare.setNome(request.getParameter("nome"));
+            aulaDaModificare.setLuogo(request.getParameter("luogo"));
+            aulaDaModificare.setEdificio(request.getParameter("edificio"));
+            aulaDaModificare.setPiano(request.getParameter("piano"));
+            aulaDaModificare.setCapienza(Integer.valueOf(request.getParameter("capienza")));
+            aulaDaModificare.setPreseElettriche(Integer.valueOf(request.getParameter("prese_elettriche")));
+            aulaDaModificare.setPreseRete(Integer.valueOf(request.getParameter("prese_rete")));
+            
+            Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabile(Integer.valueOf(request.getParameter("id_responsabile")));
+            aulaDaModificare.setResponsabile(responsabile);
+            dataLayer.getAulaDAO().storeAula(aulaDaModificare);
+            
+            for( var att : request.getParameterValues("attrezzatura")){
+                System.out.println("---> ATT: " + att);
+                Attrezzatura attrezzatura = dataLayer.getAttrezzaturaDAO().getAttrezzatura(Integer.valueOf(att));
+                dataLayer.getAttrezzaturaDAO().assignAttrezzatura(attrezzatura, aulaDaModificare);
+            }
+            
+            for( var grp : request.getParameterValues("gruppo")){
+                System.out.println("---> gruppo: " + grp);
+                Gruppo gruppo = dataLayer.getGruppoDAO().getGruppo(Integer.valueOf(grp));
+                dataLayer.getGruppoDAO().assignGruppo(gruppo, aulaDaModificare);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -79,7 +107,6 @@ public class EditAula extends AulewebBaseController {
         List<Gruppo> gruppi = dataLayer.getGruppoDAO().getGruppi();
         
         List<Attrezzatura> attrezzatureAula = dataLayer.getAttrezzaturaDAO().getAttrezzaturaByAula(aulaDaModificare);
-        System.out.println(attrezzatureAula);
         List<Gruppo> gruppiAula = dataLayer.getGruppoDAO().getGruppiByAula(aulaDaModificare);
         request.setAttribute("attrezzatureAula", attrezzatureAula);
         request.setAttribute("gruppiAula", gruppiAula);

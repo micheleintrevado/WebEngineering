@@ -17,6 +17,7 @@
                 <p>
                     <label for="id_responsabile">Responsabile</label>
                     <select name="id_responsabile" id="id_responsabile">
+                        <option value="${aula.responsabile.key}">${aula.responsabile.nome}</option>
                         <#list Responsabili as responsabile>
                             <option value="${responsabile.key}">${responsabile.nome}</option>
                         </#list>
