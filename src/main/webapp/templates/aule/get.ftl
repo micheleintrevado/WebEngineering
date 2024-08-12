@@ -1,3 +1,11 @@
+<h2> Download configurazione aule CSV </h2>
+
+<form action="download-aule-csv" method="GET">
+    <button type="submit">Download</button>
+</form>
+
+<hr>
+
 <h1>Elenco Aule</h1>
 <#if (aule?size > 0)>
 <ul>

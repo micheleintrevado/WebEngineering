@@ -78,13 +78,11 @@ public class EditAula extends AulewebBaseController {
             dataLayer.getAulaDAO().storeAula(aulaDaModificare);
             
             for( var att : request.getParameterValues("attrezzatura")){
-                System.out.println("---> ATT: " + att);
                 Attrezzatura attrezzatura = dataLayer.getAttrezzaturaDAO().getAttrezzatura(Integer.valueOf(att));
                 dataLayer.getAttrezzaturaDAO().assignAttrezzatura(attrezzatura, aulaDaModificare);
             }
             
             for( var grp : request.getParameterValues("gruppo")){
-                System.out.println("---> gruppo: " + grp);
                 Gruppo gruppo = dataLayer.getGruppoDAO().getGruppo(Integer.valueOf(grp));
                 dataLayer.getGruppoDAO().assignGruppo(gruppo, aulaDaModificare);
             }
