@@ -111,6 +111,10 @@
         <servlet-name>editAula</servlet-name>
         <servlet-class>org.webeng.auleweb.controller.aule.EditAula</servlet-class>
     </servlet>
+    <servlet>
+         <servlet-name>downloadAuleCSV</servlet-name>
+         <servlet-class>org.webeng.auleweb.controller.aule.DownloadAuleCSV</servlet-class>
+    </servlet>
     
     <servlet-mapping>
         <servlet-name>getAule</servlet-name>
@@ -123,6 +127,10 @@
     <servlet-mapping>
         <servlet-name>editAula</servlet-name>
         <url-pattern>/modifica-aula</url-pattern>
+    </servlet-mapping>  
+    <servlet-mapping>
+        <servlet-name>downloadAuleCSV</servlet-name>
+        <url-pattern>/download-aule-csv</url-pattern>
     </servlet-mapping>
     <!-- FINE AULE -->
     
