@@ -33,8 +33,10 @@ public interface AttrezzaturaDAO {
     // TODO
     // Assegna (aggiunge)? una attrezzatura a una specifica aula 
     void assignAttrezzatura(Attrezzatura attrezzatura, Aula aula) throws DataException;
-    
+
     void deleteAttrezzatura(Attrezzatura at) throws DataException;
+
     void deleteAttrezzatureAula(Aula a) throws DataException;
 
+    void deleteAttrezzaturaByAula(Aula aula, Attrezzatura attrezzatura) throws DataException;
 }

@@ -92,6 +92,7 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
             g.setKey(rs.getInt("id"));
             g.setNome(rs.getString("nome"));
             g.setDescrizione(rs.getString("descrizione"));
+            g.setVersion(rs.getLong("version"));
         } catch (SQLException e) {
             throw new DataException("Unable to create Attrezzatura object form ResultSet", e);
         }

@@ -39,7 +39,8 @@ CREATE TABLE IF NOT EXISTS `Aula_Attrezzatura` (
     id_aula INT UNSIGNED NOT NULL,
     id_attrezzatura INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_aula)
-        REFERENCES Aula (id),
+        REFERENCES Aula (id)
+        on delete cascade,
     FOREIGN KEY (id_attrezzatura)
         REFERENCES Attrezzatura (id)
         on delete cascade,
@@ -59,9 +60,9 @@ CREATE TABLE IF NOT EXISTS `Aula_Gruppo` (
     id_aula INT UNSIGNED NOT NULL,
     id_gruppo INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_aula)
-        REFERENCES Aula (id),
+        REFERENCES Aula (id) ON DELETE CASCADE,
     FOREIGN KEY (id_gruppo)
-        REFERENCES Gruppo (id),
+        REFERENCES Gruppo (id) ON DELETE CASCADE,
     PRIMARY KEY (id)
 );
 

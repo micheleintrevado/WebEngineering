@@ -34,7 +34,7 @@ public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO {
     private PreparedStatement uAttrezzatura;
 
     private PreparedStatement dAttrezzatura;
-    private PreparedStatement dAttrezzaturaAula;
+    private PreparedStatement dAttrezzaturaAula, dAttrezzaturaByAula;
 
     public AttrezzaturaDAO_MySQL(DataLayer d) {
         super(d);
@@ -55,6 +55,7 @@ public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO {
 
             dAttrezzatura = connection.prepareStatement("delete from webeng.attrezzatura where id = ?;");
             dAttrezzaturaAula = connection.prepareStatement("delete from aula_attrezzatura where id_aula = ?;");
+            dAttrezzaturaByAula = connection.prepareStatement("delete from aula_attrezzatura where id_aula = ? AND id_attrezzatura = ?;");
         } catch (SQLException ex) {
             throw new DataException("Error initializing attrezzatura data layer", ex);
         }
@@ -70,7 +71,11 @@ public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO {
             iAttrezzatura.close();
             iAssignAttrezzatura.close();
 
+            uAttrezzatura.close();
+
             dAttrezzatura.close();
+            dAttrezzaturaAula.close();
+            dAttrezzaturaByAula.close();
         } catch (SQLException ex) {
             throw new DataException("Error initializing attrezzatura data layer", ex);
         }
@@ -86,6 +91,7 @@ public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO {
         try {
             a.setKey(rs.getInt("id"));
             a.setTipo(rs.getString("tipo"));
+            a.setVersion(rs.getLong("version"));
         } catch (SQLException e) {
             throw new DataException("Unable to create Attrezzatura object form ResultSet", e);
         }
@@ -157,7 +163,7 @@ public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO {
                 uAttrezzatura.setLong(2, next_version);
                 // WHERE ID = ? AND VERSION = ?
                 uAttrezzatura.setInt(3, attrezzatura.getKey());
-                uAttrezzatura.setLong(12, current_version);
+                uAttrezzatura.setLong(4, current_version);
 
                 if (uAttrezzatura.executeUpdate() == 0) {
                     throw new OptimisticLockException(attrezzatura);
@@ -214,6 +220,17 @@ public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO {
             dAttrezzaturaAula.executeUpdate();
         } catch (SQLException ex) {
             throw new DataException("Unable to delete grupo", ex);
+        }
+    }
+
+    @Override
+    public void deleteAttrezzaturaByAula(Aula aula, Attrezzatura attrezzatura) throws DataException {
+        try {
+            dAttrezzaturaByAula.setInt(1, aula.getKey());
+            dAttrezzaturaByAula.setInt(2, attrezzatura.getKey());
+            dAttrezzaturaByAula.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataException("Unable to delete attrezzatura for the given Aula", ex);
         }
     }
 }
