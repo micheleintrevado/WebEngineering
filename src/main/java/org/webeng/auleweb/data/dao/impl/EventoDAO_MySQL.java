@@ -13,7 +13,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import org.webeng.auleweb.data.dao.EventoDAO;
 import org.webeng.auleweb.data.model.Aula;

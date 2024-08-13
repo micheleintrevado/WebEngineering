@@ -38,8 +38,8 @@ public class DownloadEventiCSV extends AulewebBaseController {
     private void action_download_eventi_csv(HttpServletRequest request, HttpServletResponse response) throws DataException{
         try {
             AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
-            java.util.Date rangeStart = null;
-            java.util.Date rangeEnd = null;
+            java.sql.Date rangeStart = null;
+            java.sql.Date rangeEnd = null;
             
             System.out.println("FINE RANGE: " + request.getParameter("start-range"));            
             System.out.println("FINE RANGE: " + request.getParameter("end-range"));
