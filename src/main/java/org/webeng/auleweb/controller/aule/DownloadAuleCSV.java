@@ -31,13 +31,13 @@ public class DownloadAuleCSV extends AulewebBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {
-            action_download(request, response);
+            action_download_aule_csv(request, response);
         } catch (NumberFormatException ex) {
             ServletHelpers.handleError("The requested resource is unavailable", request, response, getServletContext());
         }
     }
 
-    private void action_download(HttpServletRequest request, HttpServletResponse response) throws DataException {
+    private void action_download_aule_csv(HttpServletRequest request, HttpServletResponse response) throws DataException {
         try {
 
             AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));

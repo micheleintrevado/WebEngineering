@@ -82,6 +82,14 @@
         <servlet-name>editEvento</servlet-name>
         <servlet-class>org.webeng.auleweb.controller.eventi.EditEvento</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>downloadEventiCSV</servlet-name>
+        <servlet-class>org.webeng.auleweb.controller.eventi.DownloadEventiCSV</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>downloadEventiICAL</servlet-name>
+        <servlet-class>org.webeng.auleweb.controller.eventi.DownloadEventiICAL</servlet-class>
+    </servlet>
     
     <servlet-mapping>
         <servlet-name>getEventi</servlet-name>
@@ -94,6 +102,14 @@
     <servlet-mapping>
         <servlet-name>editEvento</servlet-name>
         <url-pattern>/modifica-evento</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadEventiCSV</servlet-name>
+        <url-pattern>/download-eventi-csv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadEventiICAL</servlet-name>
+        <url-pattern>/download-eventi-ical</url-pattern>
     </servlet-mapping>
     <!-- FINE EVENTI -->
     

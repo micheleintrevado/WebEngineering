@@ -1,3 +1,16 @@
+<h2> Download eventi in range CSV</h2>
+
+<form method="get">
+    <label for="start-range">Start Range:</label>
+    <input type="date" id="start-range" name="start-range" required><br><br>
+
+    <label for="end-range">End Range:</label>
+    <input type="date" id="end-range" name="end-range" required><br><br>
+
+    <button type="submit" formaction="/eventi-range-csv">Download CSV</button>
+    <button type="submit" formaction="/eventi-range-ical">Download iCal</button>
+</form>
+
 <h1>Eventi disponibili</h1>
 <#if (eventi?size > 0)>
 <ul>
