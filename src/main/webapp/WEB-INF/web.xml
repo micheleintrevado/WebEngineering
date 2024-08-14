@@ -230,11 +230,11 @@
         <servlet-class>org.webeng.auleweb.controller.gruppi.ShowGruppi</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>addAttrezzatura</servlet-name>
+        <servlet-name>addGruppo</servlet-name>
         <servlet-class>org.webeng.auleweb.controller.gruppi.AddGruppo</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>editAttrezzatura</servlet-name>
+        <servlet-name>editGruppo</servlet-name>
         <servlet-class>org.webeng.auleweb.controller.gruppi.EditGruppo</servlet-class>
     </servlet>
     
