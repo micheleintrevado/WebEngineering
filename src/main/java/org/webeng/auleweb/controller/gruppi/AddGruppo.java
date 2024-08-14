@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.webeng.auleweb.controller.gruppi;
 
 import java.io.IOException;
@@ -16,9 +12,9 @@ import org.webeng.auleweb.application.AulewebBaseController;
 import org.webeng.auleweb.application.AulewebDataLayer;
 import org.webeng.auleweb.data.dao.AdminDAO;
 import org.webeng.auleweb.data.model.Admin;
-import org.webeng.auleweb.data.model.Attrezzatura;
+import org.webeng.auleweb.data.model.Gruppo;
 import org.webeng.auleweb.data.model.Aula;
-import org.webeng.auleweb.data.model.impl.AttrezzaturaImpl;
+import org.webeng.auleweb.data.model.impl.GruppoImpl;
 import org.webeng.auleweb.framework.data.DataException;
 import org.webeng.auleweb.framework.security.SecurityHelpers;
 import org.webeng.auleweb.framework.view.TemplateManagerException;
@@ -29,12 +25,13 @@ import org.webeng.auleweb.framework.view.TemplateResult;
  * @author enric
  */
 public class AddGruppo extends AulewebBaseController {
+
     public static final String REFERRER = "referrer";
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (request.getMethod().equals("POST")) {
-            aggiungi_attrezzatura(request, response);
+            aggiungi_gruppo(request, response);
         } else {
             try {
                 HttpSession s = SecurityHelpers.checkSession(request);
@@ -59,7 +56,7 @@ public class AddGruppo extends AulewebBaseController {
         }
     }
 
-    private void aggiungi_attrezzatura(HttpServletRequest request, HttpServletResponse response) {
+    private void aggiungi_gruppo(HttpServletRequest request, HttpServletResponse response) {
         try {
             AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
 
@@ -68,16 +65,17 @@ public class AddGruppo extends AulewebBaseController {
                 aule.add(dataLayer.getAulaDAO().getAula(Integer.valueOf(aula)));
             }
 
-            Attrezzatura a = new AttrezzaturaImpl(
-                    request.getParameter("tipo"),
+            Gruppo g = new GruppoImpl(
+                    request.getParameter("nome"),
+                    request.getParameter("descrizione"),
                     aule);
 
-            dataLayer.getAttrezzaturaDAO().storeAttrezzatura(a);
+            dataLayer.getGruppoDAO().storeGruppo(g);
             for (Aula aula : aule) {
-                dataLayer.getAttrezzaturaDAO().assignAttrezzatura(a, aula);
+                dataLayer.getGruppoDAO().assignGruppo(g, aula);
             }
 
-            response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "attrezzature"));
+            response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "gruppi"));
         } catch (Exception ex) {
             ex.printStackTrace();
             //handleError(ex, request, response);
@@ -91,7 +89,7 @@ public class AddGruppo extends AulewebBaseController {
 
         request.setAttribute("Aule", aule);
 
-        result.activate("attrezzature/add.ftl", request, response);
+        result.activate("gruppi/add.ftl", request, response);
     }
 
     private void action_anonymous(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
