@@ -59,9 +59,11 @@ public interface EventoDAO {
     // Eventi data una ricorrenza
     List<Evento> getEventiRicorrenti(Ricorrenza ricorrenza) throws DataException;
 
-    //TODO: Object = file CSV
     // Lista di eventi per un corso in un determinato periodo in formato CSV/iCalendar
-    List<Evento> getEventiRange(Date periodoStart, Date periodoEnd, Corso corso) throws DataException;
+    List<Evento> getEventiRangeCorso(Date periodoStart, Date periodoEnd, Corso corso) throws DataException;
+    
+    // Lista di eventi in un determinato periodo in formato CSV/iCalendar
+    List<Evento> getEventiRange(Date periodoStart, Date periodoEnd) throws DataException;
 
     // Lista di eventi non inseriti durante le operazioni di ricorrenza evento
     List<Evento> getEventiNonInseriti(List<Evento> eventi) throws DataException;

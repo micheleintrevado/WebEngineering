@@ -45,6 +45,7 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
             sEventiBySettimanaAula, sEventiBySettimanaCorso,
             sEventiAttuali, sEventiProssimi;
 
+    private PreparedStatement sEventiRangeCorso;
     private PreparedStatement sEventiRange;
     private PreparedStatement sEventi;
 
@@ -74,7 +75,8 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
             sEventiAttuali = connection.prepareStatement("SELECT id FROM evento WHERE giorno = date(now()) AND time(now()) BETWEEN orario_inizio AND orario_fine");
             sEventiProssimi = connection.prepareStatement("SELECT id FROM evento WHERE TIMESTAMP(giorno, orario_inizio) BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL ? HOUR)"); // Default 3 ore
 
-            sEventiRange = connection.prepareStatement("SELECT id FROM evento WHERE evento.id_corso = ? AND giorno between ? AND ? ");
+            sEventiRangeCorso = connection.prepareStatement("SELECT id FROM evento WHERE evento.id_corso = ? AND giorno between ? AND ?");
+            sEventiRange = connection.prepareStatement("SELECT id FROM evento WHERE giorno between ? AND ?");
 
             sEventi = connection.prepareStatement("SELECT id FROM evento");
 
@@ -116,7 +118,7 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
             sEventiAttuali.close();
             sEventiProssimi.close();
 
-            sEventiRange.close();
+            sEventiRangeCorso.close();
             sEventi.close();
 
             iEvento.close();
@@ -357,13 +359,13 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
     }
 
     @Override
-    public List<Evento> getEventiRange(Date periodoStart, Date periodoEnd, Corso corso) throws DataException {
+    public List<Evento> getEventiRangeCorso(Date periodoStart, Date periodoEnd, Corso corso) throws DataException {
         List<Evento> result = new ArrayList();
         try {
-            sEventiRange.setInt(1, corso.getKey());
-            sEventiRange.setDate(2, new java.sql.Date(periodoStart.getTime()));
-            sEventiRange.setDate(3, new java.sql.Date(periodoEnd.getTime()));
-            try (ResultSet rs = sEventiRange.executeQuery()) {
+            sEventiRangeCorso.setInt(1, corso.getKey());
+            sEventiRangeCorso.setDate(2, new java.sql.Date(periodoStart.getTime()));
+            sEventiRangeCorso.setDate(3, new java.sql.Date(periodoEnd.getTime()));
+            try (ResultSet rs = sEventiRangeCorso.executeQuery()) {
                 while (rs.next()) {
                     result.add((Evento) getEvento(rs.getInt("id")));
                 }
@@ -659,5 +661,22 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
         }
 
         return e;
+    }
+
+    @Override
+    public List<Evento> getEventiRange(Date periodoStart, Date periodoEnd) throws DataException {
+        List<Evento> result = new ArrayList();
+        try {
+            sEventiRange.setDate(1, new java.sql.Date(periodoStart.getTime()));
+            sEventiRange.setDate(2, new java.sql.Date(periodoEnd.getTime()));
+            try (ResultSet rs = sEventiRange.executeQuery()) {
+                while (rs.next()) {
+                    result.add((Evento) getEvento(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load eventi by range and corso", ex);
+        }
+        return result;
     }
 }

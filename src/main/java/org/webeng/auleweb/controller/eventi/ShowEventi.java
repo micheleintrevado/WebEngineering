@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.webeng.auleweb.application.AulewebBaseController;
 import org.webeng.auleweb.application.AulewebDataLayer;
+import org.webeng.auleweb.data.model.Corso;
 import org.webeng.auleweb.data.model.Evento;
 import org.webeng.auleweb.framework.data.DataException;
 import org.webeng.auleweb.framework.view.TemplateManagerException;
@@ -32,7 +33,9 @@ public class ShowEventi extends AulewebBaseController {
             TemplateResult result = new TemplateResult(getServletContext());
             AulewebDataLayer dataLayer = (AulewebDataLayer) request.getAttribute("datalayer");
             List<Evento> eventi = dataLayer.getEventoDAO().getEventi();
+            List<Corso> corsi = dataLayer.getCorsoDAO().getCorsi();
             request.setAttribute("eventi", eventi);
+            request.setAttribute("corsi", corsi);
             result.activate("eventi/get.ftl", request, response);
         } catch (DataException | TemplateManagerException ex) {
             handleError(ex, request, response);

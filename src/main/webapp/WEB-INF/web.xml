@@ -131,6 +131,20 @@
          <servlet-name>downloadAuleCSV</servlet-name>
          <servlet-class>org.webeng.auleweb.controller.aule.DownloadAuleCSV</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>uploadAuleCsv</servlet-name>
+        <servlet-class>org.webeng.auleweb.controller.aule.UploadAuleCSV</servlet-class>
+        <multipart-config>
+            <!-- temporary files location (DEF: "") -->
+            <!-- <location>/tmp</location>  -->
+            <!-- max size of accepted upload (DEF: unlimited!) -->
+            <max-file-size>20848820</max-file-size>
+            <!-- max size of multipart requests (may contain more files or data) (DEF: ulimited!) -->
+            <max-request-size>418018841</max-request-size>
+            <!-- max size of files to hold in memory (without writing to temporary disk file) (DEF: 0) -->
+            <!-- <file-size-threshold>1048576</file-size-threshold>  -->
+        </multipart-config>
+    </servlet>
     
     <servlet-mapping>
         <servlet-name>getAule</servlet-name>
@@ -147,6 +161,10 @@
     <servlet-mapping>
         <servlet-name>downloadAuleCSV</servlet-name>
         <url-pattern>/download-aule-csv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadAuleCSV</servlet-name>
+        <url-pattern>/upload-aule-csv</url-pattern>
     </servlet-mapping>
     <!-- FINE AULE -->
     

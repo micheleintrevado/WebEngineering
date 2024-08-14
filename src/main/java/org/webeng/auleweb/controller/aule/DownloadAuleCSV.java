@@ -7,19 +7,22 @@ package org.webeng.auleweb.controller.aule;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.webeng.auleweb.application.AulewebBaseController;
 import org.webeng.auleweb.application.AulewebDataLayer;
+import org.webeng.auleweb.data.dao.AdminDAO;
+import org.webeng.auleweb.data.model.Admin;
 import org.webeng.auleweb.data.model.Attrezzatura;
 import org.webeng.auleweb.data.model.Aula;
 import org.webeng.auleweb.data.model.Gruppo;
 import org.webeng.auleweb.framework.data.DataException;
-import org.webeng.auleweb.framework.utils.ServletHelpers;
+import org.webeng.auleweb.framework.security.SecurityHelpers;
 import org.webeng.auleweb.framework.view.StreamResult;
 
 /**
@@ -31,9 +34,25 @@ public class DownloadAuleCSV extends AulewebBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {
-            action_download_aule_csv(request, response);
-        } catch (NumberFormatException ex) {
-            ServletHelpers.handleError("The requested resource is unavailable", request, response, getServletContext());
+            HttpSession s = SecurityHelpers.checkSession(request);
+            String https_redirect_url = SecurityHelpers.checkHttps(request);
+            request.setAttribute("https-redirect", https_redirect_url);
+            if (s == null) {
+                action_anonymous(request, response);
+            } else {
+                int admin_id = (int) s.getAttribute("userid");
+                AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
+                AdminDAO adminDAO = dataLayer.getAdminDAO();
+                //ottengo l'utente tramite la sua id nella sessione
+                Admin admin = adminDAO.getAdmin(admin_id);
+                if (admin != null) {
+                    request.setAttribute("admin", admin);
+                    action_download_aule_csv(request, response);
+                    //response.sendRedirect(request.getContextPath() + "/modifica-responsabile?id_responsabile=" + request.getParameter("id_responsabile"));
+                }
+            }
+        } catch (DataException | IOException ex) {
+            handleError(ex, request, response);
         }
     }
 
@@ -94,6 +113,12 @@ public class DownloadAuleCSV extends AulewebBaseController {
         } catch (IOException ex) {
             handleError(request, response);
         }
+    }
+
+    private void action_anonymous(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String completeRequestURL = request.getRequestURL() + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
+        request.setAttribute("referrer", completeRequestURL);
+        request.getRequestDispatcher("/login").forward(request, response);
     }
 
 }

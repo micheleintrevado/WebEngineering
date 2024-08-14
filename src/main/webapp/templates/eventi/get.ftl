@@ -7,6 +7,15 @@
     <label for="end-range">End Range:</label>
     <input type="date" id="end-range" name="end-range" required><br><br>
 
+    <p><label for="corso">Corso Evento (opzionale):</label>
+        <select name="corso" id="corso">
+            <option value="">-</option>
+            <#list corsi as corso>
+                <option value="${corso.key}">${corso.nome}</option>
+            </#list>
+        </select>
+    </p>
+
     <button type="submit" formaction="download-eventi-csv">Download CSV</button>
     <button type="submit" formaction="download-eventi-ical">Download iCal</button>
 </form>
