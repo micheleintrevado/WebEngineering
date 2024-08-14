@@ -163,7 +163,7 @@
         <url-pattern>/download-aule-csv</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>uploadAuleCSV</servlet-name>
+        <servlet-name>uploadAuleCsv</servlet-name>
         <url-pattern>/upload-aule-csv</url-pattern>
     </servlet-mapping>
     <!-- FINE AULE -->
