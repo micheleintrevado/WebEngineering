@@ -29,11 +29,12 @@
         align-items: center;
         justify-content: space-between;
         padding: 15px 20px;
-        min-height: 82px;
+        -- min-height: 82px;
     }
 
     .attrezzatura-header h2 {
         margin-block-start: auto;
+        text-align-last: center;
         font-size: 1.2em;
         color: #333;
     }
@@ -41,6 +42,7 @@
     .attrezzatura-actions {
         display: flex;
         gap: 10px;
+        justify-content: space-between;
     }
 
     .edit-button,
@@ -49,7 +51,7 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        font-size: 0.9em;
+        font-size: 1.1em;
     }
 
     .edit-button {
@@ -83,9 +85,14 @@
 
     .aule {
         margin-top: 10px;
-        padding: 15px 20px;
+        -- padding: 15px 20px;
+        padding: 0px 20px 10px;
     }
-
+    
+    .aule h3 {
+        opacity: 50%;
+    }
+    
     .aula {
         margin-bottom: 10px;
         padding: 10px;
@@ -121,10 +128,10 @@
         justify-content: center;
         align-items: center;
         padding: 20px;
-        background-color: #f9f9f9;
+        -- background-color: #f9f9f9;
         border-radius: 5px;
         flex: 1;
-        min-height: 100px;
+        -- min-height: 100px;
     }
 
     .no-aule .aula-item {
@@ -145,11 +152,11 @@
                 <h2>${attrezzatura.tipo}</h2>
                 <#if logininfo??>
                     <div class="attrezzatura-actions">
-                        <a class="edit-button" href="modifica-attrezzatura?id_attrezzatura=${attrezzatura.key}">Modifica Attrezzatura</a>
+                        <a class="edit-button" href="modifica-attrezzatura?id_attrezzatura=${attrezzatura.key}">Modifica</a>
                         <form action="modifica-attrezzatura" method="post" class="form-button">
                             <input type="hidden" name="remove" value="removeAttrezzatura" />
                             <input type="hidden" name="id_attrezzatura" value="${attrezzatura.key}" />
-                            <button type="submit" class="remove-button">Rimuovi ${attrezzatura.tipo}</button>
+                            <button type="submit" class="remove-button">Rimuovi</button>
                         </form>
                     </div>
                 </#if>
@@ -160,7 +167,7 @@
                     <h3>Aule associate:</h3>
                     <ul class="aula-list">
                         <#list attrezzatura.aule as aula>
-                            <li class="aula-item">${aula.nome}</li>
+                            <span class="aula-item"> ${aula.nome}<#sep>, </span> 
                         </#list>
                     </ul>
                 </div>

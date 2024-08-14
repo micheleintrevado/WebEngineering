@@ -48,20 +48,25 @@
             margin-bottom: 10px;
         }
 
-        .checkbox-group {
+        .list-item {
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin-bottom: 10px;
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .checkbox-group label {
-            font-weight: normal;
-            color: #555;
+        .list-item a {
+            color: #007BFF;
+            text-decoration: none;
+            margin-left: 10px;
+            font-weight: bold;
         }
 
-        .form-button {
-            display: inline-block;
-            margin-top: 20px;
+        .list-item a:hover {
+            text-decoration: underline;
         }
 
         .save-button {
@@ -74,9 +79,6 @@
             font-size: 16px;
             margin-top: 10px;
             transition: background-color 0.3s;
-            text-align: center;
-            display: inline-block;
-            text-decoration: none;
         }
 
         .save-button:hover {
@@ -97,17 +99,46 @@
         .back-button:hover {
             background-color: #5a6268;
         }
+
+        .add-button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .add-button:hover {
+            background-color: #0056b3;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-group label {
+            font-weight: normal;
+            color: #555;
+        }
     </style>
+</head>
 
 <div class="container">
-    <h1>Aggiungi Responsabile</h1>
+    <h1>Aggiungi Attrezzatura</h1>
 
-    <form action="aggiungi-responsabile" method="post">
-        <label for="nome">Nome</label>
-        <input type="text" id="nome" name="nome" required />
-
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required />
+    <form action="aggiungi-attrezzatura" method="post">
+        
+        <label for="tipo">Tipologia attrezzatura</label>
+        <input type="text" id="tipo" name="tipo" required />
 
         <div class="list-section">
             <h3>Aule da associare</h3>
@@ -121,20 +152,8 @@
             </div>
         </div>
 
-        <div class="list-section">
-            <h3>Eventi da associare</h3>
-            <div class="checkbox-group">
-                <#list Eventi as evento>
-                    <label>
-                        <input type="checkbox" name="eventi" value="${evento.key}" />
-                        ${evento.nome}
-                    </label>
-                </#list>
-            </div>
-        </div>
-
-        <button type="submit" class="save-button">Salva Responsabile</button>
+    <button type="submit" class="save-button">Salva</button>
     </form>
 
-    <a href="responsabili" class="back-button">Torna alla Lista Responsabili</a>
+    <a href="attrezzature" class="back-button">Torna alla Lista Attrezzature</a>
 </div>
