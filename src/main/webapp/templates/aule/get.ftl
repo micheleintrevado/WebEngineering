@@ -4,6 +4,11 @@
     <form action="download-aule-csv" method="get">
         <button type="submit">Download</button>
     </form>
+
+    <form action="upload-aule-csv" method="post" enctype='multipart/form-data'>
+        <p>Carica File di configurazione aule in formato CSV<input type=\"file\" name=\"aule-csv\"/></p>
+        <button type="submit">Download</button>
+    </form>
 </#if>
 
 <hr>
