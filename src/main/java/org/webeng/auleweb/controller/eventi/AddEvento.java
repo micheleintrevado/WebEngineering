@@ -143,10 +143,6 @@ public class AddEvento extends AulewebBaseController {
                                 aula,
                                 corso));
             }
-            //TemplateResult result = new TemplateResult(getServletContext());
-            //AulewebDataLayer dataLayer = (AulewebDataLayer) request.getAttribute("datalayer");
-            //List<Evento> eventi = dataLayer.getEventoDAO().getEventi();
-            //result.activate("eventi/add.ftl", request, response);
             
             response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
         } catch (Exception ex) {

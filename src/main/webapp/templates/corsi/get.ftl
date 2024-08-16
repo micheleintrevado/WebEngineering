@@ -161,11 +161,6 @@
                 <#if logininfo??>
                     <div class="corso-actions">
                         <a class="edit-button" href="modifica-corso?id_corso=${corso.key}">Modifica</a>
-                        <form action="modifica-corso" method="post" class="form-button">
-                            <input type="hidden" name="remove" value="removeCorso" />
-                            <input type="hidden" name="id_corso" value="${corso.key}" />
-                            <button type="submit" class="remove-button">Rimuovi</button>
-                        </form>
                     </div>
                 </#if>
             </div>

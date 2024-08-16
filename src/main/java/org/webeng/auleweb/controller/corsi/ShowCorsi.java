@@ -5,10 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.webeng.auleweb.application.AulewebBaseController;
 import org.webeng.auleweb.application.AulewebDataLayer;
-import org.webeng.auleweb.data.model.Aula;
 import org.webeng.auleweb.data.model.Corso;
 import org.webeng.auleweb.data.model.Evento;
-import org.webeng.auleweb.data.model.Gruppo;
 import org.webeng.auleweb.framework.data.DataException;
 import org.webeng.auleweb.framework.view.TemplateManagerException;
 import org.webeng.auleweb.framework.view.TemplateResult;
@@ -43,6 +41,6 @@ public class ShowCorsi extends AulewebBaseController {
 
     @Override
     public String getServletInfo() {
-        return "Servlet per visualizzare i gruppi";
+        return "Servlet per visualizzare i corsi";
     }
 }

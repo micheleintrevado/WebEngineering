@@ -133,22 +133,21 @@
 </head>
 
 <div class="container">
-    <h1>Aggiungi Gruppo</h1>
+    <h1>Aggiungi Corso</h1>
 
-    <form action="aggiungi-gruppo" method="post">
+    <form action="aggiungi-corso" method="post">
         
-        <label for="nome">Nome del gruppo</label>
+        <label for="nome">Nome del corso</label>
         <input type="text" id="nome" name="nome" required />
-        <label for="descrizione">Descrizione del gruppo</label>
-        <input type="text" id="descrizione" name="descrizione" required />
-
+        
         <div class="list-section">
-            <h3>Aule da associare</h3>
+            <h3>Eventi da associare</h3>
+            <p>NB: Gli eventi selezionati verrano associati a questo nuovo corso e non saranno più associati al corso precedente. </p>
             <div class="checkbox-group">
-                <#list Aule as aula>
+                <#list Eventi as evento>
                     <label>
-                        <input type="checkbox" name="aule" value="${aula.key}" />
-                        ${aula.nome}
+                        <input type="checkbox" name="eventi" value="${evento.key}" />
+                        ${evento.nome}
                     </label>
                 </#list>
             </div>
@@ -157,5 +156,5 @@
     <button type="submit" class="save-button">Salva</button>
     </form>
 
-    <a href="gruppi" class="back-button">Torna alla Lista Gruppi</a>
+    <a href="corsi" class="back-button">Torna alla Lista Corsi</a>
 </div>

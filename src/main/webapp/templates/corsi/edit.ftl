@@ -122,59 +122,51 @@
 </head>
 
 <div class="container">
-    <h1>Modifica Gruppo</h1>
+    <h1>Modifica Corso</h1>
 
-    <form action="modifica-gruppo" method="post">
-        <input type="hidden" name="id_gruppo" value="${gruppo.key}" />
+    <form action="modifica-corso" method="post">
+        <input type="hidden" name="id_corso" value="${corso.key}" />
         
         <label for="nome">Nome</label>
-        <input type="text" id="nome" name="nome" value="${gruppo.nome}" required />
-        <label for="descrizione">Descrizione</label>
-        <input type="text" id="descrizione" name="descrizione" value="${gruppo.descrizione}" required />
-
+        <input type="text" id="nome" name="nome" value="${corso.nome}" required />
+        
         <button type="submit" class="save-button">Salva Modifiche</button>
     </form>
 
     <div class="list-section">
-        <h3>Aule Associate</h3>
-        <#if gruppo.aule?has_content>
-            <#list gruppo.aule as aula>
+        <h3>Eventi Associati</h3>
+        <#if corso.eventi?has_content>
+            <#list corso.eventi as evento>
                 <div class="list-item">
-                    <span>${aula.nome}</span>
-                    <form action="modifica-gruppo" method="post" class="form-button">
-                        <input type="hidden" name="disassocia" value="disassociaAula" />
-                        <input type="hidden" name="id_aula" value="${aula.key}" />
-                        <input type="hidden" name="id_gruppo" value="${gruppo.key}" />
-                        <button type="submit" class="add-button">Rimuovi aula dal gruppo ${gruppo.nome}</button>
-                    </form>
+                    <a href="mostra-evento?id_evento=${evento.key}">${evento.nome}</a>
                 </div>
             </#list>
         <#else>
-            <p>Nessuna aula associata.</p>
+            <p>Nessun evento associato.</p>
         </#if>
     </div>
 
     <div class="list-section">
-        <h3>Aule associate ad altre gruppi</h3>
-        <#assign auleAssociateKeys = gruppo.aule?map(it -> it.key)/>
-        <#if Aule?has_content>
-            <#list Aule as aula>
-                <#if !auleAssociateKeys?seq_contains(aula.key)>
+        <h3>Eventi associati ad altri corsi</h3>
+        <#assign eventiAssociateKeys = corso.eventi?map(it -> it.key)/>
+        <#if Eventi?has_content>
+            <#list Eventi as evento>
+                <#if !eventiAssociateKeys?seq_contains(evento.key)>
                 <div class="list-item">
-                    <span>${aula.nome}</span>
-                    <form action="modifica-gruppo" method="post" class="form-button">
-                        <input type="hidden" name="associa" value="associaAula" />
-                        <input type="hidden" name="id_aula" value="${aula.key}" />
-                        <input type="hidden" name="id_gruppo" value="${gruppo.key}" />
-                        <button type="submit" class="add-button">Aggiungi aula al gruppo ${gruppo.nome}</button>
+                    <span>${evento.nome}</span>
+                    <form action="modifica-corso" method="post" class="form-button">
+                        <input type="hidden" name="associa" value="associaEvento" />
+                        <input type="hidden" name="id_evento" value="${evento.key}" />
+                        <input type="hidden" name="id_corso" value="${corso.key}" />
+                        <button type="submit" class="add-button">Sposta evento al corso ${corso.nome}</button>
                     </form>
                 </div>
                 </#if>
             </#list>
         <#else>
-            <p>Nessun aula disponibile.</p>
+            <p>Nessun evento disponibile.</p>
         </#if>
     </div>
 
-    <a href="gruppi" class="back-button">Torna alla Lista Gruppi</a>
+    <a href="corsi" class="back-button">Torna alla Lista Corsi</a>
 </div>
