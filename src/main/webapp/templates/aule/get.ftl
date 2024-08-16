@@ -1,13 +1,13 @@
-<h2> Download configurazione aule CSV</h2>
-
 <#if logininfo??>
+    <h2>Download configurazione aule CSV</h2>
     <form action="download-aule-csv" method="get">
         <button type="submit">Download</button>
     </form>
 
+    <h2>Upload configurazione aule CSV</h2>
     <form action="upload-aule-csv" method="post" enctype='multipart/form-data'>
-        <p>Carica File di configurazione aule in formato CSV<input type=\"file\" name=\"aule-csv\"/></p>
-        <button type="submit">Download</button>
+        <p>Carica File di configurazione aule in formato CSV<input type="file" name="aule-csv"/></p>
+        <button type="submit">Upload</button>
     </form>
 </#if>
 

@@ -7,7 +7,10 @@ package org.webeng.auleweb.controller.aule;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.ListIterator;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,6 +70,7 @@ public class DownloadAuleCSV extends AulewebBaseController {
             FileWriter fileWriter = new FileWriter(in);
             CSVFormat format = CSVFormat.DEFAULT.builder()
                     .setHeader("ID", "NOME AULA", "LUOGO", "EDIFICIO", "PIANO", "CAPIENZA", "PRESE ELETTRICHE", "PRESE RETE", "NOTE", "ID_RESPONSABILE", "ATTREZZATURE", "GRUPPI")
+                    .setQuote(null)
                     .build();
             try (CSVPrinter csvPrinter = new CSVPrinter(fileWriter, format)) {
                 for (Aula aula : aule) {
@@ -84,25 +88,21 @@ public class DownloadAuleCSV extends AulewebBaseController {
                     List<Attrezzatura> attrezzature = dataLayer.getAttrezzaturaDAO().getAttrezzaturaByAula(aula);
                     List<Gruppo> gruppi = dataLayer.getGruppoDAO().getGruppiByAula(aula);
 
-                    String attrezzatureCSV = "";
-                    if (!attrezzature.isEmpty()) {
-                        attrezzatureCSV = "[";
-                        for (var attr : attrezzature) {
-                            attrezzatureCSV = attrezzatureCSV + attr.getKey().toString() + ",";
-                        }
-                        attrezzatureCSV = attrezzatureCSV.substring(0, attrezzatureCSV.length() - 1) + "]";
+                    List<String> attrKeys = new ArrayList<>();
+                    ListIterator<Attrezzatura> attrIterator = attrezzature.listIterator();
+                    while (attrIterator.hasNext()) {
+                        attrKeys.add(attrIterator.next().getKey().toString());
                     }
 
-                    String gruppiCSV = "";
-                    if (!gruppi.isEmpty()) {
-                        gruppiCSV = "[";
-                        for (var grp : gruppi) {
-                            gruppiCSV = gruppiCSV + grp.getKey().toString() + ",";
-                        }
-                        gruppiCSV = gruppiCSV.substring(0, gruppiCSV.length() - 1) + "]";
+                    List<String> groupKeys = new ArrayList<>();
+                    ListIterator<Gruppo> gruppoIterator = gruppi.listIterator();
+                    while (gruppoIterator.hasNext()) {
+                        attrKeys.add(gruppoIterator.next().getKey().toString());
                     }
 
-                    csvPrinter.printRecord(id, nomeAula, luogo, edificio, piano, capienza, preseElettriche, preseRete, note, responsabile, attrezzatureCSV, gruppiCSV);
+                    csvPrinter.printRecord(id, nomeAula, luogo, edificio, piano, capienza, preseElettriche,
+                            preseRete, note, responsabile, attrKeys,
+                            groupKeys);
                 }
                 csvPrinter.flush();
                 csvPrinter.close();
