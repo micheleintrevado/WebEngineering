@@ -44,9 +44,13 @@ public class AddEvento extends AulewebBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO: CHECK LOGIN DI ADMIN/RESPONSABILE
         if (request.getMethod().equals("POST")) {
-            aggiungi_evento(request, response);
+            if (request.getAttribute("eventiWarning") != null || request.getAttribute("eventoWarning") != null) {
+                warning_eventi(request, response);
+            } else {
+                aggiungi_evento(request, response);
+                response.sendRedirect(request.getContextPath() + "/aggiungi-evento");
+            }
         } else {
             try {
                 HttpSession s = SecurityHelpers.checkSession(request);
@@ -77,27 +81,30 @@ public class AddEvento extends AulewebBaseController {
             Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabile(Integer.valueOf(request.getParameter("id_responsabile")));
             Aula aula = dataLayer.getAulaDAO().getAula(Integer.valueOf(request.getParameter("id_aula")));
             Corso corso = dataLayer.getCorsoDAO().getCorso(Integer.valueOf(request.getParameter("id_corso")));
+            Date giorno = Date.valueOf(request.getParameter("giorno"));
+            Time orarioInizio = Time.valueOf(request.getParameter("orario_inizio") + ":00");
+            Time orarioFine = Time.valueOf(request.getParameter("orario_fine") + ":00");
+            List<Evento> eventiWarning = new ArrayList();
 
             if (!request.getParameter("fine_ricorrenza").equals("") && !request.getParameter("id_master").equals("")) {
                 // aggiunta di un evento con ricorrenza
                 var dataFineRicorrenza = Date.valueOf(request.getParameter("fine_ricorrenza"));
                 var dataInizioEvento = Date.valueOf(request.getParameter("giorno"));
-                
+
                 Ricorrenza r = new RicorrenzaImpl(
                         TipoRicorrenza.valueOf(request.getParameter("id_master")),
                         dataFineRicorrenza);
                 dataLayer.getRicorrenzaDAO().storeRicorrenza(r);
                 // ESTRARRE L'ID DELLA RICORRENZA APPENA INSERITA
                 Ricorrenza ricorrenza = dataLayer.getRicorrenzaDAO().getRicorrenza(r.getKey());
-                
+
                 // gestione delle singole istanze dell'evento da creare con ricorrenza
-                
                 //aggiungo a lista le date convertite in localDate, itero e infine aggiungo uno a uno
                 List<LocalDate> dateIstanzeEvento = new ArrayList<>();
                 // inizializzo l'indice dell'evento alla data di inizio dell'evento
                 LocalDate cursor = dataInizioEvento.toLocalDate();
-                
-                while (cursor.isBefore(dataFineRicorrenza.toLocalDate())){
+
+                while (cursor.isBefore(dataFineRicorrenza.toLocalDate())) {
                     switch (request.getParameter("id_master")) {
                         case "giornaliera" -> {
                             dateIstanzeEvento.add(cursor);
@@ -115,40 +122,54 @@ public class AddEvento extends AulewebBaseController {
                         }
                     }
                 }
-                
+
                 for (LocalDate data : dateIstanzeEvento) {
-                    dataLayer.getEventoDAO().storeEvento(new EventoImpl(request.getParameter("nome"),
-                                Date.valueOf(data),
-                                Time.valueOf(request.getParameter("orario_inizio") + ":00"),
-                                Time.valueOf(request.getParameter("orario_fine") + ":00"),
-                                request.getParameter("descrizione"),
-                                TipoEvento.valueOf(request.getParameter("tipologia")),
-                                responsabile,
-                                ricorrenza,
-                                aula,
-                                corso)
-                    );
+                    Evento eventoRicorrente = new EventoImpl(request.getParameter("nome"),
+                            Date.valueOf(data),
+                            orarioInizio,
+                            orarioFine,
+                            request.getParameter("descrizione"),
+                            TipoEvento.valueOf(request.getParameter("tipologia")),
+                            responsabile,
+                            ricorrenza,
+                            aula,
+                            corso);
+                    if (dataLayer.getEventoDAO().getEventoByAulaGiornoOrario(aula, Date.valueOf(data), orarioInizio, orarioFine) != null) {
+                        eventiWarning.add(eventoRicorrente);
+                        request.setAttribute("eventiWarning", eventiWarning);
+                    } else {
+                        dataLayer.getEventoDAO().storeEvento(eventoRicorrente);
+                    }
                 }
             } else {
                 // aggiunta di un evento non ricorrente
-                dataLayer.getEventoDAO().storeEvento(
-                        new EventoImpl(request.getParameter("nome"),
-                                Date.valueOf(request.getParameter("giorno")),
-                                Time.valueOf(request.getParameter("orario_inizio") + ":00"),
-                                Time.valueOf(request.getParameter("orario_fine") + ":00"),
-                                request.getParameter("descrizione"),
-                                TipoEvento.valueOf(request.getParameter("tipologia")),
-                                responsabile,
-                                null,
-                                aula,
-                                corso));
+                if (dataLayer.getEventoDAO().getEventoByAulaGiornoOrario(aula, giorno, orarioInizio, orarioFine) != null) {
+                    request.setAttribute("eventoWarning", true);
+                } else {
+                    Evento evento = new EventoImpl(request.getParameter("nome"),
+                            giorno,
+                            orarioInizio,
+                            orarioFine,
+                            request.getParameter("descrizione"),
+                            TipoEvento.valueOf(request.getParameter("tipologia")),
+                            responsabile,
+                            null,
+                            aula,
+                            corso);
+                    dataLayer.getEventoDAO().storeEvento(evento);
+                }
             }
-            
+
             response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
         } catch (Exception ex) {
             ex.printStackTrace();
             //handleError(ex, request, response);
         }
+    }
+
+    private void warning_eventi(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, DataException {
+        TemplateResult result = new TemplateResult(getServletContext());
+        result.activate("eventi/add.ftl", request, response);
     }
 
     private void action_logged(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, DataException {

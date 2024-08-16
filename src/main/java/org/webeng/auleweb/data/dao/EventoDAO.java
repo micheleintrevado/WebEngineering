@@ -44,6 +44,9 @@ public interface EventoDAO {
     // Evento associati ad una specifica aula in un determinato giorno e orario
     Evento getEventiSovrapposti(Evento evento, Aula aula, Date giorno, Time OrarioInizio, Time OrarioFine) throws DataException;
 
+    // Evento già presente in una specifica aula in un determinato giorno e orario
+    Evento getEventoByAulaGiornoOrario(Aula aula, Date giorno, Time orarioInizio, Time orarioFine) throws DataException;
+
     // Eventi associati ad una specifica aula nella settimana che parte dal giorno indicato
     List<Evento> getEventiSettimana(Aula aula, Date settimana) throws DataException;
 
@@ -61,7 +64,7 @@ public interface EventoDAO {
 
     // Lista di eventi per un corso in un determinato periodo in formato CSV/iCalendar
     List<Evento> getEventiRangeCorso(Date periodoStart, Date periodoEnd, Corso corso) throws DataException;
-    
+
     // Lista di eventi in un determinato periodo in formato CSV/iCalendar
     List<Evento> getEventiRange(Date periodoStart, Date periodoEnd) throws DataException;
 

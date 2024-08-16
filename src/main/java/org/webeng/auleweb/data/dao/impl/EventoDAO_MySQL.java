@@ -42,7 +42,7 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
 
     private PreparedStatement sEventoByID, sEventiByAula, sEventiByResponsabile, sEventiByCorso,
             sEventiByRicorrenza, sEventiByGiorno, sEventiByAulaAndGiorno, sEventiSovrapposti,
-            sEventiBySettimanaAula, sEventiBySettimanaCorso,
+            sEventoByAulaGiornoOrario, sEventiBySettimanaAula, sEventiBySettimanaCorso,
             sEventiAttuali, sEventiProssimi;
 
     private PreparedStatement sEventiRangeCorso;
@@ -69,7 +69,8 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
             sEventiByGiorno = connection.prepareStatement("SELECT id FROM evento WHERE evento.giorno = ?"); // GIORNO = '2024-05-14'
             sEventiByAulaAndGiorno = connection.prepareStatement("SELECT id FROM evento WHERE evento.id_aula = ? AND evento.giorno = ?"); // GIORNO = '2024-05-14'
             sEventiSovrapposti = connection.prepareStatement("SELECT * FROM evento WHERE id <> ? AND id_aula = ? AND giorno = ? AND ((orario_inizio < ? AND orario_fine > ?))");
-
+            sEventoByAulaGiornoOrario = connection.prepareStatement("SELECT * FROM evento WHERE id_aula = ? AND giorno = ? AND ((orario_inizio < ? AND orario_fine > ?))");
+            
             sEventiBySettimanaAula = connection.prepareStatement("SELECT id FROM evento WHERE evento.id_aula = ? and evento.giorno BETWEEN ? AND date_add(?, interval 1 week)");
             sEventiBySettimanaCorso = connection.prepareStatement("SELECT id FROM evento WHERE evento.id_corso = ? and evento.giorno BETWEEN ? AND date_add(?, interval 1 week)");
             sEventiAttuali = connection.prepareStatement("SELECT id FROM evento WHERE giorno = date(now()) AND time(now()) BETWEEN orario_inizio AND orario_fine");
@@ -117,6 +118,8 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
             sEventiBySettimanaCorso.close();
             sEventiAttuali.close();
             sEventiProssimi.close();
+            sEventiSovrapposti.close();
+            sEventoByAulaGiornoOrario.close();
 
             sEventiRangeCorso.close();
             sEventi.close();
@@ -679,4 +682,24 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
         }
         return result;
     }
+
+    @Override
+    public Evento getEventoByAulaGiornoOrario(Aula aula, Date giorno, Time orarioInizio, Time orarioFine) throws DataException {
+Evento e = null;
+        try {
+            sEventoByAulaGiornoOrario.setInt(1,aula.getKey());
+            sEventoByAulaGiornoOrario.setDate(2, new java.sql.Date(giorno.getTime()));
+            sEventoByAulaGiornoOrario.setTime(3, orarioFine);
+            sEventoByAulaGiornoOrario.setTime(4,orarioInizio);
+            try (ResultSet rs = sEventoByAulaGiornoOrario.executeQuery()) {
+                if (rs.next()) {
+                    e = createEvento(rs);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load eventi sovrapposti", ex);
+
+        }
+
+        return e;    }
 }

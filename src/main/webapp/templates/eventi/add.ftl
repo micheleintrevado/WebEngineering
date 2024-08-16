@@ -1,5 +1,14 @@
-<body>
     <div>
+    <#-- Verifica se ci sono eventi di avvertimento e mostra un alert -->
+    <#if eventoWarning??>
+        <p class="alert">C'è già un evento nell'aula e nel giorno indicati!</p>
+    </#if>
+
+    <#if eventiWarning??>
+        <#list eventiWarning as ev>
+            <p class="alert">Evento NON inserito: ${ev.nome} ${ev.giorno}</p>
+        </#list>
+    </#if>
         <form method="post" action="aggiungi-evento">
             <div>
                 <h1>Add Event</h1>
@@ -49,4 +58,3 @@
             </div>
         </form>
     </div>
-</body>
