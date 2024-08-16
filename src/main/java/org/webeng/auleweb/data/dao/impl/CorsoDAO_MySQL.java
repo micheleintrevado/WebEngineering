@@ -81,8 +81,9 @@ public class CorsoDAO_MySQL extends DAO implements CorsoDAO{
         try {
             c.setKey(rs.getInt("id"));
             c.setNome(rs.getString("nome"));
+            c.setVersion(rs.getInt("version"));
         } catch (SQLException e) {
-            throw new DataException("Unable to create Attrezzatura object form ResultSet", e);
+            throw new DataException("Unable to create Corso object form ResultSet", e);
         }
         return c;
     }

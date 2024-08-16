@@ -1,4 +1,8 @@
-package org.webeng.auleweb.controller.gruppi;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.webeng.auleweb.controller.corsi;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,26 +16,27 @@ import org.webeng.auleweb.application.AulewebBaseController;
 import org.webeng.auleweb.application.AulewebDataLayer;
 import org.webeng.auleweb.data.dao.AdminDAO;
 import org.webeng.auleweb.data.model.Admin;
-import org.webeng.auleweb.data.model.Gruppo;
-import org.webeng.auleweb.data.model.Aula;
-import org.webeng.auleweb.data.model.impl.GruppoImpl;
+import org.webeng.auleweb.data.model.Corso;
+import org.webeng.auleweb.data.model.Evento;
+import org.webeng.auleweb.data.model.impl.CorsoImpl;
 import org.webeng.auleweb.framework.data.DataException;
 import org.webeng.auleweb.framework.security.SecurityHelpers;
 import org.webeng.auleweb.framework.view.TemplateManagerException;
 import org.webeng.auleweb.framework.view.TemplateResult;
 
+
 /**
  *
  * @author enric
  */
-public class AddGruppo extends AulewebBaseController {
+public class AddCorso extends AulewebBaseController {
 
     public static final String REFERRER = "referrer";
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (request.getMethod().equals("POST")) {
-            aggiungi_gruppo(request, response);
+            aggiungi_corso(request, response);
         } else {
             try {
                 HttpSession s = SecurityHelpers.checkSession(request);
@@ -56,26 +61,25 @@ public class AddGruppo extends AulewebBaseController {
         }
     }
 
-    private void aggiungi_gruppo(HttpServletRequest request, HttpServletResponse response) {
+    private void aggiungi_corso(HttpServletRequest request, HttpServletResponse response) {
         try {
             AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
 
-            List<Aula> aule = new ArrayList<>();
-            for (var aula : request.getParameterValues("aule")) {
-                aule.add(dataLayer.getAulaDAO().getAula(Integer.valueOf(aula)));
+            List<Evento> eventi = new ArrayList<>();
+            for (var evento : request.getParameterValues("eventi")) {
+                eventi.add(dataLayer.getEventoDAO().getEvento(Integer.valueOf(evento)));
             }
 
-            Gruppo g = new GruppoImpl(
+            Corso corso = new CorsoImpl(
                     request.getParameter("nome"),
-                    request.getParameter("descrizione"),
-                    aule);
+                    eventi);
 
-            dataLayer.getGruppoDAO().storeGruppo(g);
-            for (Aula aula : aule) {
-                dataLayer.getGruppoDAO().assignGruppo(g, aula);
+            dataLayer.getCorsoDAO().storeCorso(corso);
+            for (Evento evento : eventi) {
+                dataLayer.getEventoDAO().assignCorso(evento, corso);
             }
 
-            response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "gruppi"));
+            response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "corsi"));
         } catch (Exception ex) {
             ex.printStackTrace();
             //handleError(ex, request, response);
@@ -85,11 +89,11 @@ public class AddGruppo extends AulewebBaseController {
     private void action_logged(HttpServletRequest request, HttpServletResponse response) throws DataException, TemplateManagerException {
         TemplateResult result = new TemplateResult(getServletContext());
         AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
-        List<Aula> aule = dataLayer.getAulaDAO().getAule();
+        List<Evento> eventi = dataLayer.getEventoDAO().getEventi();
 
-        request.setAttribute("Aule", aule);
+        request.setAttribute("Eventi", eventi);
 
-        result.activate("gruppi/add.ftl", request, response);
+        result.activate("corsi/add.ftl", request, response);
     }
 
     private void action_anonymous(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

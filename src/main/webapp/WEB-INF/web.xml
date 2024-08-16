@@ -170,6 +170,34 @@
     
     <!-- RESPONSABILI -->
     <servlet>
+        <servlet-name>getCorsi</servlet-name>
+        <servlet-class>org.webeng.auleweb.controller.corsi.ShowCorsi</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>addCorso</servlet-name>
+        <servlet-class>org.webeng.auleweb.controller.corsi.AddCorso</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>editCorso</servlet-name>
+        <servlet-class>org.webeng.auleweb.controller.corsi.EditCorso</servlet-class>
+    </servlet>
+    
+     <servlet-mapping>
+        <servlet-name>getCorsi</servlet-name>
+        <url-pattern>/corsi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addCorso</servlet-name>
+        <url-pattern>/aggiungi-corso</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editCorso</servlet-name>
+        <url-pattern>/modifica-corso</url-pattern>
+    </servlet-mapping>
+    <!-- FINE CORSI -->
+    
+    <!-- RESPONSABILI -->
+    <servlet>
         <servlet-name>getResponsabili</servlet-name>
         <servlet-class>org.webeng.auleweb.controller.responsabili.ShowResponsabili</servlet-class>
     </servlet>

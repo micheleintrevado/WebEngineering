@@ -1,9 +1,7 @@
-package org.webeng.auleweb.controller.gruppi;
+package org.webeng.auleweb.controller.corsi;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,9 +10,8 @@ import org.webeng.auleweb.application.AulewebBaseController;
 import org.webeng.auleweb.application.AulewebDataLayer;
 import org.webeng.auleweb.data.dao.AdminDAO;
 import org.webeng.auleweb.data.model.Admin;
-import org.webeng.auleweb.data.model.Gruppo;
-import org.webeng.auleweb.data.model.Aula;
-import org.webeng.auleweb.data.model.impl.GruppoImpl;
+import org.webeng.auleweb.data.model.Evento;
+import org.webeng.auleweb.data.model.Corso;
 import org.webeng.auleweb.framework.data.DataException;
 import org.webeng.auleweb.framework.security.SecurityHelpers;
 import org.webeng.auleweb.framework.view.TemplateManagerException;
@@ -24,14 +21,15 @@ import org.webeng.auleweb.framework.view.TemplateResult;
  *
  * @author enric
  */
-public class AddGruppo extends AulewebBaseController {
+public class EditCorso extends AulewebBaseController {
 
     public static final String REFERRER = "referrer";
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (request.getMethod().equals("POST")) {
-            aggiungi_gruppo(request, response);
+                modifica_corso(request, response);
+                response.sendRedirect(request.getContextPath() + "/modifica-corso?id_corso=" + request.getParameter("id_corso"));
         } else {
             try {
                 HttpSession s = SecurityHelpers.checkSession(request);
@@ -56,43 +54,41 @@ public class AddGruppo extends AulewebBaseController {
         }
     }
 
-    private void aggiungi_gruppo(HttpServletRequest request, HttpServletResponse response) {
+    private void modifica_corso(HttpServletRequest request, HttpServletResponse response) {
         try {
             AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
-
-            List<Aula> aule = new ArrayList<>();
-            for (var aula : request.getParameterValues("aule")) {
-                aule.add(dataLayer.getAulaDAO().getAula(Integer.valueOf(aula)));
+            Corso corsoDaModificare = dataLayer.getCorsoDAO().getCorso(Integer.valueOf(request.getParameter("id_corso")));
+            if (request.getParameter("nome") != null) {
+                corsoDaModificare.setNome(request.getParameter("nome"));
+                dataLayer.getCorsoDAO().storeCorso(corsoDaModificare);
+            } else if (request.getParameter("associa") != null && request.getParameter("associa").equals("associaEvento")) {
+                Evento eventoToAssign = dataLayer.getEventoDAO().getEvento(Integer.valueOf(request.getParameter("id_evento")));
+                eventoToAssign.setCorso(corsoDaModificare);
+                dataLayer.getEventoDAO().storeEvento(eventoToAssign);
             }
-
-            Gruppo g = new GruppoImpl(
-                    request.getParameter("nome"),
-                    request.getParameter("descrizione"),
-                    aule);
-
-            dataLayer.getGruppoDAO().storeGruppo(g);
-            for (Aula aula : aule) {
-                dataLayer.getGruppoDAO().assignGruppo(g, aula);
-            }
-
-            response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "gruppi"));
         } catch (Exception ex) {
-            ex.printStackTrace();
-            //handleError(ex, request, response);
+            handleError(request, response);
         }
     }
 
-    private void action_logged(HttpServletRequest request, HttpServletResponse response) throws DataException, TemplateManagerException {
+    private void action_logged(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, DataException {
         TemplateResult result = new TemplateResult(getServletContext());
-        AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
-        List<Aula> aule = dataLayer.getAulaDAO().getAule();
-
-        request.setAttribute("Aule", aule);
-
-        result.activate("gruppi/add.ftl", request, response);
+        loadCorsoData(request, response);
+        result.activate("corsi/edit.ftl", request, response);
     }
 
-    private void action_anonymous(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void loadCorsoData(HttpServletRequest request, HttpServletResponse response) throws DataException {
+        AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
+        Corso corsoDaModificare = dataLayer.getCorsoDAO().getCorso(Integer.valueOf(request.getParameter("id_corso")));
+        List<Evento> eventi = dataLayer.getEventoDAO().getEventi();
+
+        List<Evento> eventiCorso = dataLayer.getEventoDAO().getEventiByCorso(corsoDaModificare);
+        request.setAttribute("eventiCorso", eventiCorso);
+        request.setAttribute("corso", corsoDaModificare);
+        request.setAttribute("Eventi", eventi);
+    }
+
+    private void action_anonymous(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String completeRequestURL = request.getRequestURL() + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
         request.setAttribute("referrer", completeRequestURL);
         request.getRequestDispatcher("/login").forward(request, response);

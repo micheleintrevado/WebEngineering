@@ -27,11 +27,12 @@ public interface GruppoDAO {
 
     void storeGruppo(Gruppo gruppo) throws DataException;
     
-    // TODO
     // Assegna un gruppo ad una specifica aula
     void assignGruppo(Gruppo gruppo, Aula aula) throws DataException;
     
     void deleteGruppo(Gruppo g) throws DataException;
     
     void deleteGruppiAula(Aula a) throws DataException;
+
+    public void deleteGruppoByAula(Aula aulaToAssign, Gruppo gruppoDaModificare) throws DataException;
 }

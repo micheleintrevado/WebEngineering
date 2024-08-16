@@ -36,7 +36,7 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
     
     private PreparedStatement uGruppo;
 
-    private PreparedStatement dGruppoAula;
+    private PreparedStatement dGruppoAula, dGruppoByAula;
     private PreparedStatement dGruppo;
 
     public GruppoDAO_MySQL(DataLayer d) {
@@ -58,7 +58,7 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
             
             dGruppoAula = connection.prepareStatement("delete from aula_gruppo where id_aula = ?;");
             dGruppo = connection.prepareStatement("delete from gruppo where id = ?");
-
+            dGruppoByAula = connection.prepareStatement("delete from aula_gruppo where id_aula = ? AND id_gruppo = ?;");
         } catch (SQLException ex) {
             throw new DataException("Error initializing attrezzatura data layer", ex);
         }
@@ -177,10 +177,10 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
                 long current_version = gruppo.getVersion();
                 long next_version = current_version + 1;
 
-                uGruppo.setLong(10, next_version);
+                uGruppo.setLong(3, next_version);
                 // WHERE ID = ? AND VERSION = ?
-                uGruppo.setInt(11, gruppo.getKey());
-                uGruppo.setLong(12, current_version);
+                uGruppo.setInt(4, gruppo.getKey());
+                uGruppo.setLong(5, current_version);
 
                 if (uGruppo.executeUpdate() == 0) {
                     throw new OptimisticLockException(gruppo);
@@ -206,7 +206,7 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
             if (gruppo instanceof DataItemProxy) {
                 ((DataItemProxy) gruppo).setModified(false);
             }
-        } catch (SQLException ex/*| OptimisticLockException ex*/) {
+        } catch (SQLException | OptimisticLockException ex) {
             throw new DataException("Unable to store gruppo", ex);
         }
     }
@@ -239,6 +239,17 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
             dGruppoAula.executeUpdate();
         } catch (SQLException ex) {
             throw new DataException("Unable to delete grupo", ex);
+        }
+    }
+
+    @Override
+    public void deleteGruppoByAula(Aula aulaToDeassign, Gruppo gruppoDaModificare) throws DataException {
+        try {
+            dGruppoByAula.setInt(1, aulaToDeassign.getKey());
+            dGruppoByAula.setInt(2, gruppoDaModificare.getKey());
+            dGruppoByAula.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataException("Unable to delete Gruppo for the given Aula", ex);
         }
     }
 
