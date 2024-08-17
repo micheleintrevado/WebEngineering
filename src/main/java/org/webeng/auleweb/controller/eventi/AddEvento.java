@@ -45,10 +45,10 @@ public class AddEvento extends AulewebBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (request.getMethod().equals("POST")) {
+            aggiungi_evento(request, response);
             if (request.getAttribute("eventiWarning") != null || request.getAttribute("eventoWarning") != null) {
                 warning_eventi(request, response);
             } else {
-                aggiungi_evento(request, response);
                 response.sendRedirect(request.getContextPath() + "/aggiungi-evento");
             }
         } else {
@@ -144,7 +144,7 @@ public class AddEvento extends AulewebBaseController {
             } else {
                 // aggiunta di un evento non ricorrente
                 if (dataLayer.getEventoDAO().getEventoByAulaGiornoOrario(aula, giorno, orarioInizio, orarioFine) != null) {
-                    request.setAttribute("eventoWarning", true);
+                    request.setAttribute("eventoWarning", aula);
                 } else {
                     Evento evento = new EventoImpl(request.getParameter("nome"),
                             giorno,
@@ -160,7 +160,7 @@ public class AddEvento extends AulewebBaseController {
                 }
             }
 
-            response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
+            // response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
         } catch (Exception ex) {
             ex.printStackTrace();
             //handleError(ex, request, response);
@@ -169,24 +169,13 @@ public class AddEvento extends AulewebBaseController {
 
     private void warning_eventi(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, DataException {
         TemplateResult result = new TemplateResult(getServletContext());
+        loadEventoData(request, response);
         result.activate("eventi/add.ftl", request, response);
     }
 
     private void action_logged(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, DataException {
         TemplateResult result = new TemplateResult(getServletContext());
-        List<Evento> eventi = ((AulewebDataLayer) request.getAttribute("datalayer")).getEventoDAO().getEventi();
-        List<TipoEvento> tipologieEvento = new ArrayList<>(Arrays.asList(TipoEvento.values()));
-        List<Responsabile> responsabili = ((AulewebDataLayer) request.getAttribute("datalayer")).getResponsabileDAO().getResponsabili();
-        List<Aula> aule = ((AulewebDataLayer) request.getAttribute("datalayer")).getAulaDAO().getAule();
-        List<Corso> corsi = ((AulewebDataLayer) request.getAttribute("datalayer")).getCorsoDAO().getCorsi();
-        List<TipoRicorrenza> tipiRicorrenza = new ArrayList<>(Arrays.asList(TipoRicorrenza.values()));
-
-        // request.setAttribute("eventi", Objects.requireNonNullElse(eventi, ""));
-        request.setAttribute("tipologiaEvento", tipologieEvento);
-        request.setAttribute("Responsabili", responsabili);
-        request.setAttribute("Aule", aule);
-        request.setAttribute("Corsi", corsi);
-        request.setAttribute("TipiRicorrenza", tipiRicorrenza);
+        loadEventoData(request, response);
         result.activate("eventi/add.ftl", request, response);
     }
 
@@ -194,6 +183,21 @@ public class AddEvento extends AulewebBaseController {
         String completeRequestURL = request.getRequestURL() + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
         request.setAttribute("referrer", completeRequestURL);
         request.getRequestDispatcher("/login").forward(request, response);
+    }
+    
+    private void loadEventoData(HttpServletRequest request, HttpServletResponse response) throws DataException {
+        AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
+        List<TipoEvento> tipologieEvento = new ArrayList<>(Arrays.asList(TipoEvento.values()));
+        List<Responsabile> responsabili = dataLayer.getResponsabileDAO().getResponsabili();
+        List<Aula> aule = dataLayer.getAulaDAO().getAule();
+        List<Corso> corsi = dataLayer.getCorsoDAO().getCorsi();
+        List<TipoRicorrenza> tipiRicorrenza = new ArrayList<>(Arrays.asList(TipoRicorrenza.values()));
+
+        request.setAttribute("tipologiaEvento", tipologieEvento);
+        request.setAttribute("Responsabili", responsabili);
+        request.setAttribute("Aule", aule);
+        request.setAttribute("Corsi", corsi);
+        request.setAttribute("TipiRicorrenza", tipiRicorrenza);
     }
 
     @Override
