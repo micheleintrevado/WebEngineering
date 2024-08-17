@@ -25,7 +25,7 @@
 <ul>
     <#list eventi as evento>
     <li>
-        <b>${evento.nome}</b>
+        <a href="info-evento?id_evento=${evento.key}">${evento.nome}</a>
         <br/><em>by ${evento.responsabile.nome} ${evento.responsabile.email}</em>
         <br/><small>
         <#if evento.aula??>
