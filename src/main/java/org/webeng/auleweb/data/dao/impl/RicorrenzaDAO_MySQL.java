@@ -39,7 +39,7 @@ public class RicorrenzaDAO_MySQL extends DAO implements RicorrenzaDAO {
         try {
             super.init();
             sRicorrenzaById = connection.prepareStatement("select * from ricorrenza where id =?");
-            sRicorrenzaByEvento = connection.prepareStatement("SELECT id_master from evento where evento.id = ?;");
+            sRicorrenzaByEvento = connection.prepareStatement("SELECT * FROM ricorrenza WHERE id=?");
 
             iRicorrenza = connection.prepareStatement("insert into ricorrenza (`tipo`,`data_termine`) values (?,?);", Statement.RETURN_GENERATED_KEYS);
 
@@ -98,11 +98,13 @@ public class RicorrenzaDAO_MySQL extends DAO implements RicorrenzaDAO {
     public Ricorrenza getRicorrenzaByEvento(Evento evento) throws DataException {
         Ricorrenza r = null;
         try {
-            sRicorrenzaByEvento.setInt(1, evento.getKey());
-            try (ResultSet rs = sRicorrenzaByEvento.executeQuery()) {
-                if (rs.next()) {
-                    r = createRicorrenza(rs);
-                    dataLayer.getCache().add(Ricorrenza.class, r);
+            if (evento.getRicorrenza() != null) {
+                sRicorrenzaByEvento.setInt(1, evento.getRicorrenza().getKey());
+                try (ResultSet rs = sRicorrenzaByEvento.executeQuery()) {
+                    if (rs.next()) {
+                        r = createRicorrenza(rs);
+                        dataLayer.getCache().add(Ricorrenza.class, r);
+                    }
                 }
             }
         } catch (SQLException ex) {
@@ -134,9 +136,9 @@ public class RicorrenzaDAO_MySQL extends DAO implements RicorrenzaDAO {
                     ((DataItemProxy) ricorrenza).setModified(false);
                 }
             }
-            }catch (SQLException ex) {
+        } catch (SQLException ex) {
             throw new DataException("Unable to store ricorrenza", ex);
         }
-        }
-
     }
+
+}

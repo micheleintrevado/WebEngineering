@@ -1,3 +1,12 @@
+<style>
+    a {
+        text-decoration: none;
+    }
+    
+    a:hover {
+        text-decoration: none; 
+    }
+</style>
 <#if logininfo??>
     <h2>Download configurazione aule CSV</h2>
     <form action="download-aule-csv" method="get">

@@ -92,16 +92,41 @@
         </ul>
     </div>
 
+    
     <div class="events-section">
         <h2>Eventi Associati</h2>
         <ul class="events-list">
+            <#-- displayedEvents memorizza i nomi degli eventi già inseriti -->
+            <#assign displayedEvents = [] />
+
             <#list eventi as evento>
-                <li>
-                    <strong>${evento.nome}</strong>
-                    <p class="event-date-time">${evento.giorno?string["dd/MM/yyyy"]} - ${evento.orarioInizio?string["HH:mm"]} to ${evento.orarioFine?string["HH:mm"]}</p>
-                    <p>${evento.descrizione}</p>
-                </li>
+                <#-- Verifica se questo evento è stato già inserito nella lista di supporto -->
+                <#if !(displayedEvents?seq_contains(evento.nome))>
+                    <#assign displayedEvents = displayedEvents + [evento.nome] />
+
+                    <#-- Conta le occorrenze di questo evento -->
+                    <#assign count = 0 />
+                    <#list eventi as tempEvento>
+                        <#if tempEvento.nome == evento.nome>
+                            <#assign count = count + 1 />
+                        </#if>
+                    </#list>
+
+                    <li>
+                        <a href="info-evento?id_evento=${evento.key}"><strong>${evento.nome}</strong></a>
+                        <p class="event-date-time">
+                            ${evento.giorno?string["dd/MM/yyyy"]} - 
+                            ${evento.orarioInizio?string["HH:mm"]} to 
+                            ${evento.orarioFine?string["HH:mm"]}
+                        </p>
+                        <p>${evento.descrizione}</p>
+                        <#if (count > 1)>
+                            <p>L'evento si ripete altre ${count - 1} volte in giorni diversi.</p>
+                        </#if>
+                    </li>
+                </#if>
             </#list>
         </ul>
+        </div>
     </div>
 </div>

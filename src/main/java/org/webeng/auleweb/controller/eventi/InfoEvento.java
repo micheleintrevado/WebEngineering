@@ -4,6 +4,7 @@
  */
 package org.webeng.auleweb.controller.eventi;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.webeng.auleweb.application.AulewebBaseController;
@@ -21,11 +22,12 @@ import org.webeng.auleweb.framework.view.TemplateResult;
  *
  * @author miche
  */
-public class InfoEvento extends AulewebBaseController{
+public class InfoEvento extends AulewebBaseController {
+
     public static final String REFERRER = "referrer";
 
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response){
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
         action_default(request, response);
     }
 
@@ -33,19 +35,24 @@ public class InfoEvento extends AulewebBaseController{
         try {
             TemplateResult result = new TemplateResult(getServletContext());
             AulewebDataLayer dataLayer = (AulewebDataLayer) request.getAttribute("datalayer");
-            
-            Evento evento = dataLayer.getEventoDAO().getEvento(Integer.valueOf(request.getParameter("id_evento")));
-            
-            request.setAttribute("evento", evento);
 
+            Evento evento = dataLayer.getEventoDAO().getEvento(Integer.valueOf(request.getParameter("id_evento")));
+            Ricorrenza ricorrenza = dataLayer.getRicorrenzaDAO().getRicorrenzaByEvento(evento);
+            if (ricorrenza != null) {
+                evento.setRicorrenza(ricorrenza);
+                List<Evento> eventiRicorrenti = dataLayer.getEventoDAO().getEventiRicorrenti(ricorrenza);
+                eventiRicorrenti.remove(evento);
+                request.setAttribute("eventiRicorrenti", eventiRicorrenti);
+            }
+            request.setAttribute("evento", evento);
             result.activate("eventi/info.ftl", request, response);
         } catch (DataException | TemplateManagerException ex) {
             handleError(ex, request, response);
         }
     }
-    
+
     @Override
     public String getServletInfo() {
         return "Servlet per visualizzare di un evento";
-    } 
+    }
 }
