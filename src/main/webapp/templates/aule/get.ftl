@@ -18,7 +18,7 @@
 <ul>
     <#list aule as aula>
     <li>
-        <b>${aula.nome}</b>
+        <b><a href="info-aula?id_aula=${aula.key}">${aula.nome}</a></b>
         <br/><em>at luogo: ${aula.luogo} Edificio: ${aula.edificio} Piano: ${aula.piano}</em>
         <br/><small>
         </small>

@@ -120,6 +120,10 @@
         <servlet-class>org.webeng.auleweb.controller.aule.ShowAule</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>infoAula</servlet-name>
+        <servlet-class>org.webeng.auleweb.controller.aule.InfoAula</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>addAula</servlet-name>
         <servlet-class>org.webeng.auleweb.controller.aule.AddAula</servlet-class>
     </servlet>
@@ -149,6 +153,10 @@
     <servlet-mapping>
         <servlet-name>getAule</servlet-name>
         <url-pattern>/aule</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>infoAula</servlet-name>
+        <url-pattern>/info-aula</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>addAula</servlet-name>
