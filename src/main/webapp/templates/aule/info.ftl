@@ -78,7 +78,7 @@
         <h2>Attrezzature</h2>
         <ul class="equipments-list">
             <#list aula.attrezzature as attrezzatura>
-                <li>${attrezzatura.nome}</li>
+                <li>${attrezzatura.tipo}</li>
             </#list>
         </ul>
     </div>

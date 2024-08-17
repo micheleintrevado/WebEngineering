@@ -83,6 +83,14 @@
         .edit-button:hover {
             background-color: #218838;
         }
+
+        a {
+            text-decoration: none;
+        }
+    
+        a:hover {
+            text-decoration: none; /* Sottolinea al passaggio del mouse */
+        }
     </style>
 
 <#-- Itera su ogni responsabile nella lista -->
@@ -101,7 +109,7 @@
                 <h3>Aule associate:</h3>
                 <ul class="aula-list">
                     <#list responsabile.aule as aula>
-                        <li class="aula-item">${aula.nome}</li>
+                        <li class="aula-item"><a href="info-aula?id_aula?=${aula.key}">${aula.nome}</a></li>
                     </#list>
                 </ul>
             </div>
@@ -111,8 +119,9 @@
             <div class="eventi">
                 <h3>Eventi Associati:</h3>
                 <#list responsabile.eventi as evento>
-                    <div class="evento">
-                        <h3>${evento.nome}</h3>
+                    
+                    <div class="evento"> 
+                        <a href="info-evento?id_evento=${evento.key}"><h3>${evento.nome}</h3></a>
                         <p><strong>Data:</strong> ${evento.giorno}</p>
                         <p><strong>Aula:</strong> ${evento.aula.nome}</p>
                         <p><strong>Descrizione:</strong> ${evento.descrizione}</p>

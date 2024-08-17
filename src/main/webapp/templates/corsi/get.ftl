@@ -171,7 +171,7 @@
                     <ul class="evento-list">
                         <#list corso.eventi as evento>
                             <li class="evento-item"> 
-                                <a href="eventi">${evento.nome} (${evento.aula.nome})</a>
+                                <a href="info-evento?id_evento=${evento.key}">${evento.nome} (${evento.aula.nome})</a>
                             </li> 
                         </#list>
                     </ul>
