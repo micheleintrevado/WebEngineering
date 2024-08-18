@@ -27,6 +27,7 @@ public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO {
     private PreparedStatement sAttrezzaturaById;
     private PreparedStatement sAttrezzaturaAll;
     private PreparedStatement sAttrezzaturaByAula;
+    private PreparedStatement sAttrezzaturaBySearch;
 
     private PreparedStatement iAttrezzatura;
     private PreparedStatement iAssignAttrezzatura;
@@ -47,6 +48,7 @@ public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO {
             sAttrezzaturaById = connection.prepareStatement("select * from attrezzatura where id = ?");
             sAttrezzaturaAll = connection.prepareStatement("select * from attrezzatura");
             sAttrezzaturaByAula = connection.prepareStatement("SELECT attrezzatura.id, attrezzatura.tipo FROM attrezzatura join aula_attrezzatura on attrezzatura.id = aula_attrezzatura.id_attrezzatura where aula_attrezzatura.id_aula = ?;");
+            sAttrezzaturaBySearch = connection.prepareStatement("SELECT * FROM webeng.attrezzatura where tipo like ?");
 
             iAttrezzatura = connection.prepareStatement("insert into webeng.attrezzatura(`tipo`) values (?);", Statement.RETURN_GENERATED_KEYS);
             iAssignAttrezzatura = connection.prepareStatement("insert into webeng.aula_attrezzatura(`id_aula`,`id_attrezzatura`) values (?,?);");
@@ -232,5 +234,23 @@ public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO {
         } catch (SQLException ex) {
             throw new DataException("Unable to delete attrezzatura for the given Aula", ex);
         }
+    }
+
+    @Override
+    public List<Attrezzatura> getAttrezzatureBySearch(String keyword) throws DataException {
+        List<Attrezzatura> attrezzature = new ArrayList<>();
+        try {
+            sAttrezzaturaBySearch.setString(1, keyword + "%");
+        } catch (SQLException ex) {
+            Logger.getLogger(AttrezzaturaDAO_MySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try (ResultSet rs = sAttrezzaturaBySearch.executeQuery()) {
+            while (rs.next()) {
+                attrezzature.add(getAttrezzatura(rs.getInt("id")));
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load attrezzature filtered by aula", ex);
+        }
+        return attrezzature;
     }
 }

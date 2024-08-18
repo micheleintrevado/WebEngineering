@@ -30,6 +30,7 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
     private PreparedStatement sGruppoAll;
     private PreparedStatement sGruppiByAula;
     private PreparedStatement sUnassignedGruppi;
+    private PreparedStatement sGruppiBySearch;    
 
     private PreparedStatement iGruppo;
     private PreparedStatement assignGruppoAula;
@@ -50,6 +51,7 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
             sGruppoByID = connection.prepareStatement("select * from gruppo where id = ?");
             sGruppiByAula = connection.prepareStatement("select gruppo.id, gruppo.nome, gruppo.descrizione from gruppo join aula_gruppo on gruppo.id = aula_gruppo.id_gruppo where aula_gruppo.id_aula = ?;");
             sUnassignedGruppi = connection.prepareStatement("select * from gruppo as g left join aula_gruppo as ag on g.id = ag.id_gruppo where ag.id_aula is null");
+            sGruppiBySearch = connection.prepareStatement("SELECT * FROM webeng.gruppo where nome like ?");
 
             iGruppo = connection.prepareStatement("insert into webeng.gruppo(`nome`,`descrizione`) values (?,?)", Statement.RETURN_GENERATED_KEYS);
             assignGruppoAula = connection.prepareStatement("insert into webeng.aula_gruppo(`id_gruppo`,`id_aula`) values (?,?);");
@@ -251,6 +253,22 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
         } catch (SQLException ex) {
             throw new DataException("Unable to delete Gruppo for the given Aula", ex);
         }
+    }
+
+    @Override
+    public List<Gruppo> getGruppiBySearch(String keyword) throws DataException {
+        List<Gruppo> result = new ArrayList();
+        try {
+            sGruppiBySearch.setString(1, keyword + "%");
+            try (ResultSet rs = sGruppiBySearch.executeQuery()) {
+                while (rs.next()) {
+                    result.add((Gruppo) getGruppo(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load gruppi filtered by aula", ex);
+        }
+        return result;
     }
 
 }

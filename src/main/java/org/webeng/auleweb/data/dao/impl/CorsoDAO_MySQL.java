@@ -24,6 +24,7 @@ public class CorsoDAO_MySQL extends DAO implements CorsoDAO{
 
     private PreparedStatement sCorsoByID;
     private PreparedStatement sCorsiAll;
+    private PreparedStatement sCorsiBySearch;
     
     private PreparedStatement iCorso;
     
@@ -43,6 +44,7 @@ public class CorsoDAO_MySQL extends DAO implements CorsoDAO{
             
             sCorsoByID = connection.prepareStatement("select * from corso where id = ?");
             sCorsiAll = connection.prepareStatement("select * from corso");
+            sCorsiBySearch = connection.prepareStatement("SELECT * FROM webeng.corso where nome like ?");
 
             iCorso = connection.prepareStatement("insert into corso (`nome`) values (?)", Statement.RETURN_GENERATED_KEYS);
             
@@ -171,6 +173,23 @@ public class CorsoDAO_MySQL extends DAO implements CorsoDAO{
         } catch (SQLException ex) {
             throw new DataException("Unable to delete Corso", ex);
         }
+    }
+
+    @Override
+    public List<Corso> getCorsiBySearch(String keyword) throws DataException {
+        List<Corso> corsi = new ArrayList<>();
+        try{
+            sCorsoByID.setString(1, keyword + "%");
+            try(ResultSet rs = sCorsoByID.executeQuery()){
+                while (rs.next()){
+                    corso = createCorso(rs);
+                    dataLayer.getCache().add(Corso.class, c);
+                }
+            }
+        }catch(SQLException ex){
+            throw new DataException("Unable to load Corso by id",ex);
+        }
+        return corsi;
     }
     
 }
