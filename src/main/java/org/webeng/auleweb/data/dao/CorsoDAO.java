@@ -24,4 +24,6 @@ public interface CorsoDAO {
     void storeCorso(Corso corso) throws DataException;
     
     void deleteCorso(Corso c) throws DataException;
+
+    public List<Corso> getCorsiBySearch(String keyword) throws DataException;
 }

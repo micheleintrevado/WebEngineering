@@ -39,4 +39,6 @@ public interface AttrezzaturaDAO {
     void deleteAttrezzatureAula(Aula a) throws DataException;
 
     void deleteAttrezzaturaByAula(Aula aula, Attrezzatura attrezzatura) throws DataException;
+
+    public List<Attrezzatura> getAttrezzatureBySearch(String keyword) throws DataException;
 }

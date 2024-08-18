@@ -31,4 +31,6 @@ public interface ResponsabileDAO {
     // Inserimento e aggiornamento responsabile in DB
     void storeResponsabile(Responsabile responsabile) throws DataException;    
 
+    public List<Responsabile> getResponsabiliBySearch(String keyword) throws DataException;
+
 }

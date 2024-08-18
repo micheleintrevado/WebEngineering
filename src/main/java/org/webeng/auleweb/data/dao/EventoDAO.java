@@ -91,4 +91,6 @@ public interface EventoDAO {
     // Elimino tutti gli eventi ricorrenti a partire da quello indicato
     void deleteEventiRicorrenti(Evento evento) throws DataException;
 
+    public List<Evento> getEventiBySearch(String keyword) throws DataException;
+
 }

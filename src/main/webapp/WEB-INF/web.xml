@@ -69,6 +69,25 @@
         <servlet-name>public</servlet-name>
         <servlet-class>org.webeng.auleweb.controller.PublicController</servlet-class>
     </servlet>
+    
+    <!-- RICERCA -->
+    <servlet>
+        <servlet-name>ricerca</servlet-name>
+        <servlet-class>org.webeng.auleweb.controller.ricerca.Search</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>risultatiRicerca</servlet-name>
+        <servlet-class>org.webeng.auleweb.controller.ricerca.SearchResults</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ricerca</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>risultatiRicerca</servlet-name>
+        <url-pattern>/search-results</url-pattern>
+    </servlet-mapping>
+    <!-- FINE RICERCA -->
     <!-- EVENTI -->
     <servlet>
         <servlet-name>getEventi</servlet-name>
@@ -140,8 +159,8 @@
         <servlet-class>org.webeng.auleweb.controller.aule.EditAula</servlet-class>
     </servlet>
     <servlet>
-         <servlet-name>downloadAuleCSV</servlet-name>
-         <servlet-class>org.webeng.auleweb.controller.aule.DownloadAuleCSV</servlet-class>
+        <servlet-name>downloadAuleCSV</servlet-name>
+        <servlet-class>org.webeng.auleweb.controller.aule.DownloadAuleCSV</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>uploadAuleCsv</servlet-name>
@@ -198,7 +217,7 @@
         <servlet-class>org.webeng.auleweb.controller.corsi.EditCorso</servlet-class>
     </servlet>
     
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>getCorsi</servlet-name>
         <url-pattern>/corsi</url-pattern>
     </servlet-mapping>
@@ -226,7 +245,7 @@
         <servlet-class>org.webeng.auleweb.controller.responsabili.EditResponsabile</servlet-class>
     </servlet>
     
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>getResponsabili</servlet-name>
         <url-pattern>/responsabili</url-pattern>
     </servlet-mapping>
@@ -254,7 +273,7 @@
         <servlet-class>org.webeng.auleweb.controller.attrezzature.EditAttrezzatura</servlet-class>
     </servlet>
     
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>getAttrezzature</servlet-name>
         <url-pattern>/attrezzature</url-pattern>
     </servlet-mapping>
@@ -282,7 +301,7 @@
         <servlet-class>org.webeng.auleweb.controller.gruppi.EditGruppo</servlet-class>
     </servlet>
     
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>getGruppi</servlet-name>
         <url-pattern>/gruppi</url-pattern>
     </servlet-mapping>

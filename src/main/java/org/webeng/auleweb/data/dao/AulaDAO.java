@@ -49,4 +49,6 @@ public interface AulaDAO {
     // Lista di aule dato un responsabile 
     List<Aula> getAuleByAttrezzatura(Attrezzatura a) throws DataException;
 
+    public List<Aula> getAuleBySearch(String keyword) throws DataException;
+
 }

@@ -35,4 +35,6 @@ public interface GruppoDAO {
     void deleteGruppiAula(Aula a) throws DataException;
 
     public void deleteGruppoByAula(Aula aulaToAssign, Gruppo gruppoDaModificare) throws DataException;
+
+    public List<Gruppo> getGruppiBySearch(String keyword)throws DataException;
 }
