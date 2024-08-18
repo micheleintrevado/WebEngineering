@@ -28,7 +28,7 @@ public class ResponsabileDAO_MySQL extends DAO implements ResponsabileDAO {
 
     private PreparedStatement sResponsabileByID, sResponsabileByEvento;
 
-    private PreparedStatement sResponsabili, sUnassignedResponsabili;
+    private PreparedStatement sResponsabili, sUnassignedResponsabili, sResponsabileByKeyword;
 
     private PreparedStatement iResponsabile, uResponsabile, dResponsabile;
 
@@ -45,7 +45,7 @@ public class ResponsabileDAO_MySQL extends DAO implements ResponsabileDAO {
 
             sResponsabili = connection.prepareStatement("SELECT id FROM responsabile");
             sUnassignedResponsabili = connection.prepareStatement("SELECT responsabile.id FROM responsabile LEFT JOIN evento ON evento.id_responsabile = responsabile.id WHERE evento.id_responsabile IS NULL");
-
+            sResponsabileByKeyword = connection.prepareStatement("SELECT * FROM responsabile where nome like ?;");
             iResponsabile = connection.prepareStatement("INSERT INTO responsabile(`nome`, `email`) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             uResponsabile = connection.prepareStatement("UPDATE responsabile set nome=?, email=?, version=? WHERE id=? and version=?");
             dResponsabile = connection.prepareStatement("DELETE FROM responsabile WHERE id=?");
@@ -201,6 +201,23 @@ public class ResponsabileDAO_MySQL extends DAO implements ResponsabileDAO {
             throw new DataException("Unable to load unassigned responsabili", ex);
         }
         return result;
+    }
+
+    @Override
+    public List<Responsabile> getResponsabiliBySearch(String keyword) throws DataException {
+        List<Responsabile> result = new ArrayList();
+        try {
+            sResponsabileByKeyword.setString(1, keyword+"%");
+            try (ResultSet rs = sResponsabileByKeyword.executeQuery()) {
+                while (rs.next()) {
+                    result.add((Responsabile) getResponsabile(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load responsabili by keyword", ex);
+        }
+        return result;
+
     }
 
 }

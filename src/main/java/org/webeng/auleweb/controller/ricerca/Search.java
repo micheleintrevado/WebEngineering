@@ -35,7 +35,7 @@ public class Search extends AulewebBaseController {
             AulewebDataLayer dataLayer = (AulewebDataLayer) request.getAttribute("datalayer");
             request.setAttribute(REFERRER, request.getParameter(REFERRER));
             String keyword = request.getParameter("keyword");
-            if (keyword != null) {
+            if (keyword != null && !keyword.equals("")) {
                 List<Responsabile> responsabili = dataLayer.getResponsabileDAO().getResponsabiliBySearch(keyword);
                 List<Aula> aule = dataLayer.getAulaDAO().getAuleBySearch(keyword);
                 List<Evento> eventi = dataLayer.getEventoDAO().getEventiBySearch(keyword);
@@ -50,9 +50,9 @@ public class Search extends AulewebBaseController {
                 request.setAttribute("corsi", corsi);
                 request.setAttribute("gruppi", gruppi);
                 request.setAttribute("attrezzature", attrezzature);
-                result.activate("search/search.ftl", request, response);
-            } else {
-                response.sendRedirect("/homepage");
+                result.activate("ricerca/search.ftl", request, response);
+            } else { 
+                response.sendRedirect("homepage");
             }
         } catch (DataException | TemplateManagerException | IOException ex) {
             handleError(ex, request, response);

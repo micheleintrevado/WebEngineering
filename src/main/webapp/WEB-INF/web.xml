@@ -75,18 +75,12 @@
         <servlet-name>ricerca</servlet-name>
         <servlet-class>org.webeng.auleweb.controller.ricerca.Search</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>risultatiRicerca</servlet-name>
-        <servlet-class>org.webeng.auleweb.controller.ricerca.SearchResults</servlet-class>
-    </servlet>
+    
     <servlet-mapping>
         <servlet-name>ricerca</servlet-name>
         <url-pattern>/search</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>risultatiRicerca</servlet-name>
-        <url-pattern>/search-results</url-pattern>
-    </servlet-mapping>
+    
     <!-- FINE RICERCA -->
     <!-- EVENTI -->
     <servlet>

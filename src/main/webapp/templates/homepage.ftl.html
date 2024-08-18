@@ -1,39 +1,224 @@
+<style>
+    .search-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    .search-bar {
+        margin-bottom: 20px;
+    }
+    .search-bar input[type="text"] {
+        width: 80%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    .search-bar input[type="submit"] {
+        padding: 10px 20px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .search-bar input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+    .keyword {
+        font-weight: bold;
+        color: #007bff;
+        margin-top: 10px;
+        display: block;
+    }
+    .results {
+        margin-top: 20px;
+    }
+    .results > div {
+        margin-bottom: 20px;
+    }
+    .result-category {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .result-item {
+        margin-left: 20px;
+        list-style-type: square;
+    }
+    .tab-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    .tabs {
+        display: flex;
+        border-bottom: 2px solid #ccc;
+    }
+    .tab {
+        padding: 10px 20px;
+        cursor: pointer;
+        font-weight: bold;
+        color: #007bff;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        border-radius: 8px 8px 0 0;
+        background-color: #f9f9f9;
+        margin-right: 5px;
+    }
+    .tab.active {
+        background-color: #fff;
+        color: #333;
+        border-bottom: 2px solid #fff;
+    }
+    .tab-content {
+        padding: 20px;
+        display: none;
+    }
+    .tab-content.active {
+        display: block;
+    }
+    /* Stile per la griglia scorrevole */
+    .scroll-container {
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+        padding: 10px 0;
+    }
+    .event-card {
+        min-width: 200px;
+        padding: 15px;
+        background-color: #f1f1f1;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .event-card h4 {
+        margin-bottom: 10px;
+        font-size: 16px;
+        color: #333;
+    }
+    .event-card p {
+        font-size: 14px;
+        color: #666;
+    }
+</style>
 
+<div class="search-container">
+    <!-- Barra di Ricerca -->
+    <div class="search-bar">
+        <form action="search" method="get">
+            <input type="text" name="keyword" placeholder="Inserisci la parola chiave..." value="">
+            <input type="submit" value="Cerca">
+        </form>
+    </div>
+</div>
 
-<#if logininfo??>
-<h2>Welcome back, ${logininfo.username} </h2>
-<p>You IP address is: ${logininfo.ip} </p>
-<p>Your connection started on: ${logininfo.sessionStartTs.format('dd/MM/yyyy HH:mm:ss')}</p>
-<p>Now you can access both</p>
-<ul>
-    <li>the <a href='secured'>secured page</a></li>
-    <li>the <a href='eventi'>Lista eventi page</a></li>
-    <li>the <a href='aule'>Lista aule page</a></li>
-    <li>the <a href='corsi'>Lista corsi page</a></li>
-    <li>the <a href='responsabili'>Lista responsabili page</a></li>
-    <li>the <a href='attrezzature'>Lista attrezzature page</a></li>
-    <li>the <a href='gruppi'>Lista gruppi page</a></li>
-    <li>the <a href='aggiungi-evento'>Aggiungi Evento page</a></li>
-    <li>the <a href='aggiungi-aula'>Aggiungi Aula Page</a></li>
-    <li>the <a href='aggiungi-corso'>Aggiungi Corso Page</a></li>
-    <li>the <a href='aggiungi-responsabile'>Aggiungi Responsabile Page</a></li>
-    <li>the <a href='aggiungi-attrezzatura'>Aggiungi Attrezzatura Page</a></li>
-    <li>the <a href='aggiungi-gruppo'>Aggiungi Gruppo Page</a></li>
-    <li>the <a href='public'>public page</a></li>
-</ul>
+<div class="tab-container">
+    <!-- Tab Navigation -->
+    <div class="tabs">
+        <div class="tab" onclick="openTab(event, 'eventi')">Eventi</div>
+        <div class="tab" onclick="openTab(event, 'aule')">Aule</div>
+        <div class="tab" onclick="openTab(event, 'gruppi')">Gruppi</div>
+        <div class="tab active" onclick="openTab(event, 'generale')">Generale</div>
+        <#if logininfo??> 
+        <div class="tab" onclick="openTab(event, 'aggiungi_elementi')">Aggiungi elementi</div> 
+        </#if>
+    </div>
 
-<#else>
-<h2>Welcome, anonymous user</h2>
-<p>You can try to access</p>
-<ul>
-    <li>the <a href='secured'>secured page</a></li>
-    <li>the <a href='eventi'>Lista eventi page</a></li>
-    <li>the <a href='aule'>Lista aule page</a></li>
-    <li>the <a href='corsi'>Lista corso page</a></li>
-    <li>the <a href='responsabili'>Lista responsabili page</a></li>
-    <li>the <a href='attrezzature'>Lista attrezzature page</a></li>
-    <li>the <a href='gruppi'>Lista gruppi page</a></li>
-    <li>the <a href='public'>public page</a></li>
-</ul>
+    <!-- Tab Content -->
+    <div id="generale" class="tab-content active">
+        <p>Benvenuto nella sezione generale. Qui puoi accedere a tutte le funzionalità disponibili.</p>
+        <ul>
+            <li><a href='aule'>Visualizza lista Aule</a></li>
+            <li><a href='eventi'>Visualizza lista Eventi</a></li>
+            <li><a href='corsi'>Visualizza lista Corsi</a></li>
+            <li><a href='responsabili'>Visualizza lista Responsabili</a></li>
+            <li><a href='gruppi'>Visualizza lista Gruppi</a></li>
+            <li><a href='attrezzature'>Visualizza lista Attrezzature</a></li>
+            <li><a href='filtro'>Visualizza Pagina per filtrare</a></li>
+        </ul>
+    </div>
 
-</#if>
+    <div id="aule" class="tab-content">
+        <p>Questa è la sezione Aule.</p>
+        <ul>
+            <li><a href='aule'>Visualizza lista Aule</a></li>
+            <#if logininfo??>
+            <li><a href='aggiungi-aula'>Aggiungi Aula</a></li>
+            </#if>
+        </ul>
+    </div>
+
+    <div id="eventi" class="tab-content">
+        <p>Questa è la sezione Eventi.</p>
+        <ul>
+            <li><a href='eventi'>Visualizza lista Eventi</a></li>
+            <#if logininfo??>
+            <li><a href='aggiungi-evento'>Aggiungi Evento</a></li>
+            </#if>
+            <#if eventiAttuali??>
+            <h3>Eventi correnti</h3>
+            <div class="scroll-container">
+                <#list eventiAttuali as eventoAttuale>
+                <div class="event-card">
+                    <h4>${eventoAttuale.nome}</h4>
+                    <p>${eventoAttuale.orarioInizio?string["HH:mm"]} - ${eventoAttuale.orarioFine?string["HH:mm"]}</p>
+                </div>
+                </#list>
+            </div>
+            </#if>
+        </ul>
+    </div>
+
+    <div id="aggiungi_elementi" class="tab-content">
+        <p>Questa è la sezione riservata agli amministratori per aggiungere nuove informazioni.</p>
+        <#if logininfo??>
+        <ul>
+            <li><a href='aggiungi-evento'>Aggiungi Evento</a></li>
+            <li><a href='aggiungi-aula'>Aggiungi Aula</a></li>
+            <li><a href='aggiungi-corso'>Aggiungi Corso</a></li>
+            <li><a href='aggiungi-responsabile'>Aggiungi Responsabile</a></li>
+            <li><a href='aggiungi-gruppo'>Aggiungi Gruppo</a></li>
+            <li><a href='aggiungi-attrezzatura'>Aggiungi Attrezzatura</a></li>
+        </ul>
+        </#if>
+    </div>
+
+    <div id="gruppi" class="tab-content">
+        <p>Questa è la sezione Gruppi.</p>
+        <ul>
+            <li><a href='gruppi'>Visualizza lista Gruppi</a></li>
+            <#if logininfo??>
+            <li><a href='aggiungi-gruppo'>Aggiungi Gruppo</a></li>
+            </#if>
+        </ul>
+    </div>
+
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+
+        // Nascondi tutti i contenuti delle tab
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Rimuovi la classe 'active' da tutte le tab
+        tablinks = document.getElementsByClassName("tab");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Mostra la tab corrente e aggiungi la classe 'active'
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+</script>

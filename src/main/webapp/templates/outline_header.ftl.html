@@ -1,8 +1,8 @@
- <h1>Sample Application</h1>
+ <h1>AuleWeb</h1>
 <#if logininfo??>
-Logged as:  ${logininfo.username} (<a href="logout?referrer=${thispageurl?url}">logout</a>)
+Autenticato come:  ${logininfo.username} (<a href="logout?referrer=${thispageurl?url}">logout</a>)
 <#else>
-<em>Not logged in</em> (<a href="login?referrer=${thispageurl?url}">login</a>)
+<em>Login non effettuato</em> (<a href="login?referrer=${thispageurl?url}">login</a>)
 </#if>
-<p><a href="homepage">Go to homepage</a></p></body>
+<p><a href="homepage">Torna alla homepage</a></p></body>
 <hr/>
