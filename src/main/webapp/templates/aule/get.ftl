@@ -37,7 +37,8 @@
 </ul>
 </#if>
 
-<h2> Modifica aula </h2>
+    <#if loginInfo??>
+    <h2> Modifica aula </h2>
     <form method="GET" action="modifica-aula">
         <label for="id_aula">Aula: </label>
             <select name="id_aula" id="id_aula">
@@ -50,3 +51,4 @@
         <button type="submit" value="">Modifica Aula</button>
     </div>
     </form>
+    </#if>

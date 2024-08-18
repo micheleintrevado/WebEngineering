@@ -166,18 +166,20 @@
         </#list>
     </div>
 
-    <h2>Modifica evento</h2>
-    <form method="GET" action="modifica-evento">
-        <label for="id_evento">Evento</label>
-        <select name="id_evento" id="id_evento">
-            <option value="">Seleziona un evento</option>                 
-            <#list eventi as evento>
-                <option value="${evento.key}">${evento.nome} <#if evento.ricorrenza??> - ${evento.giorno}</#if></option>
-            </#list>
-        </select>
+        <#if logininfo??>
+        <h2>Modifica evento</h2>
+        <form method="GET" action="modifica-evento">
+            <label for="id_evento">Evento</label>
+            <select name="id_evento" id="id_evento">
+                <option value="">Seleziona un evento</option>                 
+                <#list eventi as evento>
+                    <option value="${evento.key}">${evento.nome} <#if evento.ricorrenza??> - ${evento.giorno}</#if></option>
+                </#list>
+            </select>
 
-        <div class="form-button-container">
-            <button type="submit">Modifica Evento</button>
-        </div>
-    </form>
+            <div class="form-button-container">
+                <button type="submit">Modifica Evento</button>
+            </div>
+        </form>
+        </#if>
     </#if>
