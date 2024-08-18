@@ -166,13 +166,26 @@
             </div>
 
             <#if corso.eventi?has_content>
+            <#assign displayedEvents = [] />
                 <div class="eventi">
                     <h3>Eventi associati:</h3>
                     <ul class="evento-list">
                         <#list corso.eventi as evento>
-                            <li class="evento-item"> 
-                                <a href="info-evento?id_evento=${evento.key}">${evento.nome} (${evento.aula.nome})</a>
-                            </li> 
+                            <#if !(displayedEvents?seq_contains(evento.nome))>
+                                <#assign displayedEvents = displayedEvents + [evento.nome] />
+                                <#assign count = 0 />
+                                <#list corso.eventi as tempEvento>
+                                    <#if tempEvento.nome == evento.nome> 
+                                        <#assign count = count + 1 />
+                                    </#if>
+                                </#list>
+                                <li class="evento-item"> 
+                                    <a href="info-evento?id_evento=${evento.key}">${evento.nome} (${evento.aula.nome})</a>
+                                </li>
+                                <#if (count > 1)>
+                                    <p class="event-repetition">L'evento si ripete altre ${count - 1} volte in giorni diversi.</p>
+                                </#if> 
+                            </#if>
                         </#list>
                     </ul>
                 </div>
