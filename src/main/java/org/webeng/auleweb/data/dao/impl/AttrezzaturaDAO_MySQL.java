@@ -249,7 +249,7 @@ public class AttrezzaturaDAO_MySQL extends DAO implements AttrezzaturaDAO {
                 attrezzature.add(getAttrezzatura(rs.getInt("id")));
             }
         } catch (SQLException ex) {
-            throw new DataException("Unable to load attrezzature filtered by aula", ex);
+            throw new DataException("Unable to load attrezzature filtered by search", ex);
         }
         return attrezzature;
     }

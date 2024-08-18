@@ -266,7 +266,7 @@ public class GruppoDAO_MySQL extends DAO implements GruppoDAO {
                 }
             }
         } catch (SQLException ex) {
-            throw new DataException("Unable to load gruppi filtered by aula", ex);
+            throw new DataException("Unable to load gruppi filtered by search", ex);
         }
         return result;
     }

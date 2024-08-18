@@ -179,15 +179,14 @@ public class CorsoDAO_MySQL extends DAO implements CorsoDAO{
     public List<Corso> getCorsiBySearch(String keyword) throws DataException {
         List<Corso> corsi = new ArrayList<>();
         try{
-            sCorsoByID.setString(1, keyword + "%");
-            try(ResultSet rs = sCorsoByID.executeQuery()){
-                while (rs.next()){
-                    corso = createCorso(rs);
-                    dataLayer.getCache().add(Corso.class, c);
+            sCorsiBySearch.setString(1, keyword + "%");
+            try(ResultSet rs = sCorsiBySearch.executeQuery()){
+                while (rs.next()) {
+                    corsi.add(getCorso(rs.getInt("id")));
                 }
             }
         }catch(SQLException ex){
-            throw new DataException("Unable to load Corso by id",ex);
+            throw new DataException("Unable to load Corso by Search",ex);
         }
         return corsi;
     }

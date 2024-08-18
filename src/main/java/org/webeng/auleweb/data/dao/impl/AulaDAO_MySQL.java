@@ -29,7 +29,7 @@ import org.webeng.auleweb.framework.data.OptimisticLockException;
  */
 public class AulaDAO_MySQL extends DAO implements AulaDAO {
 
-    private PreparedStatement sAulaByID, sAulaByEvento, sAuleByResponsabile, sAuleByGruppo, sAuleByAttrezzatura, sAuleNoGruppo;
+    private PreparedStatement sAulaByID, sAulaByEvento, sAuleByResponsabile, sAuleByGruppo, sAuleByAttrezzatura, sAuleNoGruppo, sAuleBySearch;
 
     private PreparedStatement sAule, sUnassignedAule;
 
@@ -49,6 +49,7 @@ public class AulaDAO_MySQL extends DAO implements AulaDAO {
             sAuleByGruppo = connection.prepareStatement("SELECT aula.id FROM aula JOIN aula_gruppo ag ON ag.id_aula = aula.ID WHERE ag.id_gruppo = ?");
             sAuleByAttrezzatura = connection.prepareStatement("SELECT aula.id FROM aula JOIN aula_attrezzatura a_at on a_at.id_aula = aula.ID WHERE a_at.id_attrezzatura = ?");
             sAuleNoGruppo = connection.prepareStatement("SELECT aula.id FROM aula LEFT JOIN aula_gruppo ON aula.id = aula_gruppo.id_aula WHERE aula_gruppo.id_gruppo IS NULL;");
+            sAuleBySearch = connection.prepareStatement("SELECT * FROM webeng.aula where nome like ? or luogo like ? or edificio like ?");
 
             sAule = connection.prepareStatement("SELECT id FROM aula");
             sUnassignedAule = connection.prepareStatement("SELECT aula.id FROM aula LEFT JOIN evento ON evento.id_aula = aula.id WHERE evento.id_aula IS NULL");
@@ -303,6 +304,24 @@ public class AulaDAO_MySQL extends DAO implements AulaDAO {
             }
         } catch (SQLException ex) {
             throw new DataException("Unable to load aule by attrezzatura", ex);
+        }
+        return result;
+    }
+
+    @Override
+    public List<Aula> getAuleBySearch(String keyword) throws DataException {
+        List<Aula> result = new ArrayList();
+        try {
+            sAuleBySearch.setString(1, keyword + "%");
+            sAuleBySearch.setString(2, keyword + "%");
+            sAuleBySearch.setString(3, keyword + "%");
+            try (ResultSet rs = sAuleBySearch.executeQuery()) {
+                while (rs.next()) {
+                    result.add((Aula) getAula(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load aule by search", ex);
         }
         return result;
     }
