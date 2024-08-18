@@ -25,8 +25,8 @@ import org.webeng.auleweb.data.model.Admin;
  * @author Ingegneria del Web
  * @version
  */
-public class LoginController extends AulewebBaseController {
-
+public class LoginController extends AulewebBaseController { 
+    
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("referrer", request.getParameter("referrer"));
@@ -51,13 +51,17 @@ public class LoginController extends AulewebBaseController {
                         //if an origin URL has been transmitted, return to it
                         if (request.getParameter("referrer") != null) {
                             response.sendRedirect(request.getParameter("referrer"));
+                        } else {
+                            response.sendRedirect("homepage");
                         }
-                        /*else {
-                        response.sendRedirect("homepage");
-                    }*/
-                        return;
-                    } 
+                        //return;
+                    } else {
+                        //caso in cui l'username è corretto ma non la password
+                        request.setAttribute("credenzialiSbagliate", true);
+                        action_default(request, response);
+                    }
                 } else {
+                    // caso in cui sono sbagliati sia username che password
                     request.setAttribute("credenzialiSbagliate", true);
                     action_default(request, response);
                 }
@@ -70,7 +74,6 @@ public class LoginController extends AulewebBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         if (request.getParameter("login") != null) {
             action_login(request, response);
         } else {
@@ -78,7 +81,6 @@ public class LoginController extends AulewebBaseController {
             request.setAttribute("https-redirect", https_redirect_url);
             action_default(request, response);
         }
-
     }
 
 }
