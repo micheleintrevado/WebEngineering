@@ -19,10 +19,11 @@ import org.webeng.auleweb.framework.view.TemplateManagerException;
 import org.webeng.auleweb.framework.view.TemplateResult;
 
 /**
- * 
+ *
  * @author enric
  */
 public class ShowGruppi extends AulewebBaseController {
+
     public static final String REFERRER = "referrer";
 
     @Override
@@ -35,7 +36,7 @@ public class ShowGruppi extends AulewebBaseController {
             action_default(request, response);
         }
     }
-    
+
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
@@ -46,7 +47,7 @@ public class ShowGruppi extends AulewebBaseController {
                 gruppo.setAule(aule);
             }
             List<Corso> corsi = dataLayer.getCorsoDAO().getCorsi();
-            
+
             request.setAttribute("gruppi", gruppi);
             request.setAttribute("corsi", corsi);
             result.activate("gruppi/get.ftl", request, response);
@@ -55,8 +56,8 @@ public class ShowGruppi extends AulewebBaseController {
         }
     }
 
-    private void action_getAuleCorsi(HttpServletRequest request, HttpServletResponse response) 
-        throws IOException {
+    private void action_getAuleCorsi(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         try {
             AulewebDataLayer dataLayer = (AulewebDataLayer) request.getAttribute("datalayer");
             int idGruppo = Integer.valueOf(request.getParameter("id_gruppo"));
@@ -66,9 +67,30 @@ public class ShowGruppi extends AulewebBaseController {
             List<Corso> corsi = dataLayer.getCorsoDAO().getCorsiByGruppo(gruppo);
 
             // Crea una mappa di risposta
-            Map<String, List<String>> responseData = new HashMap<>();
-            responseData.put("aule", aule.stream().map(Aula::getNome).toList());
-            responseData.put("corsi", corsi.stream().map(Corso::getNome).toList());
+            Map<String, List<Map<String, String>>> responseData = new HashMap<>();
+
+            // Prepara le aule
+            List<Map<String, String>> auleData = aule.stream()
+                    .map(aula -> {
+                        Map<String, String> aulaMap = new HashMap<>();
+                        aulaMap.put("id", String.valueOf(aula.getKey()));
+                        aulaMap.put("nome", aula.getNome());
+                        return aulaMap;
+                    })
+                    .toList();
+
+            // Prepara i corsi
+            List<Map<String, String>> corsiData = corsi.stream()
+                    .map(corso -> {
+                        Map<String, String> corsoMap = new HashMap<>();
+                        corsoMap.put("id", String.valueOf(corso.getKey()));
+                        corsoMap.put("nome", corso.getNome());
+                        return corsoMap;
+                    })
+                    .toList();
+
+            responseData.put("aule", auleData);
+            responseData.put("corsi", corsiData);
 
             // Converte la mappa in JSON
             Gson gson = new Gson();

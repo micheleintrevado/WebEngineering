@@ -1,9 +1,77 @@
 <style>
+    /* Stile globale */
     body {
         font-family: Arial, sans-serif;
         background-color: #f5f5f5;
         margin: 0;
         padding: 20px;
+    }
+
+    /* Stile per il modulo */
+    form {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    form div {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    select, input[type="date"], input[type="checkbox"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    input[type="checkbox"] {
+        width: auto;
+        margin-right: 10px;
+    }
+
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+    }
+
+    .checkbox-label input {
+        margin: 0;
+    }
+
+    button[type="submit"] {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.2s;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    /* Stile per la sezione aule e corsi */
+    #aulaSelectContainer, #corsoSelectContainer {
+        margin-top: 15px;
+    }
+
+    #aulaSelectContainer label, #corsoSelectContainer label {
+        margin-bottom: 5px;
+        font-weight: bold;
     }
 
     .gruppo-grid {
@@ -18,6 +86,7 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         transition: transform 0.2s;
+        padding: 10px;
     }
 
     .gruppo-card:hover {
@@ -25,16 +94,14 @@
     }
 
     .gruppo-header {
-        -- display: flex;
+        display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 15px 20px;
-        -- min-height: 82px;
     }
 
     .gruppo-header h2 {
-        margin-block-start: auto;
-        text-align-last: center;
+        margin: 0;
         font-size: 1.2em;
         color: #333;
     }
@@ -42,7 +109,6 @@
     .gruppo-actions {
         display: flex;
         gap: 10px;
-        justify-content: space-between;
     }
 
     .edit-button,
@@ -52,12 +118,12 @@
         border-radius: 5px;
         cursor: pointer;
         font-size: 1.1em;
+        text-decoration: none;
     }
 
     .edit-button {
         background-color: #28a745;
         color: #fff;
-        text-decoration: none;
     }
 
     .edit-button:hover {
@@ -85,14 +151,13 @@
 
     .aule {
         margin-top: 10px;
-        -- padding: 15px 20px;
-        padding: 0px 20px 10px;
+        padding: 0 20px 10px;
     }
-    
+
     .aule h3 {
-        opacity: 50%;
+        opacity: 0.5;
     }
-    
+
     .aula {
         margin-bottom: 10px;
         padding: 10px;
@@ -102,7 +167,7 @@
     }
 
     .aula h3 {
-        margin: 0 0 5px 0;
+        margin: 0 0 5px;
         font-size: 1.1em;
         color: #007BFF;
     }
@@ -128,10 +193,10 @@
         justify-content: center;
         align-items: center;
         padding: 20px;
-        -- background-color: #f9f9f9;
+        background-color: #f9f9f9;
         border-radius: 5px;
         flex: 1;
-        -- min-height: 100px;
+        min-height: 100px;
     }
 
     .no-aule .aula-item {
@@ -140,22 +205,6 @@
         margin: 0;
     }
 </style>
-
-<#-- Creazione della stringa per le opzioni delle aule -->
-<#assign auleOptions = "" />
-<#list gruppi as gruppo>
-    <#list gruppo.aule as aula>
-        <#assign auleOptions = auleOptions + aula.nome + "\n" />
-    </#list>
-</#list>
-
-<#-- Creazione della stringa per le opzioni dei corsi -->
-<#assign corsiOptions = "" />
-<#list corsi as corso>
-    <#assign corsiOptions = corsiOptions + corso.nome + "\n" />
-</#list>
-
-
 <form action="filtra-da-gruppo" method="GET">
     <div>
         <label for="id_gruppo">Gruppo:</label>
@@ -171,36 +220,37 @@
         <input type="date" name="inizio_settimana" id="inizio_settimana">
     </div>
 
-    <!-- Filtro per Eventi Attuali e Prossime 3 Ore -->
-    <div>
-        <label for="eventi_attuali">Mostra Eventi Attuali:</label>
+    <div class="checkbox-label">
         <input type="checkbox" name="eventi_attuali" id="eventi_attuali" value="true">
+        <label for="eventi_attuali">Mostra Eventi Attuali</label>
     </div>
 
-    <div>
-        <label for="prossime_3_ore">Mostra Eventi delle Prossime 3 Ore:</label>
-        <input type="checkbox" name="prossime_3_ore" id="prossime_3_ore" value="true">
+    <div class="checkbox-label">
+        <input type="checkbox" name="eventi_prossimi" id="eventi_prossimi" value="true">
+        <label for="eventi_prossimi">Mostra Eventi delle Prossime 3 Ore</label>
     </div>
 
-    <div>
-        <label for="aula_settimana">Mostra Eventi Aula Settimana:</label>
+    <div class="checkbox-label">
         <input type="checkbox" name="aula_settimana" id="aula_settimana" value="true">
+        <label for="aula_settimana">Mostra Eventi Aula Settimana</label>
     </div>
-    <div>
-        <label for="aule_giorno">Mostra Eventi Aule Giorno:</label>
+
+    <div class="checkbox-label">
         <input type="checkbox" name="aule_giorno" id="aule_giorno" value="true">
+        <label for="aule_giorno">Mostra Eventi Aule Giorno</label>
     </div>
-    <div>
-        <label for="corso_settimana">Mostra Eventi Corso Settimana:</label>
+
+    <div class="checkbox-label">
         <input type="checkbox" name="corso_settimana" id="corso_settimana" value="true">
+        <label for="corso_settimana">Mostra Eventi Corso Settimana</label>
     </div>
 
     <div id="aulaSelectContainer" style="display:none;">
-    <label for="scelta_aula">Seleziona Aula:</label>
-    <select id="scelta_aula" name="scelta_aula">
-        <option value="">Seleziona Aula</option>
-        <!-- Le opzioni verranno aggiunte dinamicamente -->
-    </select>
+        <label for="scelta_aula">Seleziona Aula:</label>
+        <select id="scelta_aula" name="scelta_aula">
+            <option value="">Seleziona Aula</option>
+            <!-- Le opzioni verranno aggiunte dinamicamente -->
+        </select>
     </div>
 
     <div id="corsoSelectContainer" style="display:none;">
@@ -211,7 +261,6 @@
         </select>
     </div>
 
-
     <div>
         <button type="submit">Filtra</button>
     </div>
@@ -221,7 +270,7 @@
     <#list gruppi as gruppo>
         <div class="gruppo-card">
             <div class="gruppo-header">
-                <a href="filter-from-gruppo?id_gruppo=${gruppo.key}&inizio_settimana"><h2>${gruppo.nome}</h2></a>
+                <h2>${gruppo.nome}</h2>
                 <p>${gruppo.descrizione}</p>
                 <#if logininfo??>
                     <div class="gruppo-actions">
@@ -253,65 +302,61 @@
         </div>
     </#list>
 </div>
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script>
+    $(document).ready(function() {
+        $('#id_gruppo').change(function() {
+            var idGruppo = $(this).val();
+            
+            $.ajax({
+                url: 'gruppi',
+                method: 'GET',
+                data: {
+                    action: 'getAuleCorsi',
+                    id_gruppo: idGruppo
+                },
+                dataType: 'json',
+                success: function(data) {
+                    // Assicurati che i dati siano quelli attesi
+                    console.log('Dati ricevuti:', data);
 
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const gruppoSelect = document.getElementById('id_gruppo');
-        const aulaSelectContainer = document.getElementById('aulaSelectContainer');
-        const corsoSelectContainer = document.getElementById('corsoSelectContainer');
-        const aulaSelect = document.getElementById('scelta_aula');
-        const corsoSelect = document.getElementById('scelta_corso');
-        const aulaCheckbox = document.getElementById('aula_settimana');
-        const corsoCheckbox = document.getElementById('corso_settimana');
-
-        gruppoSelect.addEventListener('change', function() {
-            const idGruppo = this.value;
-
-            fetch(`/getAuleCorsi?id_gruppo=idGruppo`)
-                .then(response => response.json())
-                .then(data => {
                     // Popola le opzioni di Aula
-                    aulaSelect.innerHTML = '<option value="">Seleziona Aula</option>';
-                    data.aule.forEach(function(aula) {
-                        const option = document.createElement('option');
-                        option.value = aula;
-                        option.textContent = aula;
-                        aulaSelect.appendChild(option);
+                    var $aulaSelect = $('#scelta_aula');
+                    $aulaSelect.empty().append('<option value="">Seleziona Aula</option>');
+                    $.each(data.aule, function(index, aula) {
+                        $aulaSelect.append(new Option(aula.nome, aula.id));
                     });
 
                     // Popola le opzioni di Corso
-                    corsoSelect.innerHTML = '<option value="">Seleziona Corso</option>';
-                    data.corsi.forEach(function(corso) {
-                        const option = document.createElement('option');
-                        option.value = corso;
-                        option.textContent = corso;
-                        corsoSelect.appendChild(option);
+                    var $corsoSelect = $('#scelta_corso');
+                    $corsoSelect.empty().append('<option value="">Seleziona Corso</option>');
+                    $.each(data.corsi, function(index, corso) {
+                        $corsoSelect.append(new Option(corso.nome, corso.id));
                     });
-                })
-                .catch(error => {
+                },
+                error: function(xhr, status, error) {
                     console.error('Errore durante il caricamento di aule e corsi:', error);
-                });
+                }
+            });
         });
 
-        aulaCheckbox.addEventListener('change', function() {
-            aulaSelectContainer.style.display = this.checked ? 'block' : 'none';
+        $('#aula_settimana').change(function() {
+            $('#aulaSelectContainer').toggle(this.checked);
         });
 
-        corsoCheckbox.addEventListener('change', function() {
-            corsoSelectContainer.style.display = this.checked ? 'block' : 'none';
+        $('#corso_settimana').change(function() {
+            $('#corsoSelectContainer').toggle(this.checked);
         });
 
-        const form = document.querySelector('form');
-        form.addEventListener('submit', function(event) {
-            let valid = true;
+        $('form').submit(function(event) {
+            var valid = true;
 
-            if (aulaCheckbox.checked && !aulaSelect.value) {
+            if ($('#aula_settimana').is(':checked') && !$('#scelta_aula').val()) {
                 alert("Per favore, seleziona un'aula.");
                 valid = false;
             }
 
-            if (corsoCheckbox.checked && !corsoSelect.value) {
+            if ($('#corso_settimana').is(':checked') && !$('#scelta_corso').val()) {
                 alert("Per favore, seleziona un corso.");
                 valid = false;
             }

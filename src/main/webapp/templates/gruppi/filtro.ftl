@@ -6,178 +6,178 @@
         padding: 20px;
     }
 
-    .gruppo-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 20px;
-    }
-
-    .gruppo-card {
+    /* Container principale per gli eventi */
+    .event-container {
         background-color: #fff;
+        padding: 20px;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        transition: transform 0.2s;
+        margin-bottom: 20px;
     }
 
-    .gruppo-card:hover {
-        transform: scale(1.02);
+    .event-container h2 {
+        font-size: 1.4em;
+        color: #007BFF;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #007BFF;
+        padding-bottom: 10px;
     }
 
-    .gruppo-header {
-        -- display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 15px 20px;
-        -- min-height: 82px;
+    /* Stile per le singole aule */
+    .aula-container {
+        margin-bottom: 20px;
     }
 
-    .gruppo-header h2 {
-        margin-block-start: auto;
-        text-align-last: center;
+    .aula-container h3 {
         font-size: 1.2em;
         color: #333;
-    }
-
-    .gruppo-actions {
-        display: flex;
-        gap: 10px;
-        justify-content: space-between;
-    }
-
-    .edit-button,
-    .remove-button {
-        padding: 8px 12px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1.1em;
-    }
-
-    .edit-button {
-        background-color: #28a745;
-        color: #fff;
-        text-decoration: none;
-    }
-
-    .edit-button:hover {
-        background-color: #218838;
-    }
-
-    .remove-button {
-        background-color: #dc3545;
-        color: #fff;
-    }
-
-    .remove-button:hover {
-        background-color: #c82333;
-    }
-
-    .gruppo-image {
-        width: 100%;
-        height: 150px;
-        object-fit: cover;
-    }
-
-    .gruppo-info {
-        padding: 15px 20px;
-    }
-
-    .aule {
-        margin-top: 10px;
-        -- padding: 15px 20px;
-        padding: 0px 20px 10px;
-    }
-    
-    .aule h3 {
-        opacity: 50%;
-    }
-    
-    .aula {
         margin-bottom: 10px;
-        padding: 10px;
+    }
+
+    /* Stile per gli eventi */
+    .evento {
         background-color: #f9f9f9;
+        padding: 10px;
         border-radius: 5px;
+        margin-bottom: 10px;
         border-left: 4px solid #007BFF;
     }
 
-    .aula h3 {
-        margin: 0 0 5px 0;
-        font-size: 1.1em;
-        color: #007BFF;
-    }
-
-    .aula p {
+    .evento p {
         margin: 0;
         color: #666;
     }
 
-    .aula-list {
-        list-style: none;
+    /* Stile per la lista di eventi */
+    ul.event-list {
+        list-style-type: none;
         padding: 0;
-        margin: 0;
     }
 
-    .aula-item {
-        margin-bottom: 5px;
-        color: #666;
+    ul.event-list li {
+        margin-bottom: 10px;
     }
 
-    .no-aule {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-        -- background-color: #f9f9f9;
-        border-radius: 5px;
-        flex: 1;
-        -- min-height: 100px;
-    }
-
-    .no-aule .aula-item {
+    /* Stile per quando non ci sono eventi */
+    .no-eventi {
         color: #999;
         font-style: italic;
-        margin: 0;
+        margin-top: 10px;
     }
 </style>
 
-<h2>Eventi per aula nella Settimana</h2>
-<#list aule_eventi_settimana as aula, eventi>
-    <h2>Aula: ${aula.nome}</h2>
-        <#list eventi as evento>
-            <p>Evento: ${evento.nome} on ${evento.giorno}</p>
+<div class="event-container">
+    <#if inizioSettimana??>
+        <h2>Eventi nelle aule del gruppo ${gruppo.nome} dal ${inizioSettimana} al ${inizioSettimana}</h2>
+        <#list auleEventiSettimana as aula, eventi>
+            <div class="aula-container">
+                <h3>Aula: ${aula.nome}</h3>
+                <#if (eventi?? && eventi?size > 0)>
+                    <ul class="event-list">
+                        <#list eventi as evento>
+                            <li class="evento">
+                                <p>Evento: ${evento.nome} on ${evento.giorno}</p>
+                            </li>
+                        </#list>
+                    </ul>
+                <#else>
+                    <p class="no-eventi">Nessun evento disponibile per questa aula.</p>
+                </#if>
+            </div>
         </#list>
-</#list>
+    </#if>
 
-<h2>Eventi per Tutte le Aule il Giorno ${selectedDate}</h2>
-<#list classrooms as classroom>
-  <h3>Aula ${classroom.name}</h3>
-  <ul>
-    <#list events as event>
-      <#if event.classroomId == classroom.id && event.date == selectedDate>
-        <li>${event.time} : ${event.name}</li>
-      </#if>
-    </#list>
-  </ul>
-</#list>
+    <#if aulaSettimana??>
+        <h2>Eventi per l'aula ${aulaSettimana.nome} dal ${inizioSettimana} al ${inizioSettimana}</h2>
+        <div class="aula-container">
+            <h3>Aula: ${aulaSettimana.nome}</h3>
+            <#if eventiAulaSettimana?? && eventiAulaSettimana?size > 0>
+                <ul class="event-list">
+                    <#list eventiAulaSettimana as evento>
+                        <li class="evento">
+                            <p>Evento: ${evento.nome} on ${evento.giorno}</p>
+                        </li>
+                    </#list>
+                </ul>
+            <#else>
+                <p class="no-eventi">Nessun evento disponibile per questa aula.</p>
+            </#if>
+        </div>
+    </#if>
 
-<h2>Eventi Attuali e Prossimi (entro 3 ore da ${currentTime})</h2>
-<ul>
-<#list events as event>
-  <#-- Calcolo dell'intervallo di tempo per eventi nelle prossime 3 ore -->
-  <#assign eventStartTime = event.time>
-  <#assign eventEndTime = (eventStartTime + 3)?date("HH:mm")>
-  <#if eventStartTime <= currentTime && eventEndTime >= currentTime>
-    <li>${event.date} - ${event.time} : ${event.name} (Aula ${event.classroomName})</li>
-  </#if>
-</#list>
-</ul>
+    <#if auleEventiGiorno??>
+        <h2>Eventi nelle aule del gruppo ${gruppo.nome} in data ${inizioSettimana}</h2>
+        <#list auleEventiGiorno as aula, eventi>
+            <div class="aula-container">
+                <h3>Aula: ${aula.nome}</h3>
+                <#if (eventi?? && eventi?size > 0)>
+                    <ul class="event-list">
+                        <#list eventi as evento>
+                            <li class="evento">
+                                <p>Evento: ${evento.nome} on ${evento.giorno}</p>
+                            </li>
+                        </#list>
+                    </ul>
+                <#else>
+                    <p class="no-eventi">Nessun evento disponibile per questa aula.</p>
+                </#if>
+            </div>
+        </#list>
+    </#if>
 
-<h2>Eventi per Corso ${courseId} nella Settimana ${weekNumber}</h2>
-<ul>
-<#list events as event>
-  <#if event.courseId == courseId && event.weekNumber == weekNumber>
-    <li>${event.date} - ${event.time} : ${event.name} (Aula ${event.classroomName})</li>
-  </#if>
-</#list>
-</ul>
+    <#if auleEventiAttuali??>
+        <h2>Eventi correnti nelle aule del gruppo ${gruppo.nome} in data ${inizioSettimana}</h2>
+        <#list auleEventiAttuali as aula, evento>
+            <div class="aula-container">
+                <h3>Aula: ${aula.nome}</h3>
+                <#if (evento?? && evento?size > 0)>
+                <div class="evento">
+                    <p>Evento: ${evento.nome} on ${evento.giorno}</p>
+                </div>
+                <#else>
+                    <p class="no-eventi">Non ci sono eventi correnti in quest'aula.</p> 
+                </#if>
+            </div>
+            <#else>                         
+                <p class="no-eventi">Non ci sono eventi correnti per le aule di questo gruppo.</p> 
+        </#list>
+    </#if>
+
+    <#if auleEventiProssimi??>
+        <h2>Eventi prossimi nelle aule del gruppo ${gruppo.nome} in data ${inizioSettimana}</h2>
+        <#list auleEventiProssimi as aula, eventi>
+            <div class="aula-container">
+                <h3>Aula: ${aula.nome}</h3>
+                <#if (eventi?? && eventi?size > 0)>
+                    <ul class="event-list">
+                        <#list eventi as evento>
+                            <li class="evento">
+                                <p>Evento: ${evento.nome} on ${evento.giorno}</p>
+                            </li>
+                        </#list>
+                    </ul>
+                <#else>
+                    <p class="no-eventi">Non sono previsti eventi in quest'aula nelle prossime ore.</p> 
+                </#if>
+            </div>
+        </#list>
+    </#if>
+
+    <#if corsoSettimana??>
+        <h2>Eventi per Corso ${corsoSettimana.nome} dal ${inizio_settimana} al ${inizio_settimana}</h2>
+        <div class="aula-container">
+            <h3>Corso: ${corsoSettimana.nome}</h3>
+            <#if (eventiCorsoSettimana?? && eventiCorsoSettimana?size > 0)>
+                <ul class="event-list">
+                    <#list eventiCorsoSettimana as evento>
+                        <li class="evento">
+                            <p>Evento: ${evento.nome} on ${evento.giorno}</p>
+                        </li>
+                    </#list>
+                </ul>
+            <#else>
+                <p class="no-eventi">Nessun evento disponibile per questo corso.</p>
+            </#if>
+        </div>
+    </#if>
+</div>
