@@ -7,6 +7,7 @@ package org.webeng.auleweb.data.dao;
 import org.webeng.auleweb.framework.data.DataException;
 import java.util.List;
 import org.webeng.auleweb.data.model.Corso;
+import org.webeng.auleweb.data.model.Gruppo;
 
 /**
  *
@@ -26,4 +27,6 @@ public interface CorsoDAO {
     void deleteCorso(Corso c) throws DataException;
 
     public List<Corso> getCorsiBySearch(String keyword) throws DataException;
+
+    public List<Corso> getCorsiByGruppo(Gruppo gruppo) throws DataException;
 }

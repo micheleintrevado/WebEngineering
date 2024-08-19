@@ -10,8 +10,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.webeng.auleweb.data.dao.CorsoDAO;
+import org.webeng.auleweb.data.model.Attrezzatura;
 import org.webeng.auleweb.data.model.Corso;
+import org.webeng.auleweb.data.model.Gruppo;
 import org.webeng.auleweb.data.model.impl.proxy.CorsoProxy;
 import org.webeng.auleweb.framework.data.DAO;
 import org.webeng.auleweb.framework.data.DataException;
@@ -25,6 +29,7 @@ public class CorsoDAO_MySQL extends DAO implements CorsoDAO{
     private PreparedStatement sCorsoByID;
     private PreparedStatement sCorsiAll;
     private PreparedStatement sCorsiBySearch;
+    private PreparedStatement sCorsiByGruppo;
     
     private PreparedStatement iCorso;
     
@@ -45,6 +50,7 @@ public class CorsoDAO_MySQL extends DAO implements CorsoDAO{
             sCorsoByID = connection.prepareStatement("select * from corso where id = ?");
             sCorsiAll = connection.prepareStatement("select * from corso");
             sCorsiBySearch = connection.prepareStatement("SELECT * FROM webeng.corso where nome like ?");
+            sCorsiByGruppo = connection.prepareStatement("SELECT DISTINCT c.id, c.nome FROM corso c JOIN evento e ON c.id = e.id_corso JOIN aula a ON e.id_aula = a.id JOIN aula_gruppo ag ON a.id = ag.id_aula JOIN gruppo g ON ag.id_gruppo = g.id WHERE g.id = ?;");
 
             iCorso = connection.prepareStatement("insert into corso (`nome`) values (?)", Statement.RETURN_GENERATED_KEYS);
             
@@ -187,6 +193,25 @@ public class CorsoDAO_MySQL extends DAO implements CorsoDAO{
             }
         }catch(SQLException ex){
             throw new DataException("Unable to load Corso by Search",ex);
+        }
+        return corsi;
+    }
+
+    @Override
+    public List<Corso> getCorsiByGruppo(Gruppo gruppo) throws DataException{
+        List<Corso> corsi = new ArrayList<>();
+        try {
+            sCorsiByGruppo.setInt(1, gruppo.getKey());
+        } catch (SQLException ex) {
+            Logger.getLogger(CorsoDAO_MySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try (ResultSet rs = sCorsiByGruppo.executeQuery()) {
+            while (rs.next()) {
+                corsi.add(getCorso(rs.getInt("id")));
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load attrezzature filtered by search", ex);
         }
         return corsi;
     }

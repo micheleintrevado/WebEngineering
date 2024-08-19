@@ -141,15 +141,87 @@
     }
 </style>
 
+<#-- Creazione della stringa per le opzioni delle aule -->
+<#assign auleOptions = "" />
+<#list gruppi as gruppo>
+    <#list gruppo.aule as aula>
+        <#assign auleOptions = auleOptions + aula.nome + "\n" />
+    </#list>
+</#list>
+
+<#-- Creazione della stringa per le opzioni dei corsi -->
+<#assign corsiOptions = "" />
+<#list corsi as corso>
+    <#assign corsiOptions = corsiOptions + corso.nome + "\n" />
+</#list>
+
+
+<form action="filtra-da-gruppo" method="GET">
+    <div>
+        <label for="id_gruppo">Gruppo:</label>
+        <select name="id_gruppo" id="id_gruppo" required>
+            <#list gruppi as gruppo>
+                <option value="${gruppo.key}">${gruppo.nome}</option>
+            </#list>
+        </select>
+    </div>
+
+    <div>
+        <label for="inizio_settimana">Inizio Settimana:</label>
+        <input type="date" name="inizio_settimana" id="inizio_settimana">
+    </div>
+
+    <!-- Filtro per Eventi Attuali e Prossime 3 Ore -->
+    <div>
+        <label for="eventi_attuali">Mostra Eventi Attuali:</label>
+        <input type="checkbox" name="eventi_attuali" id="eventi_attuali" value="true">
+    </div>
+
+    <div>
+        <label for="prossime_3_ore">Mostra Eventi delle Prossime 3 Ore:</label>
+        <input type="checkbox" name="prossime_3_ore" id="prossime_3_ore" value="true">
+    </div>
+
+    <div>
+        <label for="aula_settimana">Mostra Eventi Aula Settimana:</label>
+        <input type="checkbox" name="aula_settimana" id="aula_settimana" value="true">
+    </div>
+    <div>
+        <label for="aule_giorno">Mostra Eventi Aule Giorno:</label>
+        <input type="checkbox" name="aule_giorno" id="aule_giorno" value="true">
+    </div>
+    <div>
+        <label for="corso_settimana">Mostra Eventi Corso Settimana:</label>
+        <input type="checkbox" name="corso_settimana" id="corso_settimana" value="true">
+    </div>
+
+    <div id="aulaSelectContainer" style="display:none;">
+    <label for="scelta_aula">Seleziona Aula:</label>
+    <select id="scelta_aula" name="scelta_aula">
+        <option value="">Seleziona Aula</option>
+        <!-- Le opzioni verranno aggiunte dinamicamente -->
+    </select>
+    </div>
+
+    <div id="corsoSelectContainer" style="display:none;">
+        <label for="scelta_corso">Seleziona Corso:</label>
+        <select id="scelta_corso" name="scelta_corso">
+            <option value="">Seleziona Corso</option>
+            <!-- Le opzioni verranno aggiunte dinamicamente -->
+        </select>
+    </div>
+
+
+    <div>
+        <button type="submit">Filtra</button>
+    </div>
+</form>
 
 <div class="gruppo-grid">
     <#list gruppi as gruppo>
         <div class="gruppo-card">
-            <!-- #<img class="gruppo-image" 
-     src="path/to/default/icon.png" 
-     alt="${gruppo.nome}"> -->
             <div class="gruppo-header">
-                <h2>${gruppo.nome}</h2>
+                <a href="filter-from-gruppo?id_gruppo=${gruppo.key}&inizio_settimana"><h2>${gruppo.nome}</h2></a>
                 <p>${gruppo.descrizione}</p>
                 <#if logininfo??>
                     <div class="gruppo-actions">
@@ -162,6 +234,7 @@
                     </div>
                 </#if>
             </div>
+            
 
             <#if gruppo.aule?has_content>
                 <div class="aule">
@@ -180,3 +253,72 @@
         </div>
     </#list>
 </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const gruppoSelect = document.getElementById('id_gruppo');
+        const aulaSelectContainer = document.getElementById('aulaSelectContainer');
+        const corsoSelectContainer = document.getElementById('corsoSelectContainer');
+        const aulaSelect = document.getElementById('scelta_aula');
+        const corsoSelect = document.getElementById('scelta_corso');
+        const aulaCheckbox = document.getElementById('aula_settimana');
+        const corsoCheckbox = document.getElementById('corso_settimana');
+
+        gruppoSelect.addEventListener('change', function() {
+            const idGruppo = this.value;
+
+            fetch(`/getAuleCorsi?id_gruppo=idGruppo`)
+                .then(response => response.json())
+                .then(data => {
+                    // Popola le opzioni di Aula
+                    aulaSelect.innerHTML = '<option value="">Seleziona Aula</option>';
+                    data.aule.forEach(function(aula) {
+                        const option = document.createElement('option');
+                        option.value = aula;
+                        option.textContent = aula;
+                        aulaSelect.appendChild(option);
+                    });
+
+                    // Popola le opzioni di Corso
+                    corsoSelect.innerHTML = '<option value="">Seleziona Corso</option>';
+                    data.corsi.forEach(function(corso) {
+                        const option = document.createElement('option');
+                        option.value = corso;
+                        option.textContent = corso;
+                        corsoSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Errore durante il caricamento di aule e corsi:', error);
+                });
+        });
+
+        aulaCheckbox.addEventListener('change', function() {
+            aulaSelectContainer.style.display = this.checked ? 'block' : 'none';
+        });
+
+        corsoCheckbox.addEventListener('change', function() {
+            corsoSelectContainer.style.display = this.checked ? 'block' : 'none';
+        });
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            let valid = true;
+
+            if (aulaCheckbox.checked && !aulaSelect.value) {
+                alert("Per favore, seleziona un'aula.");
+                valid = false;
+            }
+
+            if (corsoCheckbox.checked && !corsoSelect.value) {
+                alert("Per favore, seleziona un corso.");
+                valid = false;
+            }
+
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
