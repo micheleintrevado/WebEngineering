@@ -52,7 +52,7 @@ public class AulaDAO_MySQL extends DAO implements AulaDAO {
             sAuleBySearch = connection.prepareStatement("SELECT * FROM webeng.aula where nome like ? or luogo like ? or edificio like ?");
 
             sAule = connection.prepareStatement("SELECT id FROM aula");
-            sUnassignedAule = connection.prepareStatement("SELECT aula.id FROM aula LEFT JOIN evento ON evento.id_aula = aula.id WHERE evento.id_aula IS NULL");
+            sUnassignedAule = connection.prepareStatement("SELECT Aula.* FROM Aula LEFT JOIN Evento ON Aula.id = Evento.id_aula AND CURDATE() = Evento.giorno AND CURTIME() BETWEEN Evento.orario_inizio AND Evento.orario_fine WHERE Evento.id IS NULL;");
 
             iAula = connection.prepareStatement("INSERT INTO aula(`nome`, `luogo`, `edificio`, `piano`, `capienza`, `prese_elettriche`, `prese_rete`, `note`, `id_responsabile`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uAula = connection.prepareStatement("UPDATE aula set nome=?, luogo=?, edificio=?,piano=?,capienza=?,prese_elettriche=?,prese_rete=?,note=?, id_responsabile=?, version=? WHERE id=? and version=?");

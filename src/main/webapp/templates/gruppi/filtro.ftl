@@ -76,7 +76,7 @@
                     <ul class="event-list">
                         <#list eventi as evento>
                             <li class="evento">
-                                <p>Evento: ${evento.nome} on ${evento.giorno}</p>
+                                <a href="info-evento?id_evento=${evento.key}">${evento.nome} - ${evento.giorno}</a>
                             </li>
                         </#list>
                     </ul>
@@ -95,7 +95,7 @@
                 <ul class="event-list">
                     <#list eventiAulaSettimana as evento>
                         <li class="evento">
-                            <p>Evento: ${evento.nome} on ${evento.giorno}</p>
+                            <a href="info-evento?id_evento=${evento.key}">${evento.nome} - ${evento.giorno}</a>
                         </li>
                     </#list>
                 </ul>
@@ -114,7 +114,7 @@
                     <ul class="event-list">
                         <#list eventi as evento>
                             <li class="evento">
-                                <p>Evento: ${evento.nome} on ${evento.giorno}</p>
+                                <a href="info-evento?id_evento=${evento.key}">${evento.nome} - ${evento.giorno}</a>
                             </li>
                         </#list>
                     </ul>
@@ -129,13 +129,13 @@
         <h2>Eventi correnti nelle aule del gruppo ${gruppo.nome} in data ${inizioSettimana}</h2>
         <#list auleEventiAttuali as aula, evento>
             <div class="aula-container">
-                <h3>Aula: ${aula.nome}</h3>
+                <h3>Aula: <a href="info-aula?id_aula=${aula.key}">${aula.nome}</a></h3>
                 <#if (evento?? && evento?size > 0)>
                 <div class="evento">
-                    <p>Evento: ${evento.nome} on ${evento.giorno}</p>
+                    <p>Evento: ${evento.nome} - ${evento.giorno}</p>
                 </div>
                 <#else>
-                    <p class="no-eventi">Non ci sono eventi correnti in quest'aula.</p> 
+                    <p class="no-eventi">Non ci sono eventi correnti in quest'aula.</p>
                 </#if>
             </div>
             <#else>                         
@@ -152,7 +152,7 @@
                     <ul class="event-list">
                         <#list eventi as evento>
                             <li class="evento">
-                                <p>Evento: ${evento.nome} on ${evento.giorno}</p>
+                                <a href="info-evento?id_evento=${evento.key}">${evento.nome} - ${evento.giorno}</a>
                             </li>
                         </#list>
                     </ul>
@@ -171,7 +171,7 @@
                 <ul class="event-list">
                     <#list eventiCorsoSettimana as evento>
                         <li class="evento">
-                            <p>Evento: ${evento.nome} on ${evento.giorno}</p>
+                            <a href="info-evento?id_evento=${evento.key}">${evento.nome} - ${evento.giorno}</a>
                         </li>
                     </#list>
                 </ul>

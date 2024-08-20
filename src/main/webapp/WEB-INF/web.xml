@@ -238,6 +238,10 @@
         <servlet-name>editResponsabile</servlet-name>
         <servlet-class>org.webeng.auleweb.controller.responsabili.EditResponsabile</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>infoResponsabile</servlet-name>
+        <servlet-class>org.webeng.auleweb.controller.responsabili.InfoResponsabile</servlet-class>
+    </servlet>
     
     <servlet-mapping>
         <servlet-name>getResponsabili</servlet-name>
@@ -250,6 +254,10 @@
     <servlet-mapping>
         <servlet-name>editResponsabile</servlet-name>
         <url-pattern>/modifica-responsabile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>infoResponsabile</servlet-name>
+        <url-pattern>/info-responsabile</url-pattern>
     </servlet-mapping>
     <!-- FINE RESPONSABILI -->
     

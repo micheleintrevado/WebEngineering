@@ -110,29 +110,7 @@
             color: #edf300ba;
         }
     </style>
-<h2>Download eventi in range CSV</h2>
-
-    <form method="get">
-        <label for="start-range">Start Range:</label>
-        <input type="date" id="start-range" name="start-range" required>
-
-        <label for="end-range">End Range:</label>
-        <input type="date" id="end-range" name="end-range" required>
-
-        <label for="corso">Corso Evento (opzionale):</label>
-        <select name="corso" id="corso">
-            <option value="">-</option>
-            <#list corsi as corso>
-                <option value="${corso.key}">${corso.nome}</option>
-            </#list>
-        </select>
-
-        <div class="form-button-container">
-            <button type="submit" formaction="download-eventi-csv">Download CSV</button>
-            <button type="submit" formaction="download-eventi-ical">Download iCal</button>
-        </div>
-    </form>
-
+    
     <h1>Eventi disponibili</h1>
     <#if (eventi?size > 0)>
     <div class="events-grid">
@@ -183,3 +161,26 @@
         </form>
         </#if>
     </#if>
+
+    
+    <h2>Download eventi in range CSV</h2>
+    <form id="downloadEventi" method="get">
+        <label for="start-range">Start Range:</label>
+        <input type="date" id="start-range" name="start-range" required>
+
+        <label for="end-range">End Range:</label>
+        <input type="date" id="end-range" name="end-range" required>
+
+        <label for="corso">Corso Evento (opzionale):</label>
+        <select name="corso" id="corso">
+            <option value="">-</option>
+            <#list corsi as corso>
+                <option value="${corso.key}">${corso.nome}</option>
+            </#list>
+        </select>
+
+        <div class="form-button-container">
+            <button type="submit" formaction="download-eventi-csv">Download CSV</button>
+            <button type="submit" formaction="download-eventi-ical">Download iCal</button>
+        </div>
+    </form>

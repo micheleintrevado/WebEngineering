@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.webeng.auleweb.application.AulewebBaseController;
 import org.webeng.auleweb.application.AulewebDataLayer;
+import org.webeng.auleweb.data.model.Aula;
 import org.webeng.auleweb.data.model.Evento;
+import org.webeng.auleweb.data.model.Gruppo;
 import org.webeng.auleweb.data.model.Responsabile;
 import org.webeng.auleweb.framework.data.DataException;
 import org.webeng.auleweb.framework.view.TemplateManagerException;
@@ -32,8 +34,14 @@ public class HomepageController extends AulewebBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         AulewebDataLayer dataLayer = (AulewebDataLayer) request.getAttribute("datalayer");
         List<Evento> eventiAttuali = dataLayer.getEventoDAO().getEventiAttuali();
+        List<Evento> eventiProssimi = dataLayer.getEventoDAO().getEventiProssimi(48);
+        List<Aula> auleLibere = dataLayer.getAulaDAO().getUnassignedAule();
+        List<Gruppo> gruppi = dataLayer.getGruppoDAO().getGruppi();
 
         request.setAttribute("eventiAttuali", eventiAttuali);
+        request.setAttribute("eventiProssimi", eventiProssimi);
+        request.setAttribute("auleLibere", auleLibere);
+        request.setAttribute("gruppi", gruppi);
         request.setAttribute("page_title", "Homepage");
         result.activate("homepage.ftl.html", request, response);
         } catch (DataException ex) {

@@ -97,7 +97,7 @@
 <#list responsabili as responsabile>
     <div class="responsabile-card">
         <div class="responsabile-header">
-            <h2>${responsabile.nome}</h2>
+            <a href="info-responsabile?id_responsabile=${responsabile.key}"><h2>${responsabile.nome}</h2></a>
             <a href="mailto:${responsabile.email}">Contattami</a>
             <#if logininfo??>
             <a class="edit-button" href="modifica-responsabile?id_responsabile=${responsabile.key}">Modifica Responsabile</a>

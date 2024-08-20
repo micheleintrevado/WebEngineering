@@ -54,12 +54,17 @@
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        height: 100%; /* Assicurati che il contenitore occupi l'intero spazio disponibile */
     }
     .tabs {
         display: flex;
         border-bottom: 2px solid #ccc;
+        width: 100%; /* Assicurati che la barra delle tab occupi l'intera larghezza */
     }
     .tab {
+        flex: 1; /* Le tab occuperanno una porzione uguale dello spazio disponibile */
         padding: 10px 20px;
         cursor: pointer;
         font-weight: bold;
@@ -68,7 +73,8 @@
         border-bottom: none;
         border-radius: 8px 8px 0 0;
         background-color: #f9f9f9;
-        margin-right: 5px;
+        text-align: center; /* Centratura del testo */
+        box-sizing: border-box; /* Include padding e border nel calcolo della larghezza */
     }
     .tab.active {
         background-color: #fff;
@@ -78,6 +84,8 @@
     .tab-content {
         padding: 20px;
         display: none;
+        width: 100%; /* Assicurati che il contenuto delle tab occupi l'intera larghezza */
+        box-sizing: border-box; /* Include padding nel calcolo della larghezza */
     }
     .tab-content.active {
         display: block;
@@ -140,7 +148,6 @@
             <li><a href='responsabili'>Visualizza lista Responsabili</a></li>
             <li><a href='gruppi'>Visualizza lista Gruppi</a></li>
             <li><a href='attrezzature'>Visualizza lista Attrezzature</a></li>
-            <li><a href='filtro'>Visualizza Pagina per filtrare</a></li>
         </ul>
     </div>
 
@@ -151,6 +158,19 @@
             <#if logininfo??>
             <li><a href='aggiungi-aula'>Aggiungi Aula</a></li>
             </#if>
+            <#if (auleLibere?? && auleLibere?size > 0)>
+                <h3>Aule Libere</h3>
+                <div class="scroll-container">    
+                <#list auleLibere as aula>
+                <div class="event-card">
+                    <h4>${aula.nome}</h4>
+                    <p>${aula.luogo} - ${aula.edificio}</p>
+                </div>
+                </#list>
+            <#else>
+                <p>Attualmente non sono presenti aule libere</p>
+            </#if>
+            </div>
         </ul>
     </div>
 
@@ -158,10 +178,11 @@
         <p>Questa è la sezione Eventi.</p>
         <ul>
             <li><a href='eventi'>Visualizza lista Eventi</a></li>
+            <li><a href='eventi#downloadEventi'>Download lista Eventi</a></li>
             <#if logininfo??>
             <li><a href='aggiungi-evento'>Aggiungi Evento</a></li>
             </#if>
-            <#if eventiAttuali??>
+            <#if (eventiAttuali?? && eventiAttuali?size > 0)>
             <h3>Eventi correnti</h3>
             <div class="scroll-container">
                 <#list eventiAttuali as eventoAttuale>
@@ -171,6 +192,21 @@
                 </div>
                 </#list>
             </div>
+            <#else>
+                    <p>Non sono presenti eventi attualmente in corso</p>
+            </#if>
+            <#if (eventiProssimi?? && eventiProssimi?size > 0)>
+            <h3>Eventi Prossimi</h3>
+            <div class="scroll-container">
+                <#list eventiProssimi as eventoProssimo>
+                <div class="event-card">
+                    <h4>${eventoProssimo.nome}</h4>
+                    <p>${eventoProssimo.orarioInizio?string["HH:mm"]} - ${eventoProssimo.orarioFine?string["HH:mm"]}</p>
+                </div>
+                </#list>
+            </div>
+            <#else>
+                    <p>Non sono presenti eventi prossimi che incominceranno nelle prossime 48 ore</p>
             </#if>
         </ul>
     </div>
@@ -192,9 +228,22 @@
     <div id="gruppi" class="tab-content">
         <p>Questa è la sezione Gruppi.</p>
         <ul>
-            <li><a href='gruppi'>Visualizza lista Gruppi</a></li>
+            <li><a href='gruppi'>Fitra eventi per gruppo</a></li>
             <#if logininfo??>
             <li><a href='aggiungi-gruppo'>Aggiungi Gruppo</a></li>
+            </#if>
+            <#if (gruppi?? && gruppi?size > 0)>
+            <h3>Lista Gruppi</h3>
+            <div class="scroll-container">
+                <#list gruppi as gruppo>
+                <div class="event-card">
+                    <h4>${gruppo.nome}</h4>
+                    <p>${gruppo.descrizione}</p>
+                </div>
+                </#list>
+            </div>
+            <#else>
+                <p>Non sono presenti gruppi</p>
             </#if>
         </ul>
     </div>
