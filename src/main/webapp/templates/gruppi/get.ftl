@@ -209,6 +209,7 @@
     <div>
         <label for="id_gruppo">Gruppo:</label>
         <select name="id_gruppo" id="id_gruppo" required>
+            <option disabled selected hidden>Scegli un Gruppo</option>
             <#list gruppi as gruppo>
                 <option value="${gruppo.key}">${gruppo.nome}</option>
             </#list>
@@ -217,7 +218,7 @@
 
     <div>
         <label for="inizio_settimana">Inizio Settimana:</label>
-        <input type="date" name="inizio_settimana" id="inizio_settimana">
+        <input type="date" name="inizio_settimana" id="inizio_settimana" required>
     </div>
 
     <div class="checkbox-label">
@@ -246,16 +247,16 @@
     </div>
 
     <div id="aulaSelectContainer" style="display:none;">
-        <label for="scelta_aula">Seleziona Aula:</label>
-        <select id="scelta_aula" name="scelta_aula">
+        <label for="id_aula">Seleziona Aula:</label>
+        <select id="id_aula" name="id_aula">
             <option value="">Seleziona Aula</option>
             <!-- Le opzioni verranno aggiunte dinamicamente -->
         </select>
     </div>
 
     <div id="corsoSelectContainer" style="display:none;">
-        <label for="scelta_corso">Seleziona Corso:</label>
-        <select id="scelta_corso" name="scelta_corso">
+        <label for="id_corso">Seleziona Corso:</label>
+        <select id="id_corso" name="id_corso">
             <option value="">Seleziona Corso</option>
             <!-- Le opzioni verranno aggiunte dinamicamente -->
         </select>
@@ -302,8 +303,10 @@
         </div>
     </#list>
 </div>
- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
- <script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
     $(document).ready(function() {
         $('#id_gruppo').change(function() {
             var idGruppo = $(this).val();
@@ -321,14 +324,14 @@
                     console.log('Dati ricevuti:', data);
 
                     // Popola le opzioni di Aula
-                    var $aulaSelect = $('#scelta_aula');
+                    var $aulaSelect = $('#id_aula');
                     $aulaSelect.empty().append('<option value="">Seleziona Aula</option>');
                     $.each(data.aule, function(index, aula) {
                         $aulaSelect.append(new Option(aula.nome, aula.id));
                     });
 
                     // Popola le opzioni di Corso
-                    var $corsoSelect = $('#scelta_corso');
+                    var $corsoSelect = $('#id_corso');
                     $corsoSelect.empty().append('<option value="">Seleziona Corso</option>');
                     $.each(data.corsi, function(index, corso) {
                         $corsoSelect.append(new Option(corso.nome, corso.id));
@@ -351,15 +354,28 @@
         $('form').submit(function(event) {
             var valid = true;
 
-            if ($('#aula_settimana').is(':checked') && !$('#scelta_aula').val()) {
+            if ($('#aula_settimana').is(':checked') && !$('#id_aula').val()) {
                 alert("Per favore, seleziona un'aula.");
                 valid = false;
             }
 
-            if ($('#corso_settimana').is(':checked') && !$('#scelta_corso').val()) {
+            if ($('#corso_settimana').is(':checked') && !$('#id_corso').val()) {
                 alert("Per favore, seleziona un corso.");
                 valid = false;
             }
+
+            if (!valid) {
+                event.preventDefault();
+            }
+
+            // Validazione generale per i campi required
+            $('select[required], input[required]').each(function() {
+                if (!$(this).val()) {
+                    alert('Per favore, scegli un gruppo.');
+                    valid = false;
+                    return false; // Esce dal ciclo each
+                }
+            });
 
             if (!valid) {
                 event.preventDefault();

@@ -67,8 +67,8 @@
 </style>
 
 <div class="event-container">
-    <#if inizioSettimana??>
-        <h2>Eventi nelle aule del gruppo ${gruppo.nome} dal ${inizioSettimana} al ${inizioSettimana}</h2>
+    <#if (inizioSettimana?? && auleEventiSettimana??)>
+        <h2>Eventi nelle aule del gruppo ${gruppo.nome} dal ${inizioSettimana} al ${fineSettimana}</h2>
         <#list auleEventiSettimana as aula, eventi>
             <div class="aula-container">
                 <h3>Aula: ${aula.nome}</h3>
@@ -88,10 +88,10 @@
     </#if>
 
     <#if aulaSettimana??>
-        <h2>Eventi per l'aula ${aulaSettimana.nome} dal ${inizioSettimana} al ${inizioSettimana}</h2>
+        <h2>Eventi per l'aula ${aulaSettimana.nome} dal ${inizioSettimana} al ${fineSettimana}</h2>
         <div class="aula-container">
             <h3>Aula: ${aulaSettimana.nome}</h3>
-            <#if eventiAulaSettimana?? && eventiAulaSettimana?size > 0>
+            <#if (eventiAulaSettimana?? && eventiAulaSettimana?size > 0)>
                 <ul class="event-list">
                     <#list eventiAulaSettimana as evento>
                         <li class="evento">
@@ -164,7 +164,7 @@
     </#if>
 
     <#if corsoSettimana??>
-        <h2>Eventi per Corso ${corsoSettimana.nome} dal ${inizio_settimana} al ${inizio_settimana}</h2>
+        <h2>Eventi per Corso ${corsoSettimana.nome} dal ${inizioSettimana} al ${fineSettimana}</h2>
         <div class="aula-container">
             <h3>Corso: ${corsoSettimana.nome}</h3>
             <#if (eventiCorsoSettimana?? && eventiCorsoSettimana?size > 0)>
