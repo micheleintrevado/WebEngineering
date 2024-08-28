@@ -1,0 +1,38 @@
+/* Imposta una larghezza minima per i bottoni e li rende flessibili */
+.header-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    min-width: 100px; /* Imposta una larghezza minima per i bottoni */
+    margin: 0.5rem; /* Spazio tra i bottoni */
+    flex: 1 1 auto; /* I bottoni si adattano e crescono in base alla larghezza disponibile */
+}
+
+/* Assicura che le immagini non superino una certa altezza e mantengano le proporzioni */
+.header-button img {
+    max-height: 50px;
+    height: auto;
+    margin-bottom: 0.5rem; /* Spazio tra l'immagine e il testo */
+}
+
+/* Spazio tra i bottoni nella nav */
+nav {
+    gap: 0.5rem; /* Distanza tra i bottoni */
+}
+
+#login-button {             
+    width: 100px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}         
+
+#login-button img { 
+    width: 40px;  
+}

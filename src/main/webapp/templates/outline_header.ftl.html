@@ -1,8 +1,60 @@
- <h1>AuleWeb</h1>
-<#if logininfo??>
-Autenticato come:  ${logininfo.username} (<a href="logout?referrer=${thispageurl?url}">logout</a>)
-<#else>
-<em>Login non effettuato</em> (<a href="login?referrer=${thispageurl?url}">login</a>)
-</#if>
-<p><a href="homepage">Torna alla homepage</a></p></body>
-<hr/>
+<div class="container py-3">
+    <!-- Header -->
+    <header class="d-flex flex-wrap justify-content-between align-items-center border-bottom pb-3 mb-4">
+        <div>
+        <h1 class="h3 mb-0">AuleWeb</h1>
+        <#if logininfo??>
+            <p>Autenticato come: <strong>${logininfo.username}</strong> </p>
+        </#if>
+        </div>
+        <div>
+            <#if logininfo??>
+                <a id="login-button" href="logout?referrer=${thispageurl?url}" class="btn btn-outline-secondary">
+                    Logout<img src="https://img.icons8.com/?size=100&id=83179&format=png&color=000000" alt="Icona Torna alla homepage">
+                </a>
+            <#else>
+                <a id="login-button" href="login?referrer=${thispageurl?url}" class="btn btn-outline-secondary">
+                    Login<img src="https://img.icons8.com/?size=100&id=59818&format=png&color=000000" alt="Icona Torna alla homepage">
+                </a>
+            </#if>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav nav-justify">
+        <a href="homepage" class="btn btn-outline-secondary header-button">
+            <img src="https://img.icons8.com/?size=100&id=2797&format=png&color=000000" alt="Icona Torna alla homepage">
+            <br>Homepage
+        </a>
+    
+        <a href="eventi" class="btn btn-outline-secondary header-button">
+            <img src="https://img.icons8.com/?size=100&id=W46IJyiaGbhv&format=png&color=000000" alt="Icona Vai agli eventi">
+            <br>Eventi
+        </a>
+    
+        <a href="aule" class="btn btn-outline-secondary header-button">
+            <img src="https://img.icons8.com/?size=100&id=9486&format=png&color=000000" alt="Icona Vai alle aule">
+            <br>Aule
+        </a>
+    
+        <a href="gruppi" class="btn btn-outline-secondary header-button">
+            <img src="https://img.icons8.com/?size=100&id=9542&format=png&color=000000" alt="Icona Vai ai gruppi">
+            <br>Gruppi
+        </a>
+    
+        <a href="corsi" class="btn btn-outline-secondary header-button">
+            <img src="https://img.icons8.com/?size=100&id=9456&format=png&color=000000" alt="Icona Vai ai corsi">
+            <br>Corsi
+        </a>
+    
+        <a href="responsabili" class="btn btn-outline-secondary header-button">
+            <img src="https://img.icons8.com/?size=100&id=2giFYGFaAqfQ&format=png&color=000000" alt="Icona Vai ai responsabili">
+            <br>Responsabili
+        </a>
+    
+        <a href="attrezzature" class="btn btn-outline-secondary header-button">
+            <img src="https://img.icons8.com/?size=100&id=9913&format=png&color=000000" alt="Icona Vai ai attrezzature">
+            <br>Attrezzature
+        </a>
+    </nav>
+</div>
