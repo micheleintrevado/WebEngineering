@@ -3,6 +3,7 @@
     <header class="d-flex flex-wrap justify-content-between align-items-center border-bottom pb-3 mb-4">
         <div>
         <h1 class="h3 mb-0">AuleWeb</h1>
+        <h6>${compiled_on.format('dd/MM/yyyy')}</h4>
         <#if logininfo??>
             <p>Autenticato come: <strong>${logininfo.username}</strong> </p>
         </#if>

@@ -1,4 +1,8 @@
 /* Colori di sfondo */
+body {
+    font-family: 'Roboto'
+}
+
 .background-body {
     background: linear-gradient(to top, mediumseagreen, #4782be9e, #7bdec9, mediumseagreen);
     min-height: 100vh; /* Assicurati che il gradiente copra tutta l'altezza della pagina */
@@ -9,6 +13,24 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+#login-button {
+    width: 100px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    color: black;
+    border-color: darkblue;
+    border: 0px solid;
+    background-image: radial-gradient(#0dcaf0, #000bff38);
+}
+
+#login-button img {
+    width: 40px;
 }
 
 /* Imposta una larghezza minima per i bottoni e li rende flessibili */
@@ -22,6 +44,14 @@
     min-width: 100px; /* Imposta una larghezza minima per i bottoni */
     margin: 0.5rem; /* Spazio tra i bottoni */
     flex: 1 1 auto; /* I bottoni si adattano e crescono in base alla larghezza disponibile */
+    color: black;
+    background-image: linear-gradient(#000bff38, #0dcaf0);
+    transition: color 0.5s ease, font-size 0.5s ease
+}
+
+.header-button:hover{
+    color: black;
+    font-size: 20px
 }
 
 /* Assicura che le immagini non superino una certa altezza e mantengano le proporzioni */
@@ -36,16 +66,26 @@ nav {
     gap: 0.5rem; /* Distanza tra i bottoni */
 }
 
-#login-button {
-    width: 100px;
-    height: 80px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
+footer {
+    margin-top: 30px
 }
 
-#login-button img {
-    width: 40px;
+.content-tabs{
+    background-color: #8bd9c3;
+    padding: 20px; 
+    border-radius: 10px;
+    box-shadow: -5px -5px 10px 0px gray
+}
+
+.nav-pills{
+    --bs-nav-pills-border-radius: var(--bs-border-radius);
+    --bs-nav-pills-link-active-color: white;
+    --bs-nav-pills-link-active-bg: #0b7f7f;
+    --bs-link-color: #ffffff;
+    --bs-nav-link-hover-color: dark
+}
+
+.btn-primary{
+    --bs-btn-bg: #0b7f7f;
+    --bs-btn-hover-bg: #054545;
 }
