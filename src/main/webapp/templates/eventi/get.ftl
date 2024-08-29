@@ -23,9 +23,10 @@
                                 <h5 class="card-title">
                                     <a href="info-evento?id_evento=${evento.key}" class="text-decoration-none">${evento.nome}</a>
                                 </h5>
+                                <hr>
                                 <p class="card-text text-muted">
-                                    ${evento.giorno?string["dd/MM/yyyy"]} - 
-                                    ${evento.orarioInizio?string["HH:mm"]} to 
+                                    ${evento.giorno?string["dd/MM/yyyy"]}, dalle ore
+                                    ${evento.orarioInizio?string["HH:mm"]} alle ore
                                     ${evento.orarioFine?string["HH:mm"]}
                                 </p>
                                 <p class="card-text">${evento.descrizione}</p>
@@ -59,7 +60,7 @@
         </#if>
         </#if>
 
-        <div class="mt-5">
+        <div class="download-tab mt-5">
             <h2>Download eventi in range CSV</h2>
             <form id="downloadEventi" method="get">
                 <div class="mb-3">
@@ -82,7 +83,7 @@
 
                 <div class="d-grid gap-2 d-md-block">
                     <button type="submit" formaction="download-eventi-csv" class="btn btn-success">Download CSV</button>
-                    <button type="submit" formaction="download-eventi-ical" class="btn btn-secondary">Download iCal</button>
+                    <button type="submit" formaction="download-eventi-ical" class="btn btn-success">Download iCal</button>
                 </div>
             </form>
         </div>

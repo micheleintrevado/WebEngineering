@@ -60,12 +60,14 @@
     }
 </style>
 
-<div class="aula-container">
+<div class="container info">
+    <!-- Header Aula -->
     <div class="aula-header">
         <h1>${aula.nome}</h1>
-        <p> ${aula.luogo}, <strong>Edificio:</strong> ${aula.edificio}, <strong>Piano </strong> ${aula.piano}</p>
+        <p>${aula.luogo}, <strong>Edificio:</strong> ${aula.edificio}, <strong>Piano:</strong> ${aula.piano}</p>
     </div>
 
+    <!-- Dettagli Aula -->
     <div class="aula-details">
         <p><strong>Capienza:</strong> ${aula.capienza}</p>
         <p><strong>Prese Elettriche:</strong> ${aula.preseElettriche?c}</p>
@@ -74,6 +76,7 @@
         <p><strong>Responsabile:</strong> ${aula.responsabile.nome}</p>
     </div>
 
+    <!-- Sezione Attrezzature -->
     <div class="equipments-section">
         <h2>Attrezzature</h2>
         <ul class="equipments-list">
@@ -83,6 +86,7 @@
         </ul>
     </div>
 
+    <!-- Sezione Gruppi Associati -->
     <div class="groups-section">
         <h2>Gruppi Associati</h2>
         <ul class="groups-list">
@@ -92,10 +96,10 @@
         </ul>
     </div>
 
-    
+    <!-- Sezione Eventi Associati in griglia -->
     <div class="events-section">
         <h2>Eventi Associati</h2>
-        <ul class="events-list">
+        <div class="row">
             <#-- displayedEvents memorizza i nomi degli eventi già inseriti -->
             <#assign displayedEvents = [] />
 
@@ -112,21 +116,28 @@
                         </#if>
                     </#list>
 
-                    <li>
-                        <a href="info-evento?id_evento=${evento.key}"><strong>${evento.nome}</strong></a>
-                        <p class="event-date-time">
-                            ${evento.giorno?string["dd/MM/yyyy"]} - 
-                            ${evento.orarioInizio?string["HH:mm"]} to 
-                            ${evento.orarioFine?string["HH:mm"]}
-                        </p>
-                        <p>${evento.descrizione}</p>
-                        <#if (count > 1)>
-                            <p>L'evento si ripete altre ${count - 1} volte in giorni diversi.</p>
-                        </#if>
-                    </li>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <a href="info-evento?id_evento=${evento.key}">
+                                    <h5 class="card-title">${evento.nome}</h5>
+                                </a>
+                                <p class="card-text">
+                                    ${evento.giorno?string["dd/MM/yyyy"]} -
+                                    ${evento.orarioInizio?string["HH:mm"]} to
+                                    ${evento.orarioFine?string["HH:mm"]}
+                                </p>
+                                <p class="card-text">${evento.descrizione}</p>
+                                <#if (count > 1)>
+                                    <p class="card-text text-muted">
+                                        L'evento si ripete altre ${count - 1} volte in giorni diversi.
+                                    </p>
+                                </#if>
+                            </div>
+                        </div>
+                    </div>
                 </#if>
             </#list>
-        </ul>
         </div>
     </div>
 </div>
