@@ -1,3 +1,16 @@
+/* Colori di sfondo */
+.background-body {
+    background: linear-gradient(to top, mediumseagreen, #4782be9e, #7bdec9, mediumseagreen);
+    min-height: 100vh; /* Assicurati che il gradiente copra tutta l'altezza della pagina */
+}
+
+.background-content {
+    background-color: #7bdec9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
 /* Imposta una larghezza minima per i bottoni e li rende flessibili */
 .header-button {
     display: flex;
@@ -23,7 +36,7 @@ nav {
     gap: 0.5rem; /* Distanza tra i bottoni */
 }
 
-#login-button {             
+#login-button {
     width: 100px;
     height: 80px;
     border-radius: 50%;
@@ -31,8 +44,8 @@ nav {
     align-items: center;
     justify-content: center;
     padding: 10px;
-}         
+}
 
-#login-button img { 
-    width: 40px;  
+#login-button img {
+    width: 40px;
 }
