@@ -55,9 +55,18 @@
                 <div id="collapseEventi${responsabile.key}" class="collapse">
                     <div class="card-body">
                         <#if responsabile.eventi?has_content>
+                            <#assign displayedEvents = [] />
                             <h5>Eventi associati:</h5>
                             <div class="row">
                                 <#list responsabile.eventi as evento>
+                                    <#if !(displayedEvents?seq_contains(evento.nome))>
+                                        <#assign displayedEvents = displayedEvents + [evento.nome] />
+                                        <#assign count = 0 />
+                                        <#list responsabile.eventi as tempEvento>
+                                            <#if tempEvento.nome == evento.nome>
+                                                <#assign count = count + 1 />
+                                            </#if>
+                                        </#list>
                                     <div class="col-md-4 mb-3">
                                         <div class="card h-100">
                                             <div class="card-body">
@@ -68,8 +77,13 @@
                                                 <p class="card-text small"><strong>Descrizione:</strong> ${evento.descrizione}</p>
                                                 <a href="info-evento?id_evento=${evento.key}" class="btn btn-sm btn-outline-primary">Dettagli Evento</a>
                                             </div>
+                                            <#if (count > 1)>
+                                                <small class="recurrent-warning text-muted">Questo evento è ricorrente in altre ${count - 1} date.</small>
+                                            </#if>
                                         </div>
+                                            
                                     </div>
+                                    </#if>
                                 </#list>
                             </div>
                         <#else>

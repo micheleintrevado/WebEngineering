@@ -54,7 +54,7 @@
 </div>
 
 <#if logininfo??>
-<div class="container info mt-4">
+<div class="container info mt-5" style="width: 33%;">
     <!-- Sezione Modifica Aula -->
     <h2>Modifica Aula</h2>
     <form method="GET" action="modifica-aula">

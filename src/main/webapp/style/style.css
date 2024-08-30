@@ -115,7 +115,6 @@ a {
 
 .info {
     box-shadow: -3px -1px 10px 0px;
-    box-sizing: content-box;
     background-color: azure;
     border-radius: 1rem;
     padding: 2rem;
@@ -123,13 +122,13 @@ a {
 
 .info-responsabile {
     box-shadow: 0px 0px 5px 0px;
-    box-sizing: content-box;
     background-color: azure;
 }
 
 .edit-button {
     border-radius: 50%;
     background-color: #ffff009c;
+    --bs-btn-hover-bg: #d0d001;
 }
 
 .edit-img {
@@ -139,4 +138,18 @@ a {
 
 .card-header-responsabile {
     border: 0px solid
+}
+
+.remove-button {
+    /*border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;*/
+    border-radius: 0px 50% 50% 0px;
+    background-color: orangered;
+    --bs-btn-hover-bg: #c15932;
+}
+
+.recurrent-warning {
+    text-align-last: right;
+    margin-right: 3%;
+    margin-bottom: 2%;
 }
