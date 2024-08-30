@@ -1,133 +1,83 @@
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-        }
+<div class="container mt-4">
+    <div class="accordion" id="responsabileAccordion">
+        <#list responsabili as responsabile>
+            <div class="card info-responsabile mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center" id="heading${responsabile.key}">
+                    <h4 class="mb-0">
+                        <a href="info-responsabile?id_responsabile=${responsabile.key}" class="text-decoration-none" style="color: black">
+                            ${responsabile.nome}
+                        </a>
+                    </h4>
+                    <div>
+                        <#if logininfo??>
+                            <a class="btn btn-sm btn-secondary ml-2 edit-button" href="modifica-responsabile?id_responsabile=${responsabile.key}">
+                                Modifica
+                                <img class="edit-img" src="https://img.icons8.com/?size=100&id=11683&format=png&color=000000"></img>
+                            </a>
+                        </#if>
+                        <a href="mailto:${responsabile.email}" class="btn btn-sm mr-2 btn-outline-primary">Contattami</a>
+                        <!-- Bottone per Visualizza Aule -->
+                        <button class="btn btn-sm btn-primary mr-2" style="--bs-btn-bg: #0b7f7f;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAule${responsabile.key}" aria-expanded="true" aria-controls="collapseAule${responsabile.key}">
+                            Visualizza Aule
+                        </button>
 
-        .responsabile-card {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            padding: 20px;
-            transition: transform 0.2s;
-        }
-
-        .responsabile-card:hover {
-            transform: scale(1.02);
-        }
-
-        .responsabile-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .responsabile-header h2 {
-            margin: 0;
-        }
-
-        .responsabile-header a {
-            color: #007BFF;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .responsabile-header a:hover {
-            text-decoration: underline;
-        }
-
-        .responsabile-info {
-            margin-top: 10px;
-        }
-
-        .responsabile-info strong {
-            color: #333;
-        }
-
-        .eventi {
-            margin-top: 20px;
-        }
-
-        .evento {
-            margin-bottom: 10px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            border-left: 4px solid #007BFF;
-        }
-
-        .evento h3 {
-            margin: 0 0 5px 0;
-            font-size: 1.1em;
-            color: #007BFF;
-        }
-
-        .evento p {
-            margin: 0;
-            color: #666;
-        }
-
-.edit-button {
-            background-color: #28a745;
-            color: darkblue !important;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .edit-button:hover {
-            background-color: #218838;
-        }
-
-        a {
-            text-decoration: none;
-        }
-    
-        a:hover {
-            text-decoration: none; /* Sottolinea al passaggio del mouse */
-        }
-    </style>
-
-<#-- Itera su ogni responsabile nella lista -->
-<#list responsabili as responsabile>
-    <div class="responsabile-card">
-        <div class="responsabile-header">
-            <a href="info-responsabile?id_responsabile=${responsabile.key}"><h2>${responsabile.nome}</h2></a>
-            <a href="mailto:${responsabile.email}">Contattami</a>
-            <#if logininfo??>
-            <a class="edit-button" href="modifica-responsabile?id_responsabile=${responsabile.key}">Modifica Responsabile</a>
-            </#if>
-        </div>
-
-        <#if responsabile.aule?has_content>
-            <div class="aule">
-                <h3>Aule associate:</h3>
-                <ul class="aula-list">
-                    <#list responsabile.aule as aula>
-                        <li class="aula-item"><a href="info-aula?id_aula?=${aula.key}">${aula.nome}</a></li>
-                    </#list>
-                </ul>
-            </div>
-        </#if>
-
-        <#if responsabile.eventi?has_content>
-            <div class="eventi">
-                <h3>Eventi Associati:</h3>
-                <#list responsabile.eventi as evento>
-                    
-                    <div class="evento"> 
-                        <a href="info-evento?id_evento=${evento.key}"><h3>${evento.nome}</h3></a>
-                        <p><strong>Data:</strong> ${evento.giorno}</p>
-                        <p><strong>Aula:</strong> ${evento.aula.nome}</p>
-                        <p><strong>Descrizione:</strong> ${evento.descrizione}</p>
+                        <!-- Bottone per Visualizza Eventi -->
+                        <button class="btn btn-sm btn-primary" style="--bs-btn-bg: #0b7f7f;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEventi${responsabile.key}" aria-expanded="false" aria-controls="collapseEventi${responsabile.key}">
+                            Visualizza Eventi
+                        </button>
                     </div>
-                </#list>
+                </div>
+
+                <!-- Sezione per le Aule associate -->
+                <div id="collapseAule${responsabile.key}" class="collapse">
+                    <div class="card-body">
+                        <#if responsabile.aule?has_content>
+                            <h5>Aule associate:</h5>
+                            <div class="row">
+                                <#list responsabile.aule as aula>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h6 class="card-title">${aula.nome}</h6>
+                                                <a href="info-aula?id_aula=${aula.key}" class="btn btn-sm btn-outline-primary">Dettagli Aula</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </#list>
+                            </div>
+                        <#else>
+                            <p class="text-muted">Nessuna aula associata</p>
+                        </#if>
+                    </div>
+                </div>
+
+                <!-- Sezione per gli Eventi associati -->
+                <div id="collapseEventi${responsabile.key}" class="collapse">
+                    <div class="card-body">
+                        <#if responsabile.eventi?has_content>
+                            <h5>Eventi associati:</h5>
+                            <div class="row">
+                                <#list responsabile.eventi as evento>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h6 class="card-title">${evento.nome}</h6>
+                                                <hr>
+                                                <p class="card-text small"><strong>Data:</strong> ${evento.giorno?string["dd/MM/yyyy"]}</p>
+                                                <p class="card-text small"><strong>Aula:</strong> ${evento.aula.nome}</p>
+                                                <p class="card-text small"><strong>Descrizione:</strong> ${evento.descrizione}</p>
+                                                <a href="info-evento?id_evento=${evento.key}" class="btn btn-sm btn-outline-primary">Dettagli Evento</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </#list>
+                            </div>
+                        <#else>
+                            <p class="text-muted">Nessun evento associato</p>
+                        </#if>
+                    </div>
+                </div>
             </div>
-        </#if>
+        </#list>
     </div>
-</#list>
+</div>

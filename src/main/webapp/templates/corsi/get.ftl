@@ -1,199 +1,48 @@
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-        margin: 0;
-        padding: 20px;
-    }
 
-    .corso-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 20px;
-    }
-
-    .corso-card {
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        transition: transform 0.2s;
-    }
-
-    .corso-card:hover {
-        transform: scale(1.02);
-    }
-
-    .corso-header {
-        -- display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 15px 20px;
-        -- min-height: 82px;
-    }
-
-    .corso-header h2 {
-        margin-block-start: auto;
-        text-align-last: center;
-        font-size: 1.2em;
-        color: #333;
-    }
-
-    .corso-actions {
-        display: flex;
-        gap: 10px;
-        justify-content: space-between;
-    }
-
-    .edit-button,
-    .remove-button {
-        padding: 8px 12px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1.1em;
-    }
-
-    .edit-button {
-        background-color: #28a745;
-        color: #fff;
-        text-decoration: none;
-    }
-
-    .edit-button:hover {
-        background-color: #218838;
-    }
-
-    .remove-button {
-        background-color: #dc3545;
-        color: #fff;
-    }
-
-    .remove-button:hover {
-        background-color: #c82333;
-    }
-
-    .corso-image {
-        width: 100%;
-        height: 150px;
-        object-fit: cover;
-    }
-
-    .corso-info {
-        padding: 15px 20px;
-    }
-
-    .eventi {
-        margin-top: 10px;
-        -- padding: 15px 20px;
-        padding: 0px 20px 10px;
-    }
-    
-    .eventi h3 {
-        opacity: 50%;
-    }
-    
-    .evento {
-        margin-bottom: 10px;
-        padding: 10px;
-        background-color: #f9f9f9;
-        border-radius: 5px;
-        border-left: 4px solid #007BFF;
-    }
-
-    .evento h3 {
-        margin: 0 0 5px 0;
-        font-size: 1.1em;
-        color: #007BFF;
-    }
-
-    .evento p {
-        margin: 0;
-        color: #666;
-    }
-
-    .evento-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .evento-item {
-        margin-bottom: 5px;
-        color: #666;
-    }
-
-    .no-eventi {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-        -- background-color: #f9f9f9;
-        border-radius: 5px;
-        flex: 1;
-        -- min-height: 100px;
-    }
-
-    .no-eventi .evento-item {
-        color: #999;
-        font-style: italic;
-        margin: 0;
-    }
-
-    .evento-list a {
-        text-decoration: none;
-    }
-    
-    .evento-list a:hover {
-        text-decoration: none; /* Sottolinea al passaggio del mouse */
-    }
-</style>
-
-
-<div class="corso-grid">
-    <#list corsi as corso>
-        <div class="corso-card">
-            <!-- #<img class="corso-image" 
-     src="path/to/default/icon.png" 
-     alt="${corso.nome}"> -->
-            <div class="corso-header">
-                <h2>${corso.nome}</h2>
-                <#if logininfo??>
-                    <div class="corso-actions">
-                        <a class="edit-button" href="modifica-corso?id_corso=${corso.key}">Modifica</a>
-                    </div>
-                </#if>
-            </div>
-
-            <#if corso.eventi?has_content>
-            <#assign displayedEvents = [] />
-                <div class="eventi">
-                    <h3>Eventi associati:</h3>
-                    <ul class="evento-list">
-                        <#list corso.eventi as evento>
-                            <#if !(displayedEvents?seq_contains(evento.nome))>
-                                <#assign displayedEvents = displayedEvents + [evento.nome] />
-                                <#assign count = 0 />
-                                <#list corso.eventi as tempEvento>
-                                    <#if tempEvento.nome == evento.nome> 
-                                        <#assign count = count + 1 />
+<div class="container mt-4">
+    <div class="row">
+        <#list corsi as corso>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <!-- #<img src="path/to/default/icon.png" class="card-img-top" alt="${corso.nome}"> -->
+                    <div class="card-body">
+                        <h5 class="card-title">${corso.nome}</h5>
+                        <hr>
+                        <#if logininfo??>
+                            <div class="d-flex justify-content-end mb-2">
+                                <a class="btn btn-secondary btn-sm" href="modifica-corso?id_corso=${corso.key}">Modifica</a>
+                            </div>
+                        </#if>
+                        <#if corso.eventi?has_content>
+                            <#assign displayedEvents = [] />
+                            <h6 class="card-subtitle mb-2 text-muted">Eventi associati:</h6>
+                            <ul class="list-group list-group-flush">
+                                <#list corso.eventi as evento>
+                                    <#if !(displayedEvents?seq_contains(evento.nome))>
+                                        <#assign displayedEvents = displayedEvents + [evento.nome] />
+                                        <#assign count = 0 />
+                                        <#list corso.eventi as tempEvento>
+                                            <#if tempEvento.nome == evento.nome>
+                                                <#assign count = count + 1 />
+                                            </#if>
+                                        </#list>
+                                        <li class="list-group-item">
+                                            <a href="info-evento?id_evento=${evento.key}">
+                                                ${evento.nome} (${evento.aula.nome})
+                                            </a>
+                                            <#if (count > 1)>
+                                                <small class="text-muted">Si ripete altre ${count - 1} volte.</small>
+                                            </#if>
+                                        </li>
                                     </#if>
                                 </#list>
-                                <li class="evento-item"> 
-                                    <a href="info-evento?id_evento=${evento.key}">${evento.nome} (${evento.aula.nome})</a>
-                                </li>
-                                <#if (count > 1)>
-                                    <p class="event-repetition">L'evento si ripete altre ${count - 1} volte in giorni diversi.</p>
-                                </#if> 
-                            </#if>
-                        </#list>
-                    </ul>
+                            </ul>
+                        <#else>
+                            <p class="card-text text-muted">Nessun evento previsto</p>
+                        </#if>
+                    </div>
                 </div>
-                <#else>
-                <div class="no-eventi">
-                    <p class="evento-item">Nessun evento previsto</p>
-                </div>
-            </#if>
-        </div>
-    </#list>
+            </div>
+        </#list>
+    </div>
 </div>
