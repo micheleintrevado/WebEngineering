@@ -2,7 +2,7 @@
     <div class="accordion" id="responsabileAccordion">
         <#list responsabili as responsabile>
             <div class="card info-responsabile mb-3">
-                <div class="card-header d-flex justify-content-between align-items-center" id="heading${responsabile.key}">
+                <div class="card-header d-flex justify-content-between align-items-center card-header-responsabile" id="heading${responsabile.key}">
                     <h4 class="mb-0">
                         <a href="info-responsabile?id_responsabile=${responsabile.key}" class="text-decoration-none" style="color: black">
                             ${responsabile.nome}
@@ -10,8 +10,8 @@
                     </h4>
                     <div>
                         <#if logininfo??>
-                            <a class="btn btn-sm btn-secondary ml-2 edit-button" href="modifica-responsabile?id_responsabile=${responsabile.key}">
-                                Modifica
+                            <a class="btn btn-sm btn-secondary ml-2 edit-button" href="modifica-responsabile?id_responsabile=${responsabile.key}" data-toggle="tooltip" data-placement="top" title="Modifica">
+                                <!--Modifica-->
                                 <img class="edit-img" src="https://img.icons8.com/?size=100&id=11683&format=png&color=000000"></img>
                             </a>
                         </#if>

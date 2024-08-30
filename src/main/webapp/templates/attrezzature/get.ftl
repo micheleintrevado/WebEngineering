@@ -1,181 +1,40 @@
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-        margin: 0;
-        padding: 20px;
-    }
-
-    .attrezzatura-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 20px;
-    }
-
-    .attrezzatura-card {
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        transition: transform 0.2s;
-    }
-
-    .attrezzatura-card:hover {
-        transform: scale(1.02);
-    }
-
-    .attrezzatura-header {
-        -- display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 15px 20px;
-        -- min-height: 82px;
-    }
-
-    .attrezzatura-header h2 {
-        margin-block-start: auto;
-        text-align-last: center;
-        font-size: 1.2em;
-        color: #333;
-    }
-
-    .attrezzatura-actions {
-        display: flex;
-        gap: 10px;
-        justify-content: space-between;
-    }
-
-    .edit-button,
-    .remove-button {
-        padding: 8px 12px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1.1em;
-    }
-
-    .edit-button {
-        background-color: #28a745;
-        color: #fff;
-        text-decoration: none;
-    }
-
-    .edit-button:hover {
-        background-color: #218838;
-    }
-
-    .remove-button {
-        background-color: #dc3545;
-        color: #fff;
-    }
-
-    .remove-button:hover {
-        background-color: #c82333;
-    }
-
-    .attrezzatura-image {
-        width: 100%;
-        height: 150px;
-        object-fit: cover;
-    }
-
-    .attrezzatura-info {
-        padding: 15px 20px;
-    }
-
-    .aule {
-        margin-top: 10px;
-        -- padding: 15px 20px;
-        padding: 0px 20px 10px;
-    }
-    
-    .aule h3 {
-        opacity: 50%;
-    }
-    
-    .aula {
-        margin-bottom: 10px;
-        padding: 10px;
-        background-color: #f9f9f9;
-        border-radius: 5px;
-        border-left: 4px solid #007BFF;
-    }
-
-    .aula h3 {
-        margin: 0 0 5px 0;
-        font-size: 1.1em;
-        color: #007BFF;
-    }
-
-    .aula p {
-        margin: 0;
-        color: #666;
-    }
-
-    .aula-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .aula-item {
-        margin-bottom: 5px;
-        color: #666;
-    }
-
-    .no-aule {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-        -- background-color: #f9f9f9;
-        border-radius: 5px;
-        flex: 1;
-        -- min-height: 100px;
-    }
-
-    .no-aule .aula-item {
-        color: #999;
-        font-style: italic;
-        margin: 0;
-    }
-</style>
-
-
-<div class="attrezzatura-grid">
-    <#list attrezzature as attrezzatura>
-        <div class="attrezzatura-card">
-            <!-- #<img class="attrezzatura-image" 
-     src="path/to/default/icon.png" 
-     alt="${attrezzatura.tipo}"> -->
-            <div class="attrezzatura-header">
-                <h2>${attrezzatura.tipo}</h2>
-                <#if logininfo??>
-                    <div class="attrezzatura-actions">
-                        <a class="edit-button" href="modifica-attrezzatura?id_attrezzatura=${attrezzatura.key}">Modifica</a>
-                        <form action="modifica-attrezzatura" method="post" class="form-button">
-                            <input type="hidden" name="remove" value="removeAttrezzatura" />
-                            <input type="hidden" name="id_attrezzatura" value="${attrezzatura.key}" />
-                            <button type="submit" class="remove-button">Rimuovi</button>
-                        </form>
+<div class="container">
+    <div class="row">
+        <#list attrezzature as attrezzatura>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <!-- Immagine commentata, può essere abilitata se necessario -->
+                    <!-- <img src="path/to/default/icon.png" class="card-img-top" alt="${attrezzatura.tipo}"> -->
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title m-0">${attrezzatura.tipo}</h5>
+                            <#if logininfo??>
+                                <div class="btn-group" role="group" aria-label="Azioni">
+                                    <a href="modifica-attrezzatura?id_attrezzatura=${attrezzatura.key}" class="btn btn-sm btn-secondary ml-2 edit-button" data-toggle="tooltip" data-placement="top" title="Modifica">
+                                        <img class="edit-img" src="https://img.icons8.com/?size=100&id=11683&format=png&color=000000"></img>
+                                    </a>
+                                    <form action="modifica-attrezzatura" method="post" class="d-inline">
+                                        <input type="hidden" name="remove" value="removeAttrezzatura" />
+                                        <input type="hidden" name="id_attrezzatura" value="${attrezzatura.key}" />
+                                        <button type="submit" class="btn btn-danger btn-sm ml-3"><img class="edit-img" src="https://img.icons8.com/?size=100&id=85387&format=png&color=000000"></img></button>
+                                    </form>
+                                </div>
+                            </#if>
+                        </div>
+                        <hr>
+                        <#if attrezzatura.aule?has_content>
+                            <h6 class="card-subtitle mb-2 text-muted">Aule associate:</h6>
+                            <ul class="list-unstyled">
+                                <#list attrezzatura.aule as aula>
+                                    <li class="d-inline">${aula.nome}<#sep>, </li>
+                                </#list>
+                            </ul>
+                        <#else>
+                            <p class="text-muted">Nessuna aula associata</p>
+                        </#if>
                     </div>
-                </#if>
+                </div>
             </div>
-
-            <#if attrezzatura.aule?has_content>
-                <div class="aule">
-                    <h3>Aule associate:</h3>
-                    <ul class="aula-list">
-                        <#list attrezzatura.aule as aula>
-                            <span class="aula-item"> ${aula.nome}<#sep>, </span> 
-                        </#list>
-                    </ul>
-                </div>
-                <#else>
-                <div class="no-aule">
-                    <p class="aula-item">Nessuna aula associata</p>
-                </div>
-            </#if>
-        </div>
-    </#list>
+        </#list>
+    </div>
 </div>

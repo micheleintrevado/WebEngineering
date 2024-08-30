@@ -129,10 +129,14 @@ a {
 
 .edit-button {
     border-radius: 50%;
-    background-color: #d85555;
+    background-color: #ffff009c;
 }
 
 .edit-img {
     max-height: 15px;
     max-width: 15px;
+}
+
+.card-header-responsabile {
+    border: 0px solid
 }
