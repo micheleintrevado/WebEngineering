@@ -154,6 +154,18 @@ a {
     margin-bottom: 2%;
 }
 
-input {
-    background-color: azure;
+input, select, .form-control, .form-button {
+    border-radius: 25px !important;
+}
+
+.checkbox-modifica {
+    --bs-btn-color: #000000;
+    --bs-btn-border-color: #000000;
+    --bs-btn-active-border-color: #000000;
+    --bs-btn-: #000000;
+    --bs-btn-active-bg: #0b7f7f
+}
+
+.bottone-modifica {
+    --bs-btn-bg: #0d6efd
 }
