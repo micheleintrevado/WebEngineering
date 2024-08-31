@@ -1,5 +1,6 @@
 <body>
     <div class="container mt-5 download-tab">
+        <div class="card">
         <form id="modificaAulaForm" method="post" action="modifica-aula?id_aula=${aula.key}">
             <div class="card-header">
                 <h1>Modifica Aula</h1>
@@ -122,5 +123,6 @@
                 </div>
             </div>
         </form>
+        </div>
     </div>
 </body>
