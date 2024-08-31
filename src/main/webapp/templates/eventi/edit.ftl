@@ -116,18 +116,24 @@
                 </div>
             </div>
         </fieldset>
-
-        <div class="form-button text-center">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificaModal">Modifica Evento</button>
+            <input hidden type="radio" name="modifica-tutti" id="modifica-singolo" value="single" class="form-check-input" checked="checked">
+            <input hidden type="radio" name="modifica-tutti" id="modifica-tutti" value="ricorrenti" class="form-check-input">
+        
+        <div class="row">        
+            <div class="col-6 form-button text-start">
+                <a href="eventi">
+                    <img class="go-back mt-3" data-toggle="tooltip" data-placement="right" title="Torna alla Lista Eventi"></img> 
+                </a>
+            </div>    
+            <div class="col-6 form-button text-end">
+                <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#modificaModal">Modifica Evento</button>
+            </div>
         </div>
     </form>
 
-    <div class="text-center">
-        <a href="eventi" class="btn btn-secondary mt-3">Torna alla Lista Eventi</a>
-    </div>
+    
 </div>
 
-<!-- Modal for selecting modification type -->
 <div class="modal fade" id="modificaModal" tabindex="-1" aria-labelledby="modificaModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

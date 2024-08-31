@@ -41,13 +41,12 @@
         </div>
 
         <#if logininfo??>
-        <div class="mt-5">
+        <div class="container download-tab mt-5">
             <h2>Modifica evento</h2>
             <form method="GET" action="modifica-evento">
                 <div class="mb-3">
-                    <label for="id_evento" class="form-label">Evento</label>
                     <select name="id_evento" id="id_evento" class="form-select">
-                        <option value="">Seleziona un evento</option>                 
+                        <option value="">Seleziona un evento da modificare</option>                 
                         <#list eventi as evento>
                             <option value="${evento.key}">${evento.nome} <#if evento.ricorrenza??> - ${evento.giorno}</#if></option>
                         </#list>
@@ -63,27 +62,28 @@
         <div class="download-tab mt-5">
             <h2>Download eventi in range CSV</h2>
             <form id="downloadEventi" method="get">
-                <div class="mb-3">
-                    <label for="start-range" class="form-label">Start Range:</label>
-                    <input type="date" id="start-range" name="start-range" class="form-control" required>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="start-range" class="form-label">Dal:</label>
+                        <input type="date" id="start-range" name="start-range" class="form-control-sm form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="end-range" class="form-label">Al:</label>
+                        <input type="date" id="end-range" name="end-range" class="form-control-sm form-control" required>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="end-range" class="form-label">End Range:</label>
-                    <input type="date" id="end-range" name="end-range" class="form-control" required>
-                </div>
-                <div class="mb-3">
+
                     <label for="corso" class="form-label">Corso Evento (opzionale):</label>
-                    <select name="corso" id="corso" class="form-select">
+                    <select name="corso" id="corso" class="form-select form-select-sm">
                         <option value="">-</option>
                         <#list corsi as corso>
                             <option value="${corso.key}">${corso.nome}</option>
                         </#list>
                     </select>
-                </div>
-
-                <div class="d-grid gap-2 d-md-block">
-                    <button type="submit" formaction="download-eventi-csv" class="btn btn-success">Download CSV</button>
-                    <button type="submit" formaction="download-eventi-ical" class="btn btn-success">Download iCal</button>
+                    <div class="d-grid gap-2 mt-3 d-md-block">
+                        <button type="submit" formaction="download-eventi-csv" class="btn btn-success">Download CSV</button>
+                        <button type="submit" formaction="download-eventi-ical" class="btn btn-success">Download iCal</button>
+                    </div>
                 </div>
             </form>
         </div>
