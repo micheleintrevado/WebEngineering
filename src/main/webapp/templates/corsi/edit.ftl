@@ -20,52 +20,95 @@
         </div>
 
     <!-- Sezione Eventi Associati -->
+    <div class="card">
         <div class="card-header">
             <h3>Eventi Associati</h3>
         </div>
         <div class="card-body">
             <#if corso.eventi?has_content>
-                <div class="list-group">
-                    <#list corso.eventi as evento>
-                        <a href="info-evento?id_evento=${evento.key}" class="list-group-item list-group-item-action" data-toggle="tooltip" data-placement="top" title="Clicca qui per maggiori info">${evento.nome}</a>
-                    </#list>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nome Evento</th>
+                                <th>Aula</th>
+                                <th>Giorno</th>
+                                <th>Responsabile</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <#list corso.eventi as evento>
+                            <tr>
+                                <td>
+                                     <a href="info-evento?id_evento=${evento.key}" data-toggle="tooltip" data-placement="top" title="Clicca qui per maggiori info">
+                                        ${evento.nome}</a>
+                                </td>
+                                <td>${evento.aula.nome}</td>
+                                <td>${evento.giorno?string("dd/MM/yyyy")}</td>
+                                <td>${evento.responsabile.nome}</td>
+                            </tr>
+                            </#list>
+                        </tbody>
+                    </table>
                 </div>
             <#else>
-                <p>Nessun evento associato.</p>
+                <p class="text-muted">Nessun evento associato.</p>
             </#if>
         </div>
+    </div>
+
 
     <!-- Sezione Eventi associati ad altri corsi -->
-        <div class="card-header">
-            <br>
+        <div class="card-header mt-2 mb-2">
             <h3>Eventi associati ad altri corsi</h3>
         </div>
-        <div class="card-body">
-            <#assign eventiAssociateKeys = corso.eventi?map(it -> it.key)/>
-            <#if Eventi?has_content>
-                <div class="list-group">
-                    <#list Eventi as evento>
-                        <#if !eventiAssociateKeys?seq_contains(evento.key)>    
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                                <span>${evento.nome}</span>
-                                <form action="modifica-corso" method="post" class="d-inline">
-                                    <input type="hidden" name="associa" value="associaEvento" />
-                                    <input type="hidden" name="id_evento" value="${evento.key}" />
-                                    <input type="hidden" name="id_corso" value="${corso.key}" />
-                                    <button type="submit" class="btn btn-outline-success btn-sm">Sposta evento al corso ${corso.nome}</button>
-                                </form>
-                            </div>
-                        </#if>
-                    </#list>
-                </div>
-            <#else>
-                <p>Nessun evento disponibile.</p>
-            </#if>
+        <div class="card"> 
+            <div class="card-body">
+                <#assign eventiAssociateKeys = corso.eventi?map(it -> it.key)/>
+                <#if Eventi?has_content>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nome Evento</th>
+                                    <th>Aula</th>
+                                    <th>Giorno</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <#list Eventi as evento>
+                                    <#if !eventiAssociateKeys?seq_contains(evento.key)>
+                                        <tr>
+                                            <td>${evento.nome}</td>
+                                            <td>${evento.aula.nome}</td>
+                                            <td>${evento.giorno?string("dd/MM/yyyy")}</td>
+                                            <td>
+                                                <form action="modifica-corso" method="post" class="d-inline">
+                                                    <input type="hidden" name="associa" value="associaEvento" />
+                                                    <input type="hidden" name="id_evento" value="${evento.key}" />
+                                                    <input type="hidden" name="id_corso" value="${corso.key}" />
+                                                    <button type="submit" class="btn btn-outline-success btn-sm">Sposta a questo corso</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </#if>
+                                </#list>
+                            </tbody>
+                        </table>
+                    </div>
+                <#else>
+                    <p class="text-muted">Nessun evento disponibile.</p>
+                </#if>
+            </div>
         </div>
+
 
 
     <!-- Bottone per tornare alla lista corsi -->
-    <div class="mt-4">
-        <a href="corsi" class="btn btn-secondary">Torna alla Lista Corsi</a>
+    <div class="form-button text-start">
+        <a href="corsi">
+            <img class="go-back mt-3" data-toggle="tooltip" data-placement="right" title="Torna alla Lista Corsi"></img> 
+        </a>
     </div>
 </div>

@@ -12,7 +12,7 @@
                         <#if logininfo??>
                             <a class="btn btn-sm btn-secondary ml-2 edit-button" href="modifica-responsabile?id_responsabile=${responsabile.key}" data-toggle="tooltip" data-placement="top" title="Modifica">
                                 <!--Modifica-->
-                                <img class="edit-img" src="https://img.icons8.com/?size=100&id=11683&format=png&color=000000"></img>
+                                <img class="edit-img bottone-modifica"></img>
                             </a>
                         </#if>
                         <a href="mailto:${responsabile.email}" class="btn btn-sm mr-2 btn-outline-primary">Contattami</a>

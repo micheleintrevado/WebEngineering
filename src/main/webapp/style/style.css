@@ -133,6 +133,7 @@ a {
 }
 
 .edit-img {
+    content:url("https://img.icons8.com/?size=100&id=11683&format=png&color=000000");
     max-height: 15px;
     max-width: 15px;
 }
@@ -155,7 +156,7 @@ a {
     margin-bottom: 2%;
 }
 
-input, select, .form-control, .form-button, .btn-outline-danger, .btn-outline-success {
+input, select, .form-control, .form-button, .btn-outline-danger, .btn-outline-primary, .btn-outline-success {
     border-radius: 25px !important;
 }
 
@@ -180,4 +181,8 @@ input, select, .form-control, .form-button, .btn-outline-danger, .btn-outline-su
     content:url("https://img.icons8.com/?size=100&id=26191&format=png&color=000000");
     width: 40px;
     height: 40px;
+}
+
+tbody, thead {
+    text-align: center;
 }

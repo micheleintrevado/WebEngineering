@@ -5,14 +5,15 @@
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
                     <!-- #<img src="path/to/default/icon.png" class="card-img-top" alt="${corso.nome}"> -->
-                    <div class="card-body">
-                        <h5 class="card-title">${corso.nome}</h5>
-                        <hr>
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">${corso.nome}</h5>
                         <#if logininfo??>
-                            <div class="d-flex justify-content-end mb-2">
-                                <a class="btn btn-secondary btn-sm" href="modifica-corso?id_corso=${corso.key}">Modifica</a>
-                            </div>
+                            <a class="btn btn-sm btn-secondary edit-button" href="modifica-corso?id_corso=${corso.key}">
+                                <img class="edit-img bottone-modifica" data-toggle="tooltip" data-placement="right" title="Modifica" alt="Modifica">
+                            </a>
                         </#if>
+                        </div>
+                        <div class="card-body">
                         <#if corso.eventi?has_content>
                             <#assign displayedEvents = [] />
                             <h6 class="card-subtitle mb-2 text-muted">Eventi associati:</h6>
