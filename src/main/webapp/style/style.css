@@ -92,6 +92,7 @@ footer {
     --bs-border-radius: 50px 50px;
     --bs-btn-bg: #0b7f7f;
     --bs-btn-hover-bg: #054545;
+    --bs-btn-border-color: none;
 }
 
 a {
@@ -154,7 +155,7 @@ a {
     margin-bottom: 2%;
 }
 
-input, select, .form-control, .form-button {
+input, select, .form-control, .form-button, .btn-outline-danger, .btn-outline-success {
     border-radius: 25px !important;
 }
 
@@ -163,7 +164,12 @@ input, select, .form-control, .form-button {
     --bs-btn-border-color: #000000;
     --bs-btn-active-border-color: #000000;
     --bs-btn-: #000000;
-    --bs-btn-active-bg: #0b7f7f
+    --bs-btn-active-bg: #0b7f7f;
+    border-radius: 25px;
+}
+
+.groups-checkbox-modifica {
+        max-width: 75%;
 }
 
 .bottone-modifica {

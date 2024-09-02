@@ -1,6 +1,5 @@
 <body>
     <div class="container mt-5 download-tab">
-        <div class="card">
         <form id="modificaAulaForm" method="post" action="modifica-aula?id_aula=${aula.key}">
             <div class="card-header">
                 <h1>Modifica Aula</h1>
@@ -108,7 +107,7 @@
                                 </#list>
                                 <div class="form-check me-3 mb-2">
                                     <input type="checkbox" name="gruppo" class="btn-check" id="gruppo-${gruppo.key}" value="${gruppo.key}" <#if checked>checked</#if> />
-                                    <label class="btn btn-outline-primary checkbox-modifica" for="gruppo-${gruppo.key}">
+                                    <label class="btn btn-outline-primary checkbox-modifica groups-checkbox-modifica text-truncate" for="gruppo-${gruppo.key}">
                                         ${gruppo.nome?capitalize} - ${gruppo.descrizione}
                                     </label>
                                 </div>
@@ -123,6 +122,5 @@
                 </div>
             </div>
         </form>
-        </div>
     </div>
 </body>
