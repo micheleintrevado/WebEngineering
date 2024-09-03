@@ -140,7 +140,6 @@ public class EditEvento extends AulewebBaseController {
 
             // VERIFICA DI EVENTI IN CONFLITTO NEGLI STESSI AULA, GIORNO E ORARI
             conflitto = dataLayer.getEventoDAO().getEventiSovrapposti(evento, aula, giorno, orarioInizio, orarioFine);
-            System.out.println(conflitto);
             if (conflitto != null) {
                 request.setAttribute("conflitto", conflitto);
             }
@@ -183,7 +182,6 @@ public class EditEvento extends AulewebBaseController {
                         dataLayer.getEventoDAO().deleteEventiRicorrenti(evento);
                     }
                     evento.setRicorrenza(ricorrenza);
-                    // CHECK COSE STRANE NEL CASO editOthers + ricorrenza not null
                 }
                 dataLayer.getEventoDAO().storeEvento(evento);
             }

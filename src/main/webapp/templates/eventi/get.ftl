@@ -2,43 +2,65 @@
         <h1 class="mb-4">Eventi disponibili</h1>
 
         <#if (eventi?size > 0)>
-        <div class="row row-cols-1 row-cols-md-2 g-4">
-            <#assign displayedEvents = [] />
-            <#list eventi as evento>
-                <#-- Verifica se questo evento è stato già inserito nella lista di supporto -->
-                <#if !(displayedEvents?seq_contains(evento.nome))>
-                    <#assign displayedEvents = displayedEvents + [evento.nome] />
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <#assign displayedEvents = [] />
+                <#list eventi as evento>
+                    <#-- Verifica se questo evento è stato già inserito nella lista di supporto -->
+                    <#if evento.ricorrenza??>
+                        <#if !(displayedEvents?seq_contains(evento.nome + "-" + evento.ricorrenza.key))>
+                            <#assign displayedEvents = displayedEvents + [evento.nome + "-" + evento.ricorrenza.key] />
 
-                    <#-- Conta le occorrenze di questo evento -->
-                    <#assign count = 0 />
-                    <#list eventi as tempEvento>
-                        <#if tempEvento.nome == evento.nome>
-                            <#assign count = count + 1 />
-                        </#if>
-                    </#list>
-
-                    <div class="col">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <a href="info-evento?id_evento=${evento.key}" class="text-decoration-none">${evento.nome}</a>
-                                </h5>
-                                <hr>
-                                <p class="card-text text-muted">
-                                    ${evento.giorno?string["dd/MM/yyyy"]}, dalle ore
-                                    ${evento.orarioInizio?string["HH:mm"]} alle ore
-                                    ${evento.orarioFine?string["HH:mm"]}
-                                </p>
-                                <p class="card-text">${evento.descrizione}</p>
-                                <#if (count > 1)>
-                                    <p class="card-text text-warning">L'evento si ripete altre ${count - 1} volte in giorni diversi.</p>
+                            <#-- Conta le occorrenze di questo evento -->
+                            <#assign count = 0 />
+                            <#list eventi as tempEvento>
+                                <#if tempEvento.ricorrenza??>
+                                    <#if (tempEvento.nome == evento.nome && tempEvento.ricorrenza.key == evento.ricorrenza.key)>
+                                        <#assign count = count + 1 />
+                                    </#if>
                                 </#if>
+                            </#list>
+
+                            <!-- Mostra le informazioni dell'evento -->
+                            <div class="col">
+                                <div class="card h-100">
+                                <a href="info-evento?id_evento=${evento.key}">
+                                    <div class="card-body card-with-link">
+                                        <h5 class="card-title">${evento.nome}</h5>
+                                        <p class="card-text">Aula ${evento.aula.nome}</p>
+                                        <p class="card-text text-secondary">Ricorrenza ${evento.ricorrenza.tipoRicorrenza} fino al ${evento.ricorrenza.dataTermine}</p>
+                                    </div>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </#if>
-            </#list>
-        </div>
+                        </#if>
+                    <#else>
+                        <#if !(displayedEvents?seq_contains(evento.nome + "-no-ricorrenza"))>
+                            <#assign displayedEvents = displayedEvents + [evento.nome + "-no-ricorrenza"] />
+
+                            <#-- Conta le occorrenze di questo evento senza ricorrenza -->
+                            <#assign count = 0 />
+                            <#list eventi as tempEvento>
+                                <#if (tempEvento.nome == evento.nome && !(tempEvento.ricorrenza??))>
+                                    <#assign count = count + 1 />
+                                </#if>
+                            </#list>
+
+                            <!-- Mostra le informazioni dell'evento senza ricorrenza -->
+                            <div class="col">
+                                <div class="card h-100">
+                                    <a href="info-evento?id_evento=${evento.key}">
+                                    <div class="card-body card-with-link">
+                                        <h5 class="card-title">${evento.nome}</h5>
+                                        <p class="card-text">Aula ${evento.aula.nome}</p>
+                                    </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </#if>
+                    </#if>
+                </#list>
+            </div>
+        </#if>
 
         <#if logininfo??>
         <div class="container download-tab mt-5">
@@ -56,7 +78,6 @@
                 <button type="submit" class="btn btn-primary">Modifica Evento</button>
             </form>
         </div>
-        </#if>
         </#if>
 
         <div class="download-tab mt-5">

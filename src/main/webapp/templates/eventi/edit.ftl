@@ -14,7 +14,7 @@
         </#list>
     </#if>
 
-    <form id="modificaEventoForm" method="post" action="modifica-evento?id_evento=${evento.key}" class="mt-4">
+    <form id="modificaEventoForm" method="post" action="modifica-evento?id_evento=${evento.key}">
         <h1 class="mb-3">Modifica Evento</h1>
         <p>Inserisci i nuovi dettagli dell'evento.</p>
 
@@ -86,8 +86,8 @@
             </div>
         </div>
 
-        <fieldset class="border p-3 mb-4">
-            <legend class="fieldset-title">Ricorrenza evento</legend>
+        <fieldset class="border p-3">
+            <legend class="fieldset-title w-auto px-2">Ricorrenza evento</legend>
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="id_master" class="form-label">Ricorrenza:</label>
@@ -129,9 +129,7 @@
                 <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#modificaModal">Modifica Evento</button>
             </div>
         </div>
-    </form>
-
-    
+    </form>   
 </div>
 
 <div class="modal fade" id="modificaModal" tabindex="-1" aria-labelledby="modificaModalLabel" aria-hidden="true">
@@ -159,3 +157,94 @@
         </div>
     </div>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const ricorrenzaSelect = document.getElementById("id_master");
+    const giornoInput = document.getElementById("giorno");
+    const fineRicorrenzaInput = document.getElementById("fine_ricorrenza");
+    
+    // Bottoni radio nel modulo e nel modale
+    const modificaSingoloRadio = document.querySelectorAll('input[name="modifica-tutti"][value="single"]');
+    const modificaTuttiRadio = document.querySelectorAll('input[name="modifica-tutti"][value="ricorrenti"]');
+
+    // Variabili di stato iniziale dell'evento
+    const giornoOriginale = giornoInput.value;
+    const fineRicorrenzaOriginale = fineRicorrenzaInput.value;
+    const ricorrenzaOriginale = ricorrenzaSelect.value || "";
+    
+    // Funzione per gestire la visibilità delle opzioni in base alle condizioni
+    function gestisciOpzioni() {
+        const ricorrenzaVal = ricorrenzaSelect.value || "";
+        const giornoCorrente = giornoInput.value;
+        const fineRicorrenza = fineRicorrenzaInput.value;
+        console.log(fineRicorrenzaOriginale)
+        console.log(fineRicorrenza)
+        
+        if (ricorrenzaOriginale !== "" && ricorrenzaVal === "") { // settimanale a null
+            console.log("caso 2");
+            modificaSingoloRadio.forEach(radio => radio.disabled = true);
+            modificaTuttiRadio.forEach(radio => {
+                radio.disabled = false;
+                radio.checked = true;
+            });
+            fineRicorrenzaInput.value = ""
+        }
+        if (ricorrenzaOriginale !== "" && ricorrenzaVal !== "" && ricorrenzaVal !== ricorrenzaOriginale) { // settimanale a mensile
+            console.log("caso 3");
+            modificaSingoloRadio.forEach(radio => radio.disabled = true);
+            modificaTuttiRadio.forEach(radio => {
+                radio.disabled = false;
+                radio.checked = true;
+            });
+            fineRicorrenzaInput.value = fineRicorrenzaOriginale 
+
+        }
+        if (ricorrenzaOriginale !== "" && ricorrenzaVal === ricorrenzaOriginale) { // settimanale a settimanale
+            console.log("caso 4");
+            modificaSingoloRadio.forEach(radio => radio.disabled = false);
+            modificaTuttiRadio.forEach(radio => radio.disabled = false);
+            if (fineRicorrenza !== fineRicorrenzaOriginale) {
+                modificaSingoloRadio.forEach(radio => radio.disabled = true);
+                modificaTuttiRadio.forEach(radio => {
+                    radio.disabled = false;
+                    radio.checked = true});
+            }
+        }
+        if (ricorrenzaOriginale === "" && ricorrenzaVal !== ricorrenzaOriginale) { // null a settimanale
+            console.log("caso 5");
+            modificaSingoloRadio.forEach(radio => radio.disabled = true);
+            modificaTuttiRadio.forEach(radio => {
+                radio.disabled = false;
+                radio.checked = true;
+            });
+        }
+        if (ricorrenzaOriginale === "" && ricorrenzaVal === ricorrenzaOriginale) { // null a null
+            console.log("caso 6");
+             modificaSingoloRadio.forEach(radio => {
+                radio.disabled = false;
+                radio.checked = true;
+            });
+            modificaTuttiRadio.forEach(radio => radio.disabled = true);
+        }
+
+        // Caso 7: Non è possibile modificare il giorno e selezionare "tutti i successivi"
+        /*if (giornoOriginale !== giornoCorrente) {
+            modificaSingoloRadio.forEach(radio => radio.checked = true);
+            modificaTuttiRadio.forEach(radio => radio.disabled = true);
+        } else if (ricorrenzaOriginale !== ""){
+            modificaTuttiRadio.forEach(radio => radio.disabled = false);
+        }*/
+
+        // Caso 8: Data fine ricorrenza deve essere dopo il giorno dell'evento corrente
+        fineRicorrenzaInput.min = giornoCorrente;
+    }
+
+    // Aggiunge gli event listener
+    ricorrenzaSelect.addEventListener("change", gestisciOpzioni);
+    fineRicorrenzaInput.addEventListener("change", gestisciOpzioni);
+    giornoInput.addEventListener("change", gestisciOpzioni);
+
+    // Inizializza la logica
+    gestisciOpzioni();
+});
+</script>
