@@ -167,6 +167,7 @@ input, select, .form-control, .form-button, .btn-outline-danger, .btn-outline-pr
     --bs-btn-: #000000;
     --bs-btn-active-bg: #0b7f7f;
     border-radius: 25px;
+    width: fit-content;
 }
 
 .groups-checkbox-modifica {
@@ -185,4 +186,8 @@ input, select, .form-control, .form-button, .btn-outline-danger, .btn-outline-pr
 
 tbody, thead {
     text-align: center;
+}
+
+.col-md-2 {
+    width: fit-content;
 }

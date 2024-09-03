@@ -79,21 +79,29 @@
     <!-- Sezione Attrezzature -->
     <div class="equipments-section">
         <h2>Attrezzature</h2>
-        <ul class="equipments-list">
-            <#list aula.attrezzature as attrezzatura>
-                <li>${attrezzatura.tipo}</li>
-            </#list>
-        </ul>
+        <#if (aula.gruppi?? && aula.gruppi?size > 0)>
+            <ul class="equipments-list">
+                <#list aula.attrezzature as attrezzatura>
+                    <li>${attrezzatura.tipo}</li>
+                </#list>
+            </ul>
+        <#else>
+            <p class="mt-3">Nessuna attrezzatura è associata a questa aula</p>
+        </#if>
     </div>
 
     <!-- Sezione Gruppi Associati -->
     <div class="groups-section">
         <h2>Gruppi Associati</h2>
-        <ul class="groups-list">
-            <#list aula.gruppi as gruppo>
-                <li>${gruppo.nome}</li>
-            </#list>
-        </ul>
+        <#if (aula.gruppi?? && aula.gruppi?size > 0)>
+            <ul class="groups-list">
+                <#list aula.gruppi as gruppo>
+                    <li>${gruppo.nome}</li>
+                </#list>
+            </ul>
+        <#else>
+            <p class="mt-3">Nessun gruppo è associato a quest'aula</p>
+        </#if>
     </div>
 
     <!-- Sezione Eventi Associati in griglia -->
@@ -103,41 +111,45 @@
             <#-- displayedEvents memorizza i nomi degli eventi già inseriti -->
             <#assign displayedEvents = [] />
 
-            <#list eventi as evento>
-                <#-- Verifica se questo evento è stato già inserito nella lista di supporto -->
-                <#if !(displayedEvents?seq_contains(evento.nome))>
-                    <#assign displayedEvents = displayedEvents + [evento.nome] />
+            <#if (eventi?? && eventi?size > 0)>
+                <#list eventi as evento>
+                    <#-- Verifica se questo evento è stato già inserito nella lista di supporto -->
+                    <#if !(displayedEvents?seq_contains(evento.nome))>
+                        <#assign displayedEvents = displayedEvents + [evento.nome] />
 
-                    <#-- Conta le occorrenze di questo evento -->
-                    <#assign count = 0 />
-                    <#list eventi as tempEvento>
-                        <#if tempEvento.nome == evento.nome>
-                            <#assign count = count + 1 />
-                        </#if>
-                    </#list>
+                        <#-- Conta le occorrenze di questo evento -->
+                        <#assign count = 0 />
+                        <#list eventi as tempEvento>
+                            <#if tempEvento.nome == evento.nome>
+                                <#assign count = count + 1 />
+                            </#if>
+                        </#list>
 
-                    <div class="col-md-4 mb-3">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <a href="info-evento?id_evento=${evento.key}">
-                                    <h5 class="card-title">${evento.nome}</h5>
-                                </a>
-                                <p class="card-text">
-                                    ${evento.giorno?string["dd/MM/yyyy"]} -
-                                    ${evento.orarioInizio?string["HH:mm"]} to
-                                    ${evento.orarioFine?string["HH:mm"]}
-                                </p>
-                                <p class="card-text">${evento.descrizione}</p>
-                                <#if (count > 1)>
-                                    <p class="card-text text-muted">
-                                        L'evento si ripete altre ${count - 1} volte in giorni diversi.
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <a href="info-evento?id_evento=${evento.key}">
+                                        <h5 class="card-title">${evento.nome}</h5>
+                                    </a>
+                                    <p class="card-text">
+                                        ${evento.giorno?string["dd/MM/yyyy"]} -
+                                        ${evento.orarioInizio?string["HH:mm"]} to
+                                        ${evento.orarioFine?string["HH:mm"]}
                                     </p>
-                                </#if>
+                                    <p class="card-text">${evento.descrizione}</p>
+                                    <#if (count > 1)>
+                                        <p class="card-text text-muted">
+                                            L'evento si ripete altre ${count - 1} volte in giorni diversi.
+                                        </p>
+                                    </#if>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </#if>
-            </#list>
+                    </#if>
+                </#list>
+            <#else>
+                <p class="mt-3">Non sono presenti eventi associati a quest'aula</p>
+            </#if>
         </div>
     </div>
 </div>

@@ -59,16 +59,21 @@
                         <input name="prese_rete" id="prese_rete" type="number" class="form-control" value="${aula.preseRete}" />
                     </div>
 
-                    <!-- Responsabile -->
                     <div class="col-md-6 mb-3">
-                        <label for="id_responsabile" class="form-label">Responsabile:</label>
-                        <select name="id_responsabile" id="id_responsabile" class="form-select">
-                            <option value="${aula.responsabile.key}">${aula.responsabile.nome}</option>
-                            <#list Responsabili as responsabile>
-                                <option value="${responsabile.key}">${responsabile.nome}</option>
-                            </#list>
-                        </select>
+                        <label for="note" class="form-label">Note:</label>
+                        <input name="note" id="note" type="textarea" class="form-control" value="${aula.note}" />
                     </div>
+                </div>
+                
+                <!-- Responsabile -->
+                <div class="col-md-6 mb-3">
+                    <label for="id_responsabile" class="form-label">Responsabile:</label>
+                    <select name="id_responsabile" id="id_responsabile" class="form-select">
+                        <option value="${aula.responsabile.key}">${aula.responsabile.nome}</option>
+                        <#list Responsabili as responsabile>
+                            <option value="${responsabile.key}">${responsabile.nome}</option>
+                        </#list>
+                    </select>
                 </div>
 
                 <!-- Associa Attrezzature e Associa Gruppi sulla stessa riga -->
