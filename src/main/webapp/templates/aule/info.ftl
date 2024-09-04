@@ -1,14 +1,4 @@
 <style>
-    .aula-container {
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin: 20px auto;
-        max-width: 800px;
-        padding: 20px;
-        font-family: Arial, sans-serif;
-    }
-
     .aula-header {
         margin-bottom: 20px;
         text-align: center;
@@ -52,11 +42,6 @@
         border-radius: 5px;
         margin-bottom: 10px;
         background-color: #f9f9f9;
-    }
-
-    .event-date-time {
-        font-style: italic;
-        color: #666;
     }
 </style>
 

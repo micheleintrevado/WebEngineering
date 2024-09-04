@@ -1,140 +1,66 @@
-<style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-        }
+<div class="container mt-5 download-tab">
+    <div class="card-header">
+        <h1>Aggiungi Responsabile</h1>
+    </div>
 
-        .container {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: auto;
-            max-width: 600px;
-            padding: 20px;
-        }
+    <div class="card-body">
+        <form action="aggiungi-responsabile" method="post">
+            <!-- Gruppo per Nome e Email sulla stessa riga -->
+            <div class="row mb-3">
+                <!-- Campo Nome -->
+                <div class="col-md-6">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" id="nome" name="nome" class="form-control" required />
+                </div>
 
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        label {
-            font-weight: bold;
-            color: #555;
-        }
-
-        input[type="text"], input[type="email"] {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .list-section {
-            margin-top: 20px;
-        }
-
-        .list-section h3 {
-            color: #007BFF;
-            margin-bottom: 10px;
-        }
-
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .checkbox-group label {
-            font-weight: normal;
-            color: #555;
-        }
-
-        .form-button {
-            display: inline-block;
-            margin-top: 20px;
-        }
-
-        .save-button {
-            background-color: #28a745;
-            color: #fff;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
-            transition: background-color 0.3s;
-            text-align: center;
-            display: inline-block;
-            text-decoration: none;
-        }
-
-        .save-button:hover {
-            background-color: #218838;
-        }
-
-        .back-button {
-            display: inline-block;
-            margin-top: 20px;
-            color: #fff;
-            background-color: #6c757d;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .back-button:hover {
-            background-color: #5a6268;
-        }
-    </style>
-
-<div class="container">
-    <h1>Aggiungi Responsabile</h1>
-
-    <form action="aggiungi-responsabile" method="post">
-        <label for="nome">Nome</label>
-        <input type="text" id="nome" name="nome" required />
-
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required />
-
-        <div class="list-section">
-            <h3>Aule da associare</h3>
-            <div class="checkbox-group">
-                <#list Aule as aula>
-                    <label>
-                        <input type="checkbox" name="aule" value="${aula.key}" />
-                        ${aula.nome}
-                    </label>
-                </#list>
+                <!-- Campo Email -->
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" required />
+                </div>
             </div>
-        </div>
 
-        <div class="list-section">
-            <h3>Eventi da associare</h3>
-            <div class="checkbox-group">
-                <#list Eventi as evento>
-                    <label>
-                        <input type="checkbox" name="eventi" value="${evento.key}" />
-                        ${evento.nome}
-                    </label>
-                </#list>
+            <div class="row">
+                <!-- Sezione per la selezione degli eventi -->
+                <div class="col-md-6 mb-3">
+                    <h5>Eventi da associare</h5>
+                    <div class="d-flex flex-wrap">
+                        <#list Eventi as evento>
+                            <div class="form-check me-3 mb-2">
+                                <input type="checkbox" class="btn-check" name="eventi" value="${evento.key}" id="evento_${evento.key}" />
+                                <label class="btn btn-outline-primary checkbox-modifica" for="evento_${evento.key}">
+                                    ${evento.nome}
+                                </label>
+                            </div>
+                        </#list>
+                    </div>
+                </div>
+
+                <!-- Sezione per la selezione delle aule -->
+                <div class="col-md-6 mb-3">
+                    <h5>Aule da associare</h5>
+                    <div class="d-flex flex-wrap">
+                        <#list Aule as aula>
+                            <div class="form-check me-3 mb-2">
+                                <input type="checkbox" class="btn-check" name="aule" value="${aula.key}" id="aula_${aula.key}" />
+                                <label class="btn btn-outline-primary checkbox-modifica" for="aula_${aula.key}">
+                                    ${aula.nome}
+                                </label>
+                            </div>
+                        </#list>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <button type="submit" class="save-button">Salva Responsabile</button>
-    </form>
+            
 
-    <a href="responsabili" class="back-button">Torna alla Lista Responsabili</a>
+            <!-- Bottone per salvare il responsabile -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary bottone-modifica">Salva Responsabile</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Link per tornare alla lista dei responsabili -->
+    <a href="responsabili" class="btn btn-secondary mt-3">Torna alla Lista Responsabili</a>
 </div>
