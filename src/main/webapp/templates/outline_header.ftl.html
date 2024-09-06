@@ -11,22 +11,69 @@
     <!-- Header -->
     <header class="header-auleweb d-flex flex-wrap justify-content-between align-items-center pb-3 mb-4">
         <div>
-        <h1 class="h3 mb-0">AuleWeb</h1>
-        <h6>${compiled_on.format('dd/MM/yyyy')}</h6>
-        <#if logininfo??>
+            <h1 class="h3 mb-0">AuleWeb</h1>
+            <h6>${compiled_on.format('dd/MM/yyyy')}</h6>
+            <#if logininfo??>
             <p>Autenticato come: <strong>${logininfo.username}</strong> </p>
-        </#if>
+            </#if>
         </div>
         <div>
             <#if logininfo??>
-                <a id="login-button" href="logout?referrer=${thispageurl?url}" class="btn btn-outline-secondary">
-                    Logout<img src="https://img.icons8.com/?size=100&id=83179&format=png&color=000000" alt="Icona Torna alla homepage">
-                </a>
+            <a id="login-button" href="logout?referrer=${thispageurl?url}" class="btn btn-outline-secondary">
+                Logout<img src="https://img.icons8.com/?size=100&id=83179&format=png&color=000000" alt="Icona Torna alla homepage">
+            </a>
             <#else>
-                <a id="login-button" href="login?referrer=${thispageurl?url}" class="btn btn-outline-secondary">
-                    Login<img src="https://img.icons8.com/?size=100&id=59818&format=png&color=000000" alt="Icona Torna alla homepage">
-                </a>
+            <!-- Trigger per il Modale -->
+            <a id="login-button" href="#" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                Login<img src="https://img.icons8.com/?size=100&id=59818&format=png&color=000000" alt="Icona Torna alla homepage">
+            </a>
             </#if>
+        </div>
+
+        <!-- Modale Bootstrap per il Login -->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="loginModalLabel">Site Access</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Alert per login già effettuato -->
+                        <#if logininfo??>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            Sei autenticato come: <strong>${logininfo.username}</strong>.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <a href="logout" class="btn btn-danger">Logout</a>
+                        </#if>
+
+                        <!-- Form di login per utenti non autenticati -->
+                        <#if !(logininfo??)>
+                        <div class="card">
+                            <div class="card-body">
+                                <form method="post" action="login">
+                                    <#if (referrer??)>        
+                                    <input name="referrer" type="hidden" value="${referrer}"/>
+                                    </#if> 
+                                    <div class="mb-3">
+                                        <label for="u" class="form-label">Username:</label> 
+                                        <input name="u" id="u" type="text" class="form-control" placeholder="username" required/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="p" class="form-label">Password:</label> 
+                                        <input name="p" id="p" type="password" class="form-control" placeholder="password"  required/>
+                                    </div>
+                                    <div class="d-grid justify-content-center">
+                                        <input value="Login" name="login" type="submit" class="btn btn-primary btn-m"/>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        </#if>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -36,32 +83,32 @@
             <img src="https://img.icons8.com/?size=100&id=2797&format=png&color=000000" alt="Icona Torna alla homepage">
             <br>Homepage
         </a>
-    
+
         <a href="eventi" class="btn btn-outline-secondary header-button">
             <img src="https://img.icons8.com/?size=100&id=W46IJyiaGbhv&format=png&color=000000" alt="Icona Vai agli eventi">
             <br>Eventi
         </a>
-    
+
         <a href="aule" class="btn btn-outline-secondary header-button">
             <img src="https://img.icons8.com/?size=100&id=9486&format=png&color=000000" alt="Icona Vai alle aule">
             <br>Aule
         </a>
-    
+
         <a href="gruppi" class="btn btn-outline-secondary header-button">
             <img src="https://img.icons8.com/?size=100&id=9542&format=png&color=000000" alt="Icona Vai ai gruppi">
             <br>Gruppi
         </a>
-    
+
         <a href="corsi" class="btn btn-outline-secondary header-button">
             <img src="https://img.icons8.com/?size=100&id=9456&format=png&color=000000" alt="Icona Vai ai corsi">
             <br>Corsi
         </a>
-    
+
         <a href="responsabili" class="btn btn-outline-secondary header-button">
             <img src="https://img.icons8.com/?size=100&id=2giFYGFaAqfQ&format=png&color=000000" alt="Icona Vai ai responsabili">
             <br>Responsabili
         </a>
-    
+
         <a href="attrezzature" class="btn btn-outline-secondary header-button">
             <img src="https://img.icons8.com/?size=100&id=9913&format=png&color=000000" alt="Icona Vai ai attrezzature">
             <br>Attrezzature

@@ -1,31 +1,50 @@
 <div class="container mt-5">
-    <h1 class="text-center">Site Access</h1>
-
+    <!-- Alert per errori di login, centrato e con larghezza del form -->
     <#if credenzialiSbagliate??>
-    <div class="alert alert-danger text-center">
-        <h2>USERNAME O PASSWORD ERRATI!</h2>
+    <div class="alert alert-danger alert-dismissible fade show mx-auto" style="max-width: 600px;" role="alert">
+        <strong>Errore!</strong> Username o password errati.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     </#if>
 
+    <!-- Alert per login già effettuato, centrato e con larghezza del form -->
     <#if logininfo??>
-    <div class="alert alert-success">
-        <p>Sei autenticato come: <strong>${logininfo.username}</strong>  <a href="logout" class="btn btn-danger">Logout</a></p>
+    <div class="alert alert-success alert-dismissible fade show mx-auto" style="max-width: 600px;" role="alert">
+        Sei autenticato come: <strong>${logininfo.username}</strong>.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    <#else>
-    <div class="card mx-auto w-50">
-        <div class="card-body">
+    <div class="text-center">
+        <a href="logout" class="btn btn-danger">Logout</a>
+    </div>
+    </#if>
+
+    <!-- Form di login per utenti non autenticati -->
+    <#if !(logininfo??)>
+    <div class="card rounded mx-auto" style="max-width: 600px;">
+        <div class="card-body rounded">
             <form method="post" action="login">
                 <#if (referrer??)>        
                 <input name="referrer" type="hidden" value="${referrer}"/>
-                </#if> 
-                <div class="mb-3">
-                    <label for="u" class="form-label">Username:</label> 
-                    <input name="u" id="u" type="text" class="form-control" placeholder="username" required/>
+                </#if>
+
+                <div class="row mb-3">
+                    <!-- Colonna per il label -->
+                    <label for="u" class="col-md-3 col-form-label">Username:</label>
+                    <!-- Colonna per il campo di input -->
+                    <div class="col-md-9">
+                        <input name="u" id="u" type="text" class="form-control" placeholder="username" required/>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="p" class="form-label">Password:</label> 
-                    <input name="p" id="p" type="password" class="form-control" placeholder="password"  required/>
+
+                <div class="row mb-3">
+                    <!-- Colonna per il label -->
+                    <label for="p" class="col-md-3 col-form-label">Password:</label>
+                    <!-- Colonna per il campo di input -->
+                    <div class="col-md-9">
+                        <input name="p" id="p" type="password" class="form-control" placeholder="password" required/>
+                    </div>
                 </div>
+
                 <div class="d-grid justify-content-center">
                     <input value="Login" name="login" type="submit" class="btn btn-primary btn-m"/>
                 </div>
