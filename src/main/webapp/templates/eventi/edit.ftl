@@ -79,8 +79,13 @@
             <div class="col-md-12">
                 <label for="id_corso" class="form-label">Corso:</label>
                 <select name="id_corso" id="id_corso" class="form-select form-select-sm">
+                            <option value="">Nessun corso</option>
                     <#list Corsi as corso>
-                        <option value="${corso.key}" <#if evento.corso.key == corso.key>selected</#if>>${corso.nome}</option>
+                        <#if evento.corso??>
+                            <option value="${corso.key}" <#if evento.corso.key == corso.key>selected</#if>>${corso.nome}</option>
+                        <#else>
+                            <option value="${corso.key}">${corso.nome}</option>
+                        </#if>
                     </#list>
                 </select>
             </div>

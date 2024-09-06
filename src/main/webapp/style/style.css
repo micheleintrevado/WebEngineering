@@ -138,6 +138,11 @@ a {
     max-width: 15px;
 }
 
+.delete-img {
+    content:url("https://img.icons8.com/?size=100&id=85387&format=png&color=000000");
+    max-height: 15px;
+    max-width: 15px;
+}
 .card-header-responsabile {
     border: 0px solid
 }

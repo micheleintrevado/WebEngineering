@@ -11,13 +11,13 @@
                             <#if logininfo??>
                                 <div class="btn-group" role="group" aria-label="Azioni">
                                     <a href="modifica-attrezzatura?id_attrezzatura=${attrezzatura.key}" class="btn btn-sm btn-secondary ml-2 edit-button" data-toggle="tooltip" data-placement="top" title="Modifica">
-                                        <img class="edit-img" src="https://img.icons8.com/?size=100&id=11683&format=png&color=000000"></img>
+                                        <img class="edit-img"></img>
                                     </a>
                                     <form action="modifica-attrezzatura" method="post" class="d-inline">
                                         <input type="hidden" name="remove" value="removeAttrezzatura" />
                                         <input type="hidden" name="id_attrezzatura" value="${attrezzatura.key}" />
                                         <button type="submit" class="btn btn-secondary remove-button btn-sm ml-3" data-toggle="tooltip" data-placement="top" title="Elimina">
-                                            <img class="edit-img" src="https://img.icons8.com/?size=100&id=85387&format=png&color=000000"></img>
+                                            <img class="delete-img"></img>
                                         </button>
                                     </form>
                                 </div>

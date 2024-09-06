@@ -19,7 +19,7 @@
                     <#list Aule as aula>
                         <div class="form-check  me-3 mb-2">
                             <input type="checkbox" class="btn-check" name="aule" value="${aula.key}" id="aula_${aula.key}" />
-                            <label class="btn btn-outline-primary checkbox-modifica groups-checkbox-modifica text-truncate" for="aula_${aula.key}">
+                            <label class="btn btn-outline-primary checkbox-modifica" for="aula_${aula.key}">
                                 ${aula.nome}
                             </label>
                         </div>
