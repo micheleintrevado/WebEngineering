@@ -103,7 +103,7 @@
                     <#list Gruppi as gruppo>
                         <div class="form-check me-3 mb-2">
                             <input type="checkbox" name="gruppo" class="btn-check" id="gruppo-${gruppo.key}" value="${gruppo.key}"/>
-                            <label class="btn btn-outline-primary checkbox-modifica groups-checkbox-modifica text-truncate" for="gruppo-${gruppo.key}">
+                            <label class="btn btn-outline-primary checkbox-modifica groups-checkbox-modifica text-truncate" for="gruppo-${gruppo.key}" data-toggle="tooltip" data-placement="top" title="${gruppo.nome?capitalize} - ${gruppo.descrizione}">
                                 ${gruppo.nome?capitalize} - ${gruppo.descrizione}
                             </label>
                         </div>

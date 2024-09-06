@@ -72,6 +72,7 @@ public class EditAula extends AulewebBaseController {
             aulaDaModificare.setCapienza(Integer.valueOf(request.getParameter("capienza")));
             aulaDaModificare.setPreseElettriche(Integer.valueOf(request.getParameter("prese_elettriche")));
             aulaDaModificare.setPreseRete(Integer.valueOf(request.getParameter("prese_rete")));
+            aulaDaModificare.setNote(request.getParameter("note"));
             
             Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabile(Integer.valueOf(request.getParameter("id_responsabile")));
             aulaDaModificare.setResponsabile(responsabile);
