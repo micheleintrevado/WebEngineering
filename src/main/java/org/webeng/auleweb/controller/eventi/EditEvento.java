@@ -85,7 +85,10 @@ public class EditEvento extends AulewebBaseController {
             AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
             Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabile(Integer.valueOf(request.getParameter("id_responsabile")));
             Aula aula = dataLayer.getAulaDAO().getAula(Integer.valueOf(request.getParameter("id_aula")));
-            Corso corso = dataLayer.getCorsoDAO().getCorso(Integer.valueOf(request.getParameter("id_corso")));
+            Corso corso = null;
+            if (!request.getParameter("id_corso").equals("")){
+                corso = dataLayer.getCorsoDAO().getCorso(Integer.valueOf(request.getParameter("id_corso")));
+            }
 
             int id = Integer.valueOf(request.getParameter("id_evento"));
             // RECUPERO LE INFORMAZIONI INSERITE DALL'UTENTE
@@ -153,7 +156,11 @@ public class EditEvento extends AulewebBaseController {
                 evento.setTipoEvento(tipoEvento);
                 evento.setResponsabile(responsabile);
                 evento.setAula(aula);
-                evento.setCorso(corso);
+                if (corso != null){
+                    evento.setCorso(corso);
+                } else {
+                    evento.setCorso(null);
+                }
                 /*if (isRicorrenzaModified) {
                     if (editOthers) {
                         dataLayer.getEventoDAO().deleteEventiRicorrenti(evento);
@@ -193,8 +200,8 @@ public class EditEvento extends AulewebBaseController {
 
             // response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "eventi"));
         } catch (Exception ex) {
-            //ex.printStackTrace();
-            handleError(ex, request, response);
+            ex.printStackTrace();
+            //handleError(ex, request, response);
         }
     }
 

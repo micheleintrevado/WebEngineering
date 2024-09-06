@@ -88,7 +88,11 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
     @Override
     public void setCorso(Corso corso) {
         super.setCorso(corso);
-        this.corso_key = corso.getKey();
+        if (corso != null){
+            this.corso_key = corso.getKey();
+        } else {
+            this.corso_key = 0;
+        }
         this.modified = true;
     }
 
