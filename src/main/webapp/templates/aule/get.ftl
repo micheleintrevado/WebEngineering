@@ -28,15 +28,15 @@
 <hr>
 
 <!-- Sezione Elenco Aule -->
-<div class="container">
-    <h1>Elenco Aule</h1>
+<div class="container download-tab">
+    <h1>Elenco delle aule</h1>
     <#if (aule?size > 0)>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
         <#list aule as aula>
         <div class="col">
             <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">
+                <div class="card-body border border-secondary rounded">
+                    <h5 class="card-title fs-2">
                         <a href="info-aula?id_aula=${aula.key}">${aula.nome}</a>
                     </h5>
                     <hr>

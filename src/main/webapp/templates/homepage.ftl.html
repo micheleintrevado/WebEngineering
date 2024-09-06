@@ -34,15 +34,15 @@
             <div class="tab-pane fade show active" id="generale" role="tabpanel" aria-labelledby="generale-tab">
                 <p class="mt-3">Benvenuto nella sezione generale. Qui puoi accedere a tutte le funzionalità disponibili.</p>
                 <ul class="list-group">
-                    <li class="list-group-item"><a href='aule'>Visualizza lista Aule</a></li>
-                    <li class="list-group-item"><a href='eventi'>Visualizza lista Eventi</a></li>
-                    <li class="list-group-item"><a href='corsi'>Visualizza lista Corsi</a></li>
-                    <li class="list-group-item"><a href='responsabili'>Visualizza lista Responsabili</a></li>
-                    <li class="list-group-item"><a href='gruppi'>Visualizza lista Gruppi</a></li>
-                    <li class="list-group-item"><a href='attrezzature'>Visualizza lista Attrezzature</a></li>
+                    <li class="list-group-item"><a href='aule'>Visualizza tutte le aule</a></li>
+                    <li class="list-group-item"><a href='eventi'>Visualizza tutti gli eventi</a></li>
+                    <li class="list-group-item"><a href='corsi'>Visualizza tutti i corsi</a></li>
+                    <li class="list-group-item"><a href='responsabili'>Visualizza tutti i responsabili</a></li>
+                    <li class="list-group-item"><a href='gruppi'>Visualizza tutti i gruppi</a></li>
+                    <li class="list-group-item"><a href='attrezzature'>Visualizza tutte le attrezzature</a></li>
                 </ul>
             </div>
-
+            
             <div class="tab-pane fade" id="aule" role="tabpanel" aria-labelledby="aule-tab">
                 <p class="mt-3">Questa è la sezione Aule.</p>
                 <ul class="list-group">
@@ -51,14 +51,16 @@
                     <li class="list-group-item"><a href='aggiungi-aula'>Aggiungi Aula</a></li>
                     </#if>
                     <#if (auleLibere?? && auleLibere?size > 0)>
-                    <h3 class="mt-3">Aule Libere</h3>
+                    <h2 class="mt-3">Aule Libere</h2>
                     <div class="scroll-container">    
                         <#list auleLibere as aula>
                         <div class="card card-with-link mb-2">
-                            <div class="card-body">
-                                <h5 class="card-title">${aula.nome}</h5>
-                                <p class="card-text">${aula.luogo} - ${aula.edificio}</p>
-                            </div>
+                            <a href="info-aula?id_aula=${aula.key}">
+                                <div class="card-body border border-secondary rounded">
+                                    <h3 class="card-title">${aula.nome}</h3>
+                                    <p class="card-text">${aula.luogo} - ${aula.edificio}</p>
+                                </div>
+                            </a>
                         </div>
                         </#list>
                         <#else>
@@ -79,16 +81,16 @@
 
                     <!-- Eventi Attuali -->
                     <#if (eventiAttuali?? && eventiAttuali?size > 0)>
-                    <h3 class="mt-3">Eventi correnti</h3>
+                    <h2 class="mt-3">Eventi correnti</h2>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                         <#list eventiAttuali as eventoAttuale>
                         <div class="col">
                             <div class="card card-with-link h-100">
                                 <a href="info-evento?id_evento=${eventoAttuale.key}">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${eventoAttuale.nome}</h5>
+                                    <div class="card-body border border-secondary rounded">
+                                        <h3 class="card-title">${eventoAttuale.nome}</h3>
                                         <p class="card-text">Aula ${eventoAttuale.aula.nome}<br>
-                                        Orario: ${eventoAttuale.orarioInizio?string["HH:mm"]} - ${eventoAttuale.orarioFine?string["HH:mm"]}</p>
+                                            Orario: ${eventoAttuale.orarioInizio?string["HH:mm"]} - ${eventoAttuale.orarioFine?string["HH:mm"]}</p>
                                     </div>
                                 </a>
                             </div>
@@ -96,21 +98,23 @@
                         </#list>
                     </div>
                     <#else>
-                    <p class="mt-3">Non sono presenti eventi attualmente in corso</p>
+                    <div class="mt-3 alert alert-info" role="alert">
+                        Non sono presenti eventi attualmente in corso.
+                    </div>
                     </#if>
 
                     <!-- Eventi Prossimi -->
                     <#if (eventiProssimi?? && eventiProssimi?size > 0)>
-                    <h3 class="mt-3">Eventi Prossimi</h3>
+                    <h2 class="mt-3">Eventi Prossimi</h2>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                         <#list eventiProssimi as eventoProssimo>
                         <div class="col">
                             <div class="card card-with-link h-100">
                                 <a href="info-evento?id_evento=${eventoProssimo.key}">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${eventoProssimo.nome}</h5>
+                                    <div class="card-body border border-secondary rounded">
+                                        <h3 class="card-title">${eventoProssimo.nome}</h3>
                                         <p class="card-text">Aula ${eventoProssimo.aula.nome} <br>
-                                        Orario: ${eventoProssimo.orarioInizio?string["HH:mm"]} - ${eventoProssimo.orarioFine?string["HH:mm"]}</p>
+                                            Orario: ${eventoProssimo.orarioInizio?string["HH:mm"]} - ${eventoProssimo.orarioFine?string["HH:mm"]}</p>
                                     </div>
                                 </a>
                             </div>
@@ -119,7 +123,9 @@
                     </div>
                     </nav>
                     <#else>
-                    <p class="mt-3">Non sono presenti eventi prossimi che incominceranno nelle prossime 48 ore</p>
+                    <div class="mt-3 alert alert-info" role="alert">
+                        Non sono presenti eventi prossimi che incominceranno nelle prossime 48 ore.
+                    </div>
                     </#if>
                 </ul>
             </div>
@@ -150,8 +156,8 @@
                     <div class="scroll-container">
                         <#list gruppi as gruppo>
                         <div class="card mb-2">
-                            <div class="card-body">
-                                <h5 class="card-title">${gruppo.nome}</h5>
+                            <div class="card-body border border-secondary rounded">
+                                <h3 class="card-title">${gruppo.nome}</h3>
                                 <p class="card-text">${gruppo.descrizione}</p>
                             </div>
                         </div>

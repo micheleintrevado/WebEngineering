@@ -15,48 +15,48 @@
             <input type="date" name="inizio_settimana" id="inizio_settimana" class="form-control" required>
         </div>
     </div>
+    <div style="margin:3% 5%">
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" name="eventi_attuali" id="eventi_attuali" value="true">
+            <label class="form-check-label" for="eventi_attuali">Filtra gli eventi attuali</label>
+        </div>
 
-    <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" name="eventi_attuali" id="eventi_attuali" value="true">
-        <label class="form-check-label" for="eventi_attuali">Filtra gli eventi attuali</label>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" name="eventi_prossimi" id="eventi_prossimi" value="true">
+            <label class="form-check-label" for="eventi_prossimi">Filtra gli eventi delle prossime 3 ore</label>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" name="aula_settimana" id="aula_settimana" value="true">
+            <label class="form-check-label" for="aula_settimana">Filtra gli eventi nell'aula e nella settimana specificate</label>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" name="aule_giorno" id="aule_giorno" value="true">
+            <label class="form-check-label" for="aule_giorno">Filtra gli eventi nel giorno specificato e nelle aule del gruppo selezionato</label>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" name="corso_settimana" id="corso_settimana" value="true">
+            <label class="form-check-label" for="corso_settimana">Filtra gli eventi del corso e nella settimana specificati</label>
+        </div>
+
+        <div id="aulaSelectContainer" class="mb-3" style="display:none;">
+            <label for="id_aula" class="form-label">Scegli un'aula da usare come filtro:</label>
+            <select id="id_aula" name="id_aula" class="form-select">
+                <option value="">Seleziona aula</option>
+                <!-- Le opzioni verranno aggiunte dinamicamente -->
+            </select>
+        </div>
+
+        <div id="corsoSelectContainer" class="mb-3" style="display:none;">
+            <label for="id_corso" class="form-label">Scegli un corso da usare come filtro:</label>
+            <select id="id_corso" name="id_corso" class="form-select">
+                <option value="">Seleziona corso</option>
+                <!-- Le opzioni verranno aggiunte dinamicamente -->
+            </select>
+        </div>
     </div>
-
-    <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" name="eventi_prossimi" id="eventi_prossimi" value="true">
-        <label class="form-check-label" for="eventi_prossimi">Filtra gli eventi delle prossime 3 ore</label>
-    </div>
-
-    <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" name="aula_settimana" id="aula_settimana" value="true">
-        <label class="form-check-label" for="aula_settimana">Filtra gli eventi nell'aula e nella settimana specificate</label>
-    </div>
-
-    <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" name="aule_giorno" id="aule_giorno" value="true">
-        <label class="form-check-label" for="aule_giorno">Filtra gli eventi nel giorno specificato e nelle aule del gruppo selezionato</label>
-    </div>
-
-    <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" name="corso_settimana" id="corso_settimana" value="true">
-        <label class="form-check-label" for="corso_settimana">Filtra gli eventi del corso e nella settimana specificati</label>
-    </div>
-
-    <div id="aulaSelectContainer" class="mb-3" style="display:none;">
-        <label for="id_aula" class="form-label">Scegli un'aula da usare come filtro:</label>
-        <select id="id_aula" name="id_aula" class="form-select">
-            <option value="">Seleziona aula</option>
-            <!-- Le opzioni verranno aggiunte dinamicamente -->
-        </select>
-    </div>
-
-    <div id="corsoSelectContainer" class="mb-3" style="display:none;">
-        <label for="id_corso" class="form-label">Scegli un corso da usare come filtro:</label>
-        <select id="id_corso" name="id_corso" class="form-select">
-            <option value="">Seleziona corso</option>
-            <!-- Le opzioni verranno aggiunte dinamicamente -->
-        </select>
-    </div>
-
     <div>
         <button type="submit" class="btn btn-primary">Filtra</button>
     </div>
@@ -67,10 +67,12 @@
         <h3>Lista di tutti i dipartimenti</h3>
         <#list gruppi as gruppo>
             <div class="col-md-4 mb-4">
-                <div class="card h-100">
+                <div class="card border border-secondary rounded h-100">
                     <div class="card-body">
-                        <h5 class="card-title">${gruppo.nome}</h5> <hr>
-                        <p class="card-text small">${gruppo.descrizione}</p>
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title">${gruppo.nome}</h5>
+                        </div>
+                        <p class="card-text small mt-1">${gruppo.descrizione}</p>
                         <#if logininfo??>
                             <div class="d-flex justify-content-between">
                                 <a class="btn btn-secondary btn-sm me-2" href="modifica-gruppo?id_gruppo=${gruppo.key}">Modifica</a>
@@ -84,7 +86,7 @@
                     </div>
 
                     <#if gruppo.aule?has_content>
-                        <div class="card-footer">
+                        <div class="card-body">
                             <h6>Aule associate:</h6>
                             <p class="mb-0">
                                 <#list gruppo.aule as aula>

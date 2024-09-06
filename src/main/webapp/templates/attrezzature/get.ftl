@@ -1,11 +1,12 @@
-<div class="container">
+<div class="container download-tab">
     <div class="row">
+        <h3>Lista di tutte le attrezzature</h3>
         <#list attrezzature as attrezzatura>
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <!-- Immagine commentata, può essere abilitata se necessario -->
                     <!-- <img src="path/to/default/icon.png" class="card-img-top" alt="${attrezzatura.tipo}"> -->
-                    <div class="card-body">
+                    <div class="card-body border border-secondary rounded">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="card-title m-0">${attrezzatura.tipo}</h5>
                             <#if logininfo??>

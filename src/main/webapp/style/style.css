@@ -1,6 +1,7 @@
 /* Colori di sfondo */
 body {
-    font-family: 'Roboto'
+    font-family: 'Roboto';
+    font-size: large;
 }
 
 .background-body {
@@ -19,6 +20,7 @@ body {
     box-shadow: 0px 0px 4px 0px;
     width: 100px;
     height: 80px;
+    font-size: medium !important;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -31,28 +33,54 @@ body {
 }
 
 #login-button img {
-    width: 40px;
+    width: 40%;
 }
 
 /* Imposta una larghezza minima per i bottoni e li rende flessibili */
-.header-button {
+/* .header-button {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
     padding: 1rem;
-    min-width: 100px; /* Imposta una larghezza minima per i bottoni */
-    margin: 0.5rem; /* Spazio tra i bottoni */
-    flex: 1 1 auto; /* I bottoni si adattano e crescono in base alla larghezza disponibile */
+    min-width: 100px; 
+    margin: 0.5rem; 
+    flex: 1 1 auto; 
     color: black;
     background-image: linear-gradient(#000bff38, #0dcaf0);
     transition: color 0.5s ease, font-size 0.5s ease
+} */
+/*
+.header-button:hover{
+    color: black;*/
+/*font-size: 20px;*/
+/*font-size: 30px !important;
+text-decoration: none;
+}*/
+
+.header-button {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    /* padding: 1rem; */
+    /* min-width: 100px; */
+    width: 13%;
+    /* margin: 0.5rem; */
+    flex: 1 1 auto;
+    color: black;
+    background-image: linear-gradient(#000bff38, #0dcaf0);
+    transition: color 0.5s ease, font-size 0.5s ease;
+    align-items: center;
 }
 
-.header-button:hover{
+.header-button:hover {
     color: black;
-    font-size: 20px
+    /* font-size: larger !important; */
+    width: 13%;
+    /* padding: 1%; */
+    /* font-size: 28px !important; */
+    text-decoration: none;
 }
 
 /* Assicura che le immagini non superino una certa altezza e mantengano le proporzioni */
@@ -99,6 +127,11 @@ a {
     text-decoration: none;
 }
 
+a:hover {
+    text-decoration: underline;
+    color: black;
+}
+
 .card-with-link {
     --bs-card-color: black;
 }
@@ -123,7 +156,7 @@ a {
 
 .info-responsabile {
     box-shadow: 0px 0px 5px 0px;
-    background-color: azure;
+    background-color: azure !important;
 }
 
 .edit-button {
@@ -144,7 +177,12 @@ a {
     max-width: 15px;
 }
 .card-header-responsabile {
-    border: 0px solid
+    border: 0px solid;
+    background-color: azure !important;
+}
+
+.bg-grad {
+    background-color: rgb(0 0 0 / 6%) !important;
 }
 
 .remove-button {
@@ -169,14 +207,14 @@ input, select, .form-control, .form-button, .btn-outline-danger, .btn-outline-pr
     --bs-btn-color: #000000;
     --bs-btn-border-color: #000000;
     --bs-btn-active-border-color: #000000;
-    --bs-btn-: #000000;
+    --bs-btn: #000000;
     --bs-btn-active-bg: #0b7f7f;
     border-radius: 25px;
     width: fit-content;
 }
 
 .groups-checkbox-modifica {
-        max-width: 75%;
+    max-width: 75%;
 }
 
 .bottone-modifica {
@@ -195,4 +233,71 @@ tbody, thead {
 
 .col-md-2 {
     width: fit-content;
+}
+
+.form-check {
+    padding: 5px;
+}
+
+.badge-info {
+    color: #FFFFFF;
+    background-color: #0b7f7f;
+    border-radius: 25px;
+    width: fit-content;
+}
+
+.card, .card-body, .card-footer, .card-header {
+    background-color: #dae6f2;
+}
+
+.card-title {
+    font-size: x-large !important;
+}
+.border-secondary {
+    --bs-border-opacity: 0.5;
+}
+
+.list-group {
+    --bs-list-group-bg: #0b7f7f8c; /*rgb(0 127 255 / 26%);*/
+}
+
+.list-group a {
+    color:darkslategrey;
+}
+
+.list-group a:hover {
+    text-decoration: underline;
+    color: #0b3a29;
+    text-shadow: 0px 0px 20px lightsteelblue;
+}
+
+/* Media query per schermi medi (da 768px a 992px) */
+@media (min-width: 768px) and (max-width: 992px) {
+    .header-button {
+        width: 30%;
+        font-size: 13px;
+    }
+
+    .nav.nav-justify {
+        justify-content: center;
+    }
+
+
+    .header-button img {
+        margin-bottom: 10px;
+    }
+}
+
+/* Media query per schermi molto piccoli (smartphone) */
+@media (max-width: 768px) {
+    .header-button {
+        width: 45%;
+    }
+}
+
+/* Media query per schermi molto molto piccoli (smartphone piccoli) */
+@media (max-width: 576px) {
+    .header-button {
+        width: 100%;
+    }
 }

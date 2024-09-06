@@ -1,5 +1,5 @@
-    <div class="container py-5">
-        <h1 class="mb-4">Eventi disponibili</h1>
+    <div class="container download-tab py-5">
+        <h1 class="mb-4">Lista di tutti gli eventi</h1>
 
         <#if (eventi?size > 0)>
             <div class="row row-cols-1 row-cols-md-2 g-4">
@@ -24,7 +24,7 @@
                             <div class="col">
                                 <div class="card h-100">
                                 <a href="info-evento?id_evento=${evento.key}">
-                                    <div class="card-body card-with-link">
+                                    <div class="card-body border border-secondary rounded card-with-link">
                                         <h5 class="card-title">${evento.nome}</h5>
                                         <p class="card-text">Aula ${evento.aula.nome}</p>
                                         <p class="card-text text-secondary">Ricorrenza ${evento.ricorrenza.tipoRicorrenza} fino al ${evento.ricorrenza.dataTermine}</p>
@@ -49,7 +49,7 @@
                             <div class="col">
                                 <div class="card h-100">
                                     <a href="info-evento?id_evento=${evento.key}">
-                                    <div class="card-body card-with-link">
+                                    <div class="card-body rounded card-with-link">
                                         <h5 class="card-title">${evento.nome}</h5>
                                         <p class="card-text">Aula ${evento.aula.nome}</p>
                                     </div>

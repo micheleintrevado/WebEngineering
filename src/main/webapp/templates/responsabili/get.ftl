@@ -1,5 +1,6 @@
-<div class="container mt-4">
+<div class="container download-tab mt-4">
     <div class="accordion" id="responsabileAccordion">
+    <h3>Lista di tutti i responsabili</h3>
         <#list responsabili as responsabile>
             <div class="card info-responsabile mb-3">
                 <div class="card-header d-flex justify-content-between align-items-center card-header-responsabile" id="heading${responsabile.key}">
@@ -11,7 +12,6 @@
                     <div>
                         <#if logininfo??>
                             <a class="btn btn-sm btn-secondary ml-2 edit-button" href="modifica-responsabile?id_responsabile=${responsabile.key}" data-toggle="tooltip" data-placement="top" title="Modifica">
-                                <!--Modifica-->
                                 <img class="edit-img bottone-modifica"></img>
                             </a>
                         </#if>
@@ -37,9 +37,9 @@
                                 <#list responsabile.aule as aula>
                                     <div class="col-md-4 mb-3">
                                         <div class="card h-100">
-                                            <div class="card-body">
+                                            <div class="card-body bg-grad border border-secondary rounded">
                                                 <h6 class="card-title">${aula.nome}</h6>
-                                                <a href="info-aula?id_aula=${aula.key}" class="btn btn-sm btn-outline-primary">Dettagli Aula</a>
+                                                <a href="info-aula?id_aula=${aula.key}" class="btn btn-sm btn-primary rounded">Dettagli Aula</a>
                                             </div>
                                         </div>
                                     </div>
@@ -69,17 +69,17 @@
                                         </#list>
                                     <div class="col-md-4 mb-3">
                                         <div class="card h-100">
-                                            <div class="card-body">
+                                            <div class="card-body bg-grad border border-secondary rounded">
                                                 <h6 class="card-title">${evento.nome}</h6>
                                                 <hr>
                                                 <p class="card-text small"><strong>Data:</strong> ${evento.giorno?string["dd/MM/yyyy"]}</p>
                                                 <p class="card-text small"><strong>Aula:</strong> ${evento.aula.nome}</p>
                                                 <p class="card-text small"><strong>Descrizione:</strong> ${evento.descrizione}</p>
-                                                <a href="info-evento?id_evento=${evento.key}" class="btn btn-sm btn-outline-primary">Dettagli Evento</a>
-                                            </div>
+                                                <a href="info-evento?id_evento=${evento.key}" class="btn btn-sm btn-primary rounded">Dettagli Evento</a>
                                             <#if (count > 1)>
-                                                <small class="recurrent-warning text-muted">Questo evento è ricorrente in altre ${count - 1} date.</small>
-                                            </#if>
+                                                <br> <small class="recurrent-warning text-muted">Questo evento è ricorrente in altre ${count - 1} date.</small>
+                                            </#if>                                            
+                                            </div>
                                         </div>
                                             
                                     </div>

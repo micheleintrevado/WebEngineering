@@ -1,10 +1,11 @@
 
-<div class="container mt-4">
+<div class="container download-tab mt-4">
     <div class="row">
+        <h3>Lista di tutti i corsi</h3>
         <#list corsi as corso>
             <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <!-- #<img src="path/to/default/icon.png" class="card-img-top" alt="${corso.nome}"> -->
+                <div class="card border border-secondary rounded h-100">
+                    <div class="card-body">
                         <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">${corso.nome}</h5>
                         <#if logininfo??>
@@ -13,10 +14,10 @@
                             </a>
                         </#if>
                         </div>
-                        <div class="card-body">
+                        
                         <#if corso.eventi?has_content>
                             <#assign displayedEvents = [] />
-                            <h6 class="card-subtitle mb-2 text-muted">Eventi associati:</h6>
+                            <h6 class="card-subtitle mt-1 mb-2 text-muted">Eventi associati:</h6>
                             <ul class="list-group list-group-flush">
                                 <#list corso.eventi as evento>
                                     <#if !(displayedEvents?seq_contains(evento.nome))>
@@ -27,12 +28,12 @@
                                                 <#assign count = count + 1 />
                                             </#if>
                                         </#list>
-                                        <li class="list-group-item">
+                                        <li class="list-group-item rounded mb-1">
                                             <a href="info-evento?id_evento=${evento.key}">
                                                 ${evento.nome} (${evento.aula.nome})
                                             </a>
                                             <#if (count > 1)>
-                                                <small class="text-muted">Si ripete altre ${count - 1} volte.</small>
+                                                <br><small class="text-muted">Si ripete altre ${count - 1} volte.</small>
                                             </#if>
                                         </li>
                                     </#if>
