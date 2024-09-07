@@ -139,8 +139,115 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Aggiungi gli eventi ai campi di input e al select solo se gli elementi esistono
-    if (filterNomeInput) filterNomeInput.addEventListener("keyup", filterEvents);
-    if (filterGiornoInput) filterGiornoInput.addEventListener("keyup", filterEvents);
-    if (filterNomeAuleInput) filterNomeAuleInput.addEventListener("keyup", filterAule);
-    if (sortSelect) sortSelect.addEventListener("change", sortEvents);
+    if (filterNomeInput)
+        filterNomeInput.addEventListener("keyup", filterEvents);
+    if (filterGiornoInput)
+        filterGiornoInput.addEventListener("keyup", filterEvents);
+    if (filterNomeAuleInput)
+        filterNomeAuleInput.addEventListener("keyup", filterAule);
+    if (sortSelect)
+        sortSelect.addEventListener("change", sortEvents);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const filterInput = document.getElementById("filterEventsToEdit");
+    const filterAuleInput = document.getElementById("filterAuleToEdit");
+    const filterGruppoInput = document.getElementById("filterGruppoToEdit");
+    const filterCorsoInput = document.getElementById("filterCorsoToEdit");
+    const filterResponsabileInput = document.getElementById("filterResponsabileToEdit");
+    const filterAttrezzaturaInput = document.getElementById("filterAttrezzaturaToEdit");
+
+    const selectEvento = document.getElementById("id_evento");
+    const selectAula = document.getElementById("id_aula");
+    const selectGruppo = document.getElementById("id_gruppo_edit");
+    const selectCorso = document.getElementById("id_corso_edit");
+    const selectResponsabile = document.getElementById("id_responsabile_edit");
+    const selectAttrezzatura = document.getElementById("id_attrezzatura_edit");
+
+    if (filterInput)
+        filterInput.addEventListener("keyup", function () {
+            const filterValue = filterInput.value.toLowerCase();
+            const options = selectEvento.querySelectorAll("option");
+
+            options.forEach(function (option) {
+                const nomeEvento = option.getAttribute("data-nome")?.toLowerCase() || '';
+                const giornoEvento = option.getAttribute("data-giorno")?.toLowerCase() || '';
+
+                if (nomeEvento.includes(filterValue) || giornoEvento.includes(filterValue)) {
+                    option.style.display = "block";
+                } else {
+                    option.style.display = "none";
+                }
+            });
+        });
+    if (filterAuleInput)
+        filterAuleInput.addEventListener("keyup", function () {
+            const filterValue = filterAuleInput.value.toLowerCase();
+            const options = selectAula.querySelectorAll("option");
+
+            options.forEach(function (option) {
+                const nomeAula = option.getAttribute("data-nome")?.toLowerCase() || '';
+                if (nomeAula.includes(filterValue)) {
+                    option.style.display = "block";
+                } else {
+                    option.style.display = "none";
+                }
+            });
+        });
+    if (filterGruppoInput)
+        filterGruppoInput.addEventListener("keyup", function () {
+            const filterValue = filterGruppoInput.value.toLowerCase();
+            const options = selectGruppo.querySelectorAll("option");
+
+            options.forEach(function (option) {
+                const nomeGruppo = option.getAttribute("data-nome")?.toLowerCase() || '';
+                if (nomeGruppo.includes(filterValue)) {
+                    option.style.display = "block";
+                } else {
+                    option.style.display = "none";
+                }
+            });
+        });
+    if (filterCorsoInput)
+        filterCorsoInput.addEventListener("keyup", function () {
+            const filterValue = filterCorsoInput.value.toLowerCase();
+            const options = selectCorso.querySelectorAll("option");
+
+            options.forEach(function (option) {
+                const nomeCorso = option.getAttribute("data-nome")?.toLowerCase() || '';
+                if (nomeCorso.includes(filterValue)) {
+                    option.style.display = "block";
+                } else {
+                    option.style.display = "none";
+                }
+            });
+        });
+    if (filterResponsabileInput)
+        filterResponsabileInput.addEventListener("keyup", function () {
+            const filterValue = filterResponsabileInput.value.toLowerCase();
+            const options = selectResponsabile.querySelectorAll("option");
+
+            options.forEach(function (option) {
+                const nomeResponsabile = option.getAttribute("data-nome")?.toLowerCase() || '';
+                if (nomeResponsabile.includes(filterValue)) {
+                    option.style.display = "block";
+                } else {
+                    option.style.display = "none";
+                }
+            });
+        });
+    if (filterAttrezzaturaInput)
+        filterAttrezzaturaInput.addEventListener("keyup", function () {
+            const filterValue = filterAttrezzaturaInput.value.toLowerCase();
+            const options = selectAttrezzatura.querySelectorAll("option");
+
+            options.forEach(function (option) {
+                const nomeAttrezzatura = option.getAttribute("data-nome")?.toLowerCase() || '';
+                if (nomeAttrezzatura.includes(filterValue)) {
+                    option.style.display = "block";
+                } else {
+                    option.style.display = "none";
+                }
+            });
+        });
 });

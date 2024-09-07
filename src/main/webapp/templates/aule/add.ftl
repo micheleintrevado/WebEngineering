@@ -1,4 +1,4 @@
-<div class="container mt-5 download-tab">
+<div class="container text-center mt-5 download-tab">
     <!-- Card per l'aggiunta di un'aula -->
     <div class="card-header">
         <h1>Aggiungi Aula</h1>
@@ -12,13 +12,13 @@
                 <!-- Campo Nome -->
                 <div class="col-md-6">
                     <label for="nome" class="form-label">Nome:</label>
-                    <input name="nome" id="nome" type="text" class="form-control" required />
+                    <input name="nome" id="nome" type="text" placeholder="Nome dell'aula" class="form-control" required />
                 </div>
 
                 <!-- Campo Luogo -->
                 <div class="col-md-6">
                     <label for="luogo" class="form-label">Luogo:</label>
-                    <input name="luogo" id="luogo" type="text" class="form-control" required />
+                    <input name="luogo" id="luogo" type="text" placeholder="Città" class="form-control" required />
                 </div>
             </div>
 
@@ -27,13 +27,13 @@
                 <!-- Campo Edificio -->
                 <div class="col-md-6">
                     <label for="edificio" class="form-label">Edificio:</label>
-                    <input name="edificio" id="edificio" type="text" class="form-control" required />
+                    <input name="edificio" id="edificio" type="text" placeholder="Edificio" class="form-control" required />
                 </div>
 
                 <!-- Campo Piano -->
                 <div class="col-md-6">
                     <label for="piano" class="form-label">Piano:</label>
-                    <input name="piano" id="piano" type="text" class="form-control" required />
+                    <input name="piano" id="piano" type="text" placeholder="Piano" class="form-control" required />
                 </div>
             </div>
 
@@ -42,13 +42,13 @@
                 <!-- Campo Capienza -->
                 <div class="col-md-6">
                     <label for="capienza" class="form-label">Capienza:</label>
-                    <input name="capienza" id="capienza" type="number" min="1" class="form-control" required />
+                    <input name="capienza" id="capienza" type="number" min="1" placeholder="Capienza dell'aula" class="form-control" required />
                 </div>
 
                 <!-- Campo Prese Elettriche -->
                 <div class="col-md-6">
                     <label for="prese_elettriche" class="form-label">Prese Elettriche:</label>
-                    <input name="prese_elettriche" id="prese_elettriche" type="number" min="0" class="form-control" />
+                    <input name="prese_elettriche" id="prese_elettriche" placeholder="Numero di prese elettriche" type="number" min="0" class="form-control" />
                 </div>
             </div>
 
@@ -57,7 +57,7 @@
                 <!-- Campo Prese Rete -->
                 <div class="col-md-6">
                     <label for="prese_rete" class="form-label">Prese Rete:</label>
-                    <input name="prese_rete" id="prese_rete" type="number" min="0" class="form-control" />
+                    <input name="prese_rete" id="prese_rete" type="number" placeholder="Numero di prese di rete" min="0" class="form-control" />
                 </div>
                 
                 <!-- Campo Responsabile -->
@@ -77,7 +77,7 @@
                 <!-- Campo Note -->
                 <div class="col-md-6">
                     <label for="note" class="form-label">Note:</label>
-                    <textarea name="note" id="note" type="text" class="form-control"></textarea>
+                    <textarea name="note" id="note" type="text" placeholder="Eventuali note aggiuntive" class="form-control"></textarea>
                 </div>
             </div>
 

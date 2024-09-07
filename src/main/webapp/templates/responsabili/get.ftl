@@ -1,6 +1,20 @@
-<div class="container download-tab mt-4">
+<div class="container download-tab">
     <div class="accordion" id="responsabileAccordion">
-    <h3>Lista di tutti i responsabili</h3>
+        <div class="row">
+            <h1 class="col-md-6 mb-4">Lista di tutti i responsabili</h1>
+            <div class="col-md-6 d-flex justify-content-end align-items-start">
+                <#if logininfo??>
+                <a href="#" class="btn btn-success me-2" data-bs-toggle="modal" style="text-decoration:none; background-color: yellow; color: unset;" data-bs-target="#modificaResponsabileModal">
+                    <img class="edit-img" data-toggle="tooltip" data-placement="right" title="Modifica" alt="Modifica">
+                    <span class="mx-auto small"> Modifica </span>
+                </a>
+                <a href="aggiungi-responsabile" style="text-decoration:none; background-color: lawngreen; color: unset;" class="btn btn-success">
+                    <img class="add-img" data-toggle="tooltip" data-placement="right" title="Aggiungi" alt="Aggiungi">
+                    <span class="mx-auto small"> Aggiungi </span>
+                </a>
+                </#if>
+            </div>
+        </div>
         <#list responsabili as responsabile>
             <div class="card info-responsabile mb-3">
                 <div class="card-header rounded d-flex justify-content-between align-items-center card-header-responsabile" id="heading${responsabile.key}">
@@ -94,5 +108,41 @@
                 </div>
             </div>
         </#list>
+    </div>
+</div>
+<div class="modal fade" id="modificaResponsabileModal" tabindex="-2" aria-labelledby="modificaResponsabileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modificaResponsabileModalLabel">Modifica corso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Sezione Modifica Responsabile -->
+                <#if logininfo??>
+                <div class="container download-tab text-center p-4 bg-section border rounded h-100" style="background-color: #00717d9e !important;"> 
+                    <form method="GET" action="modifica-responsabile">
+                        <!-- Filtro per la select -->
+                        <div class="mb-3">
+                            <label for="filterResponsabileToEdit" class="form-label">Filtra per nome:</label>
+                            <input type="text" id="filterResponsabileToEdit" class="form-control" placeholder="Scrivi per filtrare...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_responsabile_edit" class="form-label">Seleziona un gruppo da modificare:</label>
+                            <select name="id_responsabile" id="id_responsabile_edit" class="form-select" required>
+                                <option value="">Seleziona un responsabile</option>
+                                <#list responsabili as responsabile>
+                                    <option value="${responsabile.key}" data-nome="${responsabile.nome}">
+                                        ${responsabile.nome}
+                                    </option>
+                                </#list>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Modifica responsabile</button>
+                    </form>
+                </div>
+                </#if>
+            </div>
+        </div>
     </div>
 </div>

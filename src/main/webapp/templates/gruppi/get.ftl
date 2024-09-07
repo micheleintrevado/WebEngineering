@@ -1,6 +1,20 @@
-<div class="container mt-4">
+<div class="container">
     <div class="row download-tab">
-        <h3>Lista di tutti i dipartimenti</h3>
+        <div class="row">
+        <h1 class="col-md-6 mb-4">Lista di tutti i gruppi</h1>
+            <div class="col-md-6 d-flex justify-content-end align-items-start">
+                <#if logininfo??>
+                <a href="#" class="btn btn-success me-2" data-bs-toggle="modal" style="text-decoration:none; background-color: yellow; color: unset;" data-bs-target="#modificaGruppoModal">
+                    <img class="edit-img" data-toggle="tooltip" data-placement="right" title="Modifica" alt="Modifica">
+                    <span class="mx-auto small"> Modifica </span>
+                </a>
+                <a href="aggiungi-gruppo" style="text-decoration:none; background-color: lawngreen; color: unset;" class="btn btn-success">
+                    <img class="add-img" data-toggle="tooltip" data-placement="right" title="Aggiungi" alt="Aggiungi">
+                    <span class="mx-auto small"> Aggiungi </span>
+                </a>
+                </#if>
+            </div>
+        </div>
         <#list gruppi as gruppo>
             <div class="col-md-4 mb-4">
                 <div class="card rounded h-100">
@@ -51,7 +65,7 @@
         <div class="col-md-6">
             <label for="id_gruppo" class="form-label">Gruppo:</label>
             <select name="id_gruppo" id="id_gruppo" class="form-select" required>
-                <option disabled selected hidden>Scegli un Gruppo</option>
+                <option disabled selected hidden>Scegli un gruppo</option>
                 <#list gruppi as gruppo>
                     <option value="${gruppo.key}">${gruppo.nome}</option>
                 </#list>
@@ -109,84 +123,139 @@
     </div>
 </form>
 
+<div class="modal fade" id="modificaGruppoModal" tabindex="-2" aria-labelledby="modificaGruppoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modificaGruppoModalLabel">Modifica gruppo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Sezione Modifica Gruppo -->
+                <#if logininfo??>
+                <div class="container download-tab text-center p-4 bg-section border rounded h-100" style="background-color: #00717d9e !important;"> 
+                    <form method="GET" action="modifica-gruppo">
+                        <!-- Filtro per la select -->
+                        <div class="mb-3">
+                            <label for="filterGruppoToEdit" class="form-label">Filtra per nome:</label>
+                            <input type="text" id="filterGruppoToEdit" class="form-control" placeholder="Scrivi per filtrare...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_gruppo_edit" class="form-label">Seleziona un gruppo da modificare:</label>
+                            <select name="id_gruppo" id="id_gruppo_edit" class="form-select" required>
+                                <option value="">Seleziona un gruppo</option>
+                                <#list gruppi as gruppo>
+                                    <option value="${gruppo.key}" data-nome="${gruppo.nome}">
+                                        ${gruppo.nome}
+                                    </option>
+                                </#list>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Modifica gruppo</button>
+                    </form>
+                </div>
+                </#if>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('#id_gruppo').change(function() {
-            var idGruppo = $(this).val();
-            
-            $.ajax({
-                url: 'gruppi',
-                method: 'GET',
-                data: {
-                    action: 'getAuleCorsi',
-                    id_gruppo: idGruppo
-                },
-                dataType: 'json',
-                success: function(data) {
-                    // Assicurati che i dati siano quelli attesi
-                    console.log('Dati ricevuti:', data);
+$(document).ready(function() {
+    // Seleziona la form che ha come action "filtra-da-gruppo"
+    var $formFiltraDaGruppo = $('form[action="filtra-da-gruppo"]');
 
-                    // Popola le opzioni di Aula
-                    var $aulaSelect = $('#id_aula');
-                    $aulaSelect.empty().append('<option value="">Seleziona Aula</option>');
-                    $.each(data.aule, function(index, aula) {
-                        $aulaSelect.append(new Option(aula.nome, aula.id));
-                    });
+    // Funzione per aggiornare le select delle aule e dei corsi in base al gruppo selezionato
+    function aggiornaAuleECorsi(idGruppo) {
+        $.ajax({
+            url: 'gruppi',
+            method: 'GET',
+            data: {
+                action: 'getAuleCorsi',
+                id_gruppo: idGruppo
+            },
+            dataType: 'json',
+            success: function(data) {
+                console.log('Dati ricevuti:', data);
 
-                    // Popola le opzioni di Corso
-                    var $corsoSelect = $('#id_corso');
-                    $corsoSelect.empty().append('<option value="">Seleziona Corso</option>');
-                    $.each(data.corsi, function(index, corso) {
-                        $corsoSelect.append(new Option(corso.nome, corso.id));
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error('Errore durante il caricamento di aule e corsi:', error);
-                }
-            });
-        });
+                // Aggiorna la select delle aule
+                var $aulaSelect = $formFiltraDaGruppo.find('#id_aula');
+                $aulaSelect.empty().append('<option value="">Seleziona aula</option>');
+                $.each(data.aule, function(index, aula) {
+                    $aulaSelect.append(new Option(aula.nome, aula.id));
+                });
 
-        $('#aula_settimana').change(function() {
-            $('#aulaSelectContainer').toggle(this.checked);
-        });
-
-        $('#corso_settimana').change(function() {
-            $('#corsoSelectContainer').toggle(this.checked);
-        });
-
-        $('form').submit(function(event) {
-            var valid = true;
-
-            if ($('#aula_settimana').is(':checked') && !$('#id_aula').val()) {
-                alert("Per favore, seleziona un'aula.");
-                valid = false;
-            }
-
-            if ($('#corso_settimana').is(':checked') && !$('#id_corso').val()) {
-                alert("Per favore, seleziona un corso.");
-                valid = false;
-            }
-
-            if (!valid) {
-                event.preventDefault();
-            }
-
-            // Validazione generale per i campi required
-            $('select[required], input[required]').each(function() {
-                if (!$(this).val()) {
-                    alert('Per favore, scegli un gruppo.');
-                    valid = false;
-                    return false; // Esce dal ciclo each
-                }
-            });
-
-            if (!valid) {
-                event.preventDefault();
+                // Aggiorna la select dei corsi
+                var $corsoSelect = $formFiltraDaGruppo.find('#id_corso');
+                $corsoSelect.empty().append('<option value="">Seleziona corso</option>');
+                $.each(data.corsi, function(index, corso) {
+                    $corsoSelect.append(new Option(corso.nome, corso.id));
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Errore durante il caricamento di aule e corsi:', error);
             }
         });
+    }
+
+    // Gestione del cambiamento nel select "id_gruppo"
+    $formFiltraDaGruppo.find('#id_gruppo').change(function() {
+        var idGruppo = $(this).val();
+        console.log(idGruppo);
+        aggiornaAuleECorsi(idGruppo); // Chiama la funzione per aggiornare le select
     });
+
+    // Mostra o nasconde i container delle aule e dei corsi in base ai checkbox e aggiorna le select
+    $formFiltraDaGruppo.find('#aula_settimana').change(function() {
+        var idGruppo = $formFiltraDaGruppo.find('#id_gruppo').val();
+        $formFiltraDaGruppo.find('#aulaSelectContainer').toggle(this.checked);
+        if (this.checked && idGruppo) {
+            aggiornaAuleECorsi(idGruppo); // Aggiorna le select quando la checkbox è cliccata
+        }
+    });
+
+    $formFiltraDaGruppo.find('#corso_settimana').change(function() {
+        var idGruppo = $formFiltraDaGruppo.find('#id_gruppo').val();
+        $formFiltraDaGruppo.find('#corsoSelectContainer').toggle(this.checked);
+        if (this.checked && idGruppo) {
+            aggiornaAuleECorsi(idGruppo); // Aggiorna le select quando la checkbox è cliccata
+        }
+    });
+
+    // Validazione del form prima dell'invio
+    $formFiltraDaGruppo.submit(function(event) {
+        var valid = true;
+
+        if ($formFiltraDaGruppo.find('#aula_settimana').is(':checked') && !$formFiltraDaGruppo.find('#id_aula').val()) {
+            alert("Per favore, seleziona un'aula.");
+            valid = false;
+        }
+
+        if ($formFiltraDaGruppo.find('#corso_settimana').is(':checked') && !$formFiltraDaGruppo.find('#id_corso').val()) {
+            alert("Per favore, seleziona un corso.");
+            valid = false;
+        }
+
+        if (!valid) {
+            event.preventDefault();
+        }
+
+        // Validazione generale per i campi required
+        $formFiltraDaGruppo.find('select[required], input[required]').each(function() {
+            if (!$(this).val()) {
+                alert('Per favore, compila tutti i campi richiesti.');
+                valid = false;
+                return false; // Esce dal ciclo each
+            }
+        });
+
+        if (!valid) {
+            event.preventDefault();
+        }
+    });
+});
+
 </script>

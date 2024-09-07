@@ -177,6 +177,24 @@ a:hover {
     max-height: 15px;
     max-width: 15px;
 }
+
+.download-img {
+    content:url("https://img.icons8.com/?size=100&id=365&format=png&color=000000");
+    max-height: 15px;
+    max-width: 15px;
+}
+
+.upload-img {
+    content: url("https://img.icons8.com/?size=100&id=367&format=png&color=000000");
+    max-height: 15px;
+    max-width: 15px;
+}
+
+.add-img {
+    content: url("https://img.icons8.com/?size=100&id=4dgyaQft1hCX&format=png&color=000000");
+    max-height: 15px;
+    max-width: 15px;
+}
 .card-header-responsabile {
     border: 0px solid;
     background-color: azure !important;

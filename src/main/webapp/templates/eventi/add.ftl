@@ -14,33 +14,30 @@
         </#list>
     </#if>
 
-    <form method="post" action="aggiungi-evento">
+    <form method="post" action="aggiungi-evento" class="text-center ">
         <h1 class="mb-3">Aggiungi Evento</h1>
         <p>Inserisci i dettagli del nuovo evento.</p>
 
-        <div class="row mb-3">
+        <div class="row align-items-end mb-3">
             <div class="col-md-6">
                 <label for="nome" class="form-label">Nome:</label>
                 <input class="form-control form-control-sm" name="nome" id="nome" type="text" required/>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label for="giorno" class="form-label">Giorno:</label>
                 <input class="form-control form-control-sm" name="giorno" id="giorno" type="date" required/>
             </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="orario_inizio" class="form-label">Orario di inizio evento:</label>
+            <div class="col-md-1">
+                <label for="orario_inizio" class="form-label small">Orario inizio:</label>
                 <input class="form-control form-control-sm" name="orario_inizio" id="orario_inizio" type="time" required />
             </div>
 
-            <div class="col-md-6">
-                <label for="orario_fine"class="form-label">Orario di fine evento:</label>
+            <div class="col-md-1">
+                <label for="orario_fine" class="form-label small">Orario termine:</label>
                 <input class="form-control form-control-sm" name="orario_fine" id="orario_fine" type="time" required />
             </div>
-        </div>    
-        <div class="row mb-3">
+        </div>
+        <div class="row align-items-end mb-3">
             <div class="col-md-6">
                 <label for="descrizione" class="form-label">Descrizione:</label>
                 <input class="form-control form-control-sm" name="descrizione" id="descrizione" type="text" required />
@@ -55,7 +52,7 @@
                 </select>
             </div>
         </div>        
-        <div class="row mb-3">
+        <div class="row align-items-end mb-3">
             <div class="col-md-6">
                 <label for="id_responsabile" class="form-label">Responsabile:</label>
                 <select class="form-select form-select-sm" name="id_responsabile" id="id_responsabile" required>
@@ -74,11 +71,11 @@
             </div>
         </div>
 
-        <div class="row mb-3">
-            <div class="col-md-12">
+        <div class="row align-items-end mb-3">
+            <div class="col-md-6">
                 <label for="id_corso" class="form-label">Corso:</label>
                 <select class="form-select form-select-sm" name="id_corso" id="id_corso" required>
-                    <option value="">Seleziona Corso</option>
+                    <option value="">Seleziona un corso</option>
                     <#list Corsi as corso>
                         <option value="${corso.key}">${corso.nome}</option>
                     </#list>
@@ -92,7 +89,7 @@
                 <div class="col-md-6">
                     <label for="id_master" class="form-label">Ricorrenza:</label>
                     <select class="form-select form-select-sm" name="id_master" id="id_master" required>
-                        <option value="">Seleziona Tipo Ricorrenza</option>
+                        <option value="">Seleziona Tipo di ricorrenza</option>
                         <#list TipiRicorrenza as tipoRicorrenza>
                             <option value="${tipoRicorrenza}">${tipoRicorrenza}</option>
                         </#list>
