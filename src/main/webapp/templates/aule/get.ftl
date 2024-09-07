@@ -1,9 +1,9 @@
 <#if logininfo??>
     <hr>
     <div class="container">
-        <div class="row mb-4">
+        <div class="row mb-4 justify-content-around">
             <!-- Sezione Download CSV -->
-            <div class="col-md-6">
+            <div class="col-md-5 p-2 bg-section border border-secondary rounded text-center">
                 <h2>Download configurazione aule CSV</h2>
                 <form action="download-aule-csv" method="get">
                     <button type="submit" class="btn btn-primary">Download</button>
@@ -11,14 +11,14 @@
             </div>
 
             <!-- Sezione Upload CSV -->
-            <div class="col-md-6">
-                <h2>Upload configurazione aule CSV</h2>
+            <div class="col-md-6 p-2 bg-section border border-secondary rounded">
+                <h2 class="text-center">Upload configurazione aule CSV</h2>
                 <form action="upload-aule-csv" method="post" enctype='multipart/form-data'>
-                    <div class="mb-3">
-                        <label for="aule-csv" class="form-label">Carica File CSV</label>
-                        <input type="file" name="aule-csv" id="aule-csv" class="form-control"/>
+                    <div class="row justify-content-around d-flex  mb-3">
+                        <label for="aule-csv" class="col-md-2 font-weight-bold col-form-label">Carica un file CSV</label>
+                        <input type="file" name="aule-csv" id="aule-csv" class="col-md-2 col-form-control form-control"/>
+                        <button type="submit" class="col-md-2 btn btn-success">Upload</button>
                     </div>
-                    <button type="submit" class="btn btn-success">Upload</button>
                 </form>
             </div>
         </div>
@@ -35,16 +35,22 @@
         <#list aule as aula>
         <div class="col">
             <div class="card h-100">
-                <div class="card-body border border-secondary rounded">
-                    <h5 class="card-title fs-2">
+                <div class="card-header"> 
+                    <h5 class="card-title justify-content-between d-flex fs-2">
                         <a href="info-aula?id_aula=${aula.key}">${aula.nome}</a>
+                        <#if logininfo??>
+                            <a class="btn btn-sm btn-secondary ml-2 edit-button" href="modifica-aula?id_aula=${aula.key}" data-toggle="tooltip" data-placement="top" title="Modifica">
+                                <img class="edit-img bottone-modifica"></img>
+                            </a>
+                        </#if>
                     </h5>
-                    <hr>
-                    <p class="card-text">
-                        <em>Luogo: ${aula.luogo}</em><br/>
-                        <em>Edificio: ${aula.edificio}</em><br/>
-                        <em>Piano: ${aula.piano}</em>
-                    </p>
+                </div>
+                <div class="card-body rounded">
+                <p class="card-text">
+                    <em>Luogo: ${aula.luogo}</em><br/>
+                    <em>Edificio: ${aula.edificio}</em><br/>
+                    <em>Piano: ${aula.piano}</em>
+                </p>
                 </div>
             </div>
         </div>

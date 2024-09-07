@@ -16,51 +16,89 @@
     </form>
 
 
-    <!-- Sezione Aule associate -->
-    <div class="list-section mb-4">
-        <h3 class="mb-3">Aule con questa attrezzatura</h3>
-        <div class="card-body">
-            <#if attrezzatura.aule?has_content>
-                <ul class="list-group">
-                    <#list attrezzatura.aule as aula>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span>${aula.nome}</span>
-                            <form action="modifica-attrezzatura" method="post" class="form-button">
-                                <input type="hidden" name="disassocia" value="disassociaAula" />
-                                <input type="hidden" name="id_aula" value="${aula.key}" />
-                                <input type="hidden" name="id_attrezzatura" value="${attrezzatura.key}" />
-                                <button type="submit" class="btn btn-outline-danger btn-sm">Rimuovi</button>
-                            </form>
-                        </li>
-                    </#list>
-                </ul>
-            <#else>
-                <p class="text-muted mb-0">Nessuna aula associata.</p>
-            </#if>
+        <!-- Sezione Aule associate -->
+        <div class="mb-4">
+            <div class="card-header"><h3>Aule con questa attrezzatura</h3></div>
+            <div class="p-3">
+                <#if attrezzatura.aule?has_content>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nome Aula</th>
+                                    <th>Luogo</th>
+                                    <th>Edificio</th>
+                                    <th>Piano</th>
+                                    <th>Azione</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <#list attrezzatura.aule as aula>
+                                    <tr>
+                                        <td>${aula.nome}</td>
+                                        <td>${aula.luogo}</td>
+                                        <td>${aula.edificio}</td>
+                                        <td>${aula.piano}</td>
+                                        <td>
+                                            <form action="modifica-attrezzatura" method="post" class="form-button">
+                                                <input type="hidden" name="disassocia" value="disassociaAula" />
+                                                <input type="hidden" name="id_aula" value="${aula.key}" />
+                                                <input type="hidden" name="id_attrezzatura" value="${attrezzatura.key}" />
+                                                <button type="submit" class="btn btn-outline-danger btn-sm">Rimuovi</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </#list>
+                            </tbody>
+                        </table>
+                    </div>
+                <#else>
+                    <p class="text-muted mb-0">Nessuna aula associata.</p>
+                </#if>
+            </div>
         </div>
-    </div>
 
-    <!-- Sezione Aule prive di questa attrezzatura -->
-    <div class="list-section mb-4">
-        <h3 class="mb-3">Aule prive di questa attrezzatura</h3>
-        <div class="card-body">
-            <#assign auleAssociateKeys = attrezzatura.aule?map(it -> it.key)/>
-            <#if Aule?has_content>
-                <ul class="list-group">
-                    <#list Aule as aula>
-                        <#if !auleAssociateKeys?seq_contains(aula.key)>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span>${aula.nome}</span>
-                                <form action="modifica-attrezzatura" method="post" class="form-button">
-                                    <input type="hidden" name="associa" value="associaAula" />
-                                    <input type="hidden" name="id_aula" value="${aula.key}" />
-                                    <input type="hidden" name="id_attrezzatura" value="${attrezzatura.key}" />
-                                    <button type="submit" class="btn btn-outline-success btn-sm">Aggiungi</button>
-                                </form>
-                            </li>
-                        </#if>
-                    </#list>
-                </ul>
+        <!-- Sezione Aule prive di questa attrezzatura -->
+        <div class="mt-4">
+            <div class="card-header">
+                <h3>Aule prive di questa attrezzatura</h3>
+            </div>
+            <div class="p-3">
+                <#assign auleAssociateKeys = attrezzatura.aule?map(it -> it.key)/>
+                <#if Aule?has_content>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Nome Aula</th>
+                                    <th>Luogo</th>
+                                    <th>Edificio</th>
+                                    <th>Piano</th>
+                                    <th>Azione</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <#list Aule as aula>
+                                    <#if !auleAssociateKeys?seq_contains(aula.key)>
+                                        <tr>
+                                            <td>${aula.nome}</td>
+                                            <td>${aula.luogo}</td>
+                                            <td>${aula.edificio}</td>
+                                            <td>${aula.piano}</td>
+                                            <td>
+                                                <form action="modifica-attrezzatura" method="post" class="form-button">
+                                                    <input type="hidden" name="associa" value="associaAula" />
+                                                    <input type="hidden" name="id_aula" value="${aula.key}" />
+                                                    <input type="hidden" name="id_attrezzatura" value="${attrezzatura.key}" />
+                                                    <button type="submit" class="btn btn-outline-success btn-sm">Aggiungi</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </#if>
+                                </#list>
+                        </tbody>
+                    </table>
+                </div>
             <#else>
                 <p class="text-muted mb-0">Nessuna aula disponibile.</p>
             </#if>

@@ -186,6 +186,10 @@ a:hover {
     background-color: rgb(0 0 0 / 6%) !important;
 }
 
+.bg-section {
+    background-color: rgba(0, 0, 0, 0.125) !important;
+}
+
 .remove-button {
     /*border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;*/
@@ -200,7 +204,7 @@ a:hover {
     margin-bottom: 2%;
 }
 
-input, select, .form-control, .form-button, .btn-outline-danger, .btn-outline-primary, .btn-outline-success {
+input, select, .form-control, .form-button, .btn-outline-danger, .btn-outline-primary, .btn-outline-success, .btn-success {
     border-radius: 25px !important;
 }
 

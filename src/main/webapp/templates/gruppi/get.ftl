@@ -1,5 +1,52 @@
+<div class="container mt-4">
+    <div class="row download-tab">
+        <h3>Lista di tutti i dipartimenti</h3>
+        <#list gruppi as gruppo>
+            <div class="col-md-4 mb-4">
+                <div class="card rounded h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title m-0">${gruppo.nome}</h5>
+                        <#if logininfo??>
+                            <div class="btn-group" role="group" aria-label="Azioni">
+                                <a href="modifica-gruppo?id_gruppo=${gruppo.key}" class="btn btn-sm btn-secondary ml-2 edit-button" data-toggle="tooltip" data-placement="top" title="Modifica">
+                                    <img class="edit-img" style="border-radius: 0px 50% 50% 0px;"></img>
+                                </a>
+                                <form action="modifica-gruppo" method="post" class="d-inline">
+                                    <input type="hidden" name="remove" value="removeGruppo" />
+                                    <input type="hidden" name="id_gruppo" value="${gruppo.key}" />
+                                    <button type="submit" class="btn btn-secondary remove-button btn-sm ml-3" data-toggle="tooltip" data-placement="top" title="Elimina">
+                                        <img class="delete-img"></img>
+                                    </button>
+                                </form>
+                            </div>
+                        </#if>
+                    </div>
+                    <div class="card-body rounded">
+                        <p class="card-text small mt-1">${gruppo.descrizione}</p>
+                    </div>
 
-<form action="filtra-da-gruppo" method="GET" class="container info mt-4">
+                    <#if gruppo.aule?has_content>
+                        <div class="p-3">
+                            <h6>Aule associate:</h6>
+                            <p class="mb-0">
+                                <#list gruppo.aule as aula>
+                                    <span class="badge bg-info">${aula.nome}</span>
+                                    <#sep> </#sep>
+                                </#list>
+                            </p>
+                        </div>
+                    <#else>
+                        <div class="card-footer">
+                            <p class="text-muted">Nessuna aula associata</p>
+                        </div>
+                    </#if>
+                </div>
+            </div>
+        </#list>
+    </div>
+</div>
+
+<form action="filtra-da-gruppo" method="GET" class="container download-tab border border-secondary p-3 rounded mt-4">
     <div class="row mb-3">
         <div class="col-md-6">
             <label for="id_gruppo" class="form-label">Gruppo:</label>
@@ -57,54 +104,11 @@
             </select>
         </div>
     </div>
-    <div>
+    <div class="text-center">
         <button type="submit" class="btn btn-primary">Filtra</button>
     </div>
 </form>
 
-<div class="container mt-4">
-    <div class="row download-tab">
-        <h3>Lista di tutti i dipartimenti</h3>
-        <#list gruppi as gruppo>
-            <div class="col-md-4 mb-4">
-                <div class="card border border-secondary rounded h-100">
-                    <div class="card-body">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="card-title">${gruppo.nome}</h5>
-                        </div>
-                        <p class="card-text small mt-1">${gruppo.descrizione}</p>
-                        <#if logininfo??>
-                            <div class="d-flex justify-content-between">
-                                <a class="btn btn-secondary btn-sm me-2" href="modifica-gruppo?id_gruppo=${gruppo.key}">Modifica</a>
-                                <form action="modifica-gruppo" method="post" class="d-inline">
-                                    <input type="hidden" name="remove" value="removeGruppo"/>
-                                    <input type="hidden" name="id_gruppo" value="${gruppo.key}"/>
-                                    <button type="submit" class="btn btn-danger btn-sm">Rimuovi</button>
-                                </form>
-                            </div>
-                        </#if>
-                    </div>
-
-                    <#if gruppo.aule?has_content>
-                        <div class="card-body">
-                            <h6>Aule associate:</h6>
-                            <p class="mb-0">
-                                <#list gruppo.aule as aula>
-                                    <span class="badge bg-info">${aula.nome}</span>
-                                    <#sep> </#sep>
-                                </#list>
-                            </p>
-                        </div>
-                    <#else>
-                        <div class="card-footer">
-                            <p class="text-muted">Nessuna aula associata</p>
-                        </div>
-                    </#if>
-                </div>
-            </div>
-        </#list>
-    </div>
-</div>
 
 
 

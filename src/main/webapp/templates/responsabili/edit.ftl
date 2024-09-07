@@ -44,7 +44,7 @@
                                 <th>Luogo</th>
                                 <th>Edificio</th>
                                 <th>Piano</th>
-                                <th>Modifica Aula</th>
+                                <th>Azione</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -83,7 +83,7 @@
                                 <th>Nome Evento</th>
                                 <th>Nome Aula</th>
                                 <th>Giorno Evento</th>
-                                <th>Azioni</th>
+                                <th>Azione</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -122,7 +122,7 @@
                                 <th>Luogo</th>
                                 <th>Edificio</th>
                                 <th>Piano</th>
-                                <th></th>
+                                <th>Azione</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -169,7 +169,7 @@
                                 <th>Nome Evento</th>
                                 <th>Aula</th>
                                 <th>Giorno</th>
-                                <th></th>
+                                <th>Azione</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -1,5 +1,4 @@
 <div class="container info mt-5">
-    <!-- Header Aula -->
     <div class="row mb-4">
         <div class="col text-center">
             <h1 class="display-4">Aula ${aula.nome}</h1>

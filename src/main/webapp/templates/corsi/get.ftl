@@ -5,7 +5,7 @@
         <#list corsi as corso>
             <div class="col-md-4 mb-4">
                 <div class="card border border-secondary rounded h-100">
-                    <div class="card-body">
+                    
                         <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">${corso.nome}</h5>
                         <#if logininfo??>
@@ -14,7 +14,7 @@
                             </a>
                         </#if>
                         </div>
-                        
+                        <div class="card-body rounded">
                         <#if corso.eventi?has_content>
                             <#assign displayedEvents = [] />
                             <h6 class="card-subtitle mt-1 mb-2 text-muted">Eventi associati:</h6>

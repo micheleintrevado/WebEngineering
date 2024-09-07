@@ -52,23 +52,14 @@
                 </div>
             </div>
 
-            <!-- Quarta riga: Prese Rete e Note -->
+            <!-- Quarta riga: Prese Rete e Responsabile -->
             <div class="row mb-3">
                 <!-- Campo Prese Rete -->
                 <div class="col-md-6">
                     <label for="prese_rete" class="form-label">Prese Rete:</label>
                     <input name="prese_rete" id="prese_rete" type="number" min="0" class="form-control" />
                 </div>
-
-                <!-- Campo Note -->
-                <div class="col-md-6">
-                    <label for="note" class="form-label">Note:</label>
-                    <input name="note" id="note" type="text" class="form-control" />
-                </div>
-            </div>
-
-            <!-- Quinta riga: Responsabile -->
-            <div class="row mb-3">
+                
                 <!-- Campo Responsabile -->
                 <div class="col-md-6">
                     <label for="id_responsabile" class="form-label">Responsabile:</label>
@@ -77,6 +68,16 @@
                             <option value="${responsabile.key}">${responsabile.nome}</option>
                         </#list>
                     </select>
+                </div>
+                
+            </div>
+
+            <!-- Quinta riga: Note -->
+            <div class="row mb-3">
+                <!-- Campo Note -->
+                <div class="col-md-6">
+                    <label for="note" class="form-label">Note:</label>
+                    <textarea name="note" id="note" type="text" class="form-control"></textarea>
                 </div>
             </div>
 
@@ -110,11 +111,15 @@
                     </#list>
                 </div>
             </div>
-
-            <!-- Bottone per aggiungere l'aula -->
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary bottone-modifica">Aggiungi Aula</button>
-            </div>
+            
+            <div class="d-flex justify-content-between">
+                <div class="form-button text-start">
+                    <a href="aule">
+                        <img class="go-back mt-3" data-toggle="tooltip" data-placement="right" title="Torna alla Lista aule"></img> 
+                    </a>
+                </div>
+                <button type="submit" class="btn btn-success">Salva e aggiungi aula</button>
+            </div>            
         </form>
     </div>
 </div>

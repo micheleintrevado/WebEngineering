@@ -3,7 +3,7 @@
     <h3>Lista di tutti i responsabili</h3>
         <#list responsabili as responsabile>
             <div class="card info-responsabile mb-3">
-                <div class="card-header d-flex justify-content-between align-items-center card-header-responsabile" id="heading${responsabile.key}">
+                <div class="card-header rounded d-flex justify-content-between align-items-center card-header-responsabile" id="heading${responsabile.key}">
                     <h4 class="mb-0">
                         <a href="info-responsabile?id_responsabile=${responsabile.key}" class="text-decoration-none" style="color: black">
                             ${responsabile.nome}
@@ -30,7 +30,7 @@
 
                 <!-- Sezione per le Aule associate -->
                 <div id="collapseAule${responsabile.key}" class="collapse">
-                    <div class="card-body">
+                    <div class="card-body rounded-top">
                         <#if responsabile.aule?has_content>
                             <h5>Aule associate:</h5>
                             <div class="row">
@@ -53,7 +53,7 @@
 
                 <!-- Sezione per gli Eventi associati -->
                 <div id="collapseEventi${responsabile.key}" class="collapse">
-                    <div class="card-body">
+                    <div class="card-body rounded-bottom">
                         <#if responsabile.eventi?has_content>
                             <#assign displayedEvents = [] />
                             <h5>Eventi associati:</h5>
@@ -68,10 +68,11 @@
                                             </#if>
                                         </#list>
                                     <div class="col-md-4 mb-3">
-                                        <div class="card h-100">
-                                            <div class="card-body bg-grad border border-secondary rounded">
+                                        <div class="card border border-secondary rounded h-100">
+                                            <div class="card-header bg-grad">
                                                 <h6 class="card-title">${evento.nome}</h6>
-                                                <hr>
+                                            </div>
+                                            <div class="card-body bg-grad rounded">
                                                 <p class="card-text small"><strong>Data:</strong> ${evento.giorno?string["dd/MM/yyyy"]}</p>
                                                 <p class="card-text small"><strong>Aula:</strong> ${evento.aula.nome}</p>
                                                 <p class="card-text small"><strong>Descrizione:</strong> ${evento.descrizione}</p>

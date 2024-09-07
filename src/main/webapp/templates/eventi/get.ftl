@@ -50,7 +50,7 @@
         <!-- Sezione Modifica Evento -->
         <#if logininfo??>
         <div class="col-md-6 h-100">
-            <div class="container p-4 border rounded h-100"> <!-- Aggiunto h-100 per estendere l'altezza del container -->
+            <div class="container bg-section p-4 border rounded h-100"> <!-- Aggiunto h-100 per estendere l'altezza del container -->
                 <h2>Modifica evento</h2>
                 <form method="GET" action="modifica-evento">
                     <div class="mb-3">
@@ -71,8 +71,8 @@
         </#if>
 
         <!-- Sezione Download Eventi in Range CSV -->
-        <div class="col-md-6 h-100"> <!-- Aggiungi h-100 per assicurare l'altezza uniforme -->
-            <div class="container p-4 border rounded h-100"> <!-- Aggiunto h-100 per estendere l'altezza del container -->
+        <div class="col-md-6 h-100">
+            <div class="container p-4 bg-section border rounded h-100">
                 <h2>Download eventi in range CSV</h2>
                 <form id="downloadEventi" method="get">
                     <!-- Campo Dal e Al -->

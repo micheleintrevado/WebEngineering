@@ -41,7 +41,7 @@
                                 <th>Luogo</th>
                                 <th>Edificio</th>
                                 <th>Piano</th>
-                                <th></th>
+                                <th>Azione</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -85,7 +85,7 @@
                                 <th>Luogo</th>
                                 <th>Edificio</th>
                                 <th>Piano</th>
-                                <th></th>
+                                <th>Azione</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -116,7 +116,12 @@
         </div>
     </div>
 
-    <div class="mt-4">
-        <a href="gruppi" class="btn btn-secondary">Torna alla Lista Gruppi</a>
+    <div class="row">        
+    <!-- Bottone per tornare alla lista responsabili -->
+        <div class="col-6 form-button text-start">
+            <a href="gruppi">
+                <img class="go-back mt-3" data-toggle="tooltip" data-placement="right" title="Torna alla lista dei dipartimenti"></img> 
+            </a>
+        </div>
     </div>
 </div>

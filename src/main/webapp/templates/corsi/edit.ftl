@@ -73,7 +73,7 @@
                                     <th>Nome Evento</th>
                                     <th>Aula</th>
                                     <th>Giorno</th>
-                                    <th></th>
+                                    <th>Azione</th>
                                 </tr>
                             </thead>
                             <tbody>
