@@ -160,6 +160,7 @@ a:hover {
 }
 
 .edit-button {
+    font-size: initial !important;
     border-radius: 50%;
     background-color: #ffff009c;
     --bs-btn-hover-bg: #d0d001;
@@ -269,6 +270,14 @@ tbody, thead {
     text-decoration: underline;
     color: #0b3a29;
     text-shadow: 0px 0px 20px lightsteelblue;
+}
+
+.table-responsive {
+    border-radius: 1rem;
+}
+
+.table {
+    margin-bottom: unset;
 }
 
 /* Media query per schermi medi (da 768px a 992px) */

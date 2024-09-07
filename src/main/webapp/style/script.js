@@ -25,18 +25,39 @@ function applyBodyFontSizeToSelectedElements(selector) {
     });
 }
 
-// Esegui la funzione quando il DOM è pronto e passa il selettore desiderato
-document.addEventListener('DOMContentLoaded', function() {
-    // Sostituisci 'p' con qualsiasi selettore CSS tu desideri (classi, id, tag, ecc.)
-    applyBodyFontSizeToSelectedElements('p'); // Applica solo ai tag <p>
-    applyBodyFontSizeToSelectedElements('.header-button'); // Applica solo ai tag <p>
-    applyBodyFontSizeToSelectedElements('.btn'); // Applica solo ai tag <p>
-    applyBodyFontSizeToSelectedElements('label'); // Applica solo ai tag <p>
-    applyBodyFontSizeToSelectedElements('input'); // Applica solo ai tag <p>
-    applyBodyFontSizeToSelectedElements('select'); // Applica solo ai tag <p>
+function unsetCardBackgroundOnModificaPage() {
+    // Ottiene l'URL corrente
+    const currentUrl = window.location.href;
+    
+    // Controlla se l'URL contiene la parola "modifica"
+    if (currentUrl.includes('modifica')) {
+        console.log("CIAO");
+        // Seleziona tutte le card presenti nella pagina
+        const cards = document.querySelectorAll('[class^="card"]');
+        
+        // Imposta il background-color su 'unset' per ogni elemento card
+        cards.forEach(card => {
+            card.style.backgroundColor = 'unset';
+        });
+    }
+}
 
+// Esegui la funzione quando il DOM è caricato
+document.addEventListener('DOMContentLoaded', function() {
+    unsetCardBackgroundOnModificaPage();
 });
 
+
+// Esegui la funzione quando il DOM è pronto e passa il selettore desiderato
+document.addEventListener('DOMContentLoaded', function() {
+    applyBodyFontSizeToSelectedElements('p'); 
+    applyBodyFontSizeToSelectedElements('.header-button'); 
+    applyBodyFontSizeToSelectedElements('.btn'); 
+    applyBodyFontSizeToSelectedElements('label'); 
+    applyBodyFontSizeToSelectedElements('input'); 
+    applyBodyFontSizeToSelectedElements('select');
+
+});
 
 // Esegui la funzione quando il DOM è pronto
 document.addEventListener('DOMContentLoaded', applySemiboldToLinks);

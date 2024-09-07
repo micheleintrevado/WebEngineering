@@ -12,7 +12,7 @@
                             <#if logininfo??>
                                 <div class="btn-group" role="group" aria-label="Azioni">
                                     <a href="modifica-attrezzatura?id_attrezzatura=${attrezzatura.key}" class="btn btn-sm btn-secondary ml-2 edit-button" data-toggle="tooltip" data-placement="top" title="Modifica">
-                                        <img class="edit-img"></img>
+                                        <img class="edit-img" style="border-radius: 0px 50% 50% 0px;"></img>
                                     </a>
                                     <form action="modifica-attrezzatura" method="post" class="d-inline">
                                         <input type="hidden" name="remove" value="removeAttrezzatura" />

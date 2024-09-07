@@ -16,9 +16,9 @@
     </form>
 
 
-    <!-- Sezione Aule Associate -->
+    <!-- Sezione Aule associate -->
     <div class="list-section mb-4">
-        <h3 class="mb-3">Aule Associate</h3>
+        <h3 class="mb-3">Aule con questa attrezzatura</h3>
         <div class="card-body">
             <#if attrezzatura.aule?has_content>
                 <ul class="list-group">
@@ -40,9 +40,9 @@
         </div>
     </div>
 
-    <!-- Sezione Aule Associate ad Altre Attrezzature -->
+    <!-- Sezione Aule prive di questa attrezzatura -->
     <div class="list-section mb-4">
-        <h3 class="mb-3">Aule associate ad altre attrezzature</h3>
+        <h3 class="mb-3">Aule prive di questa attrezzatura</h3>
         <div class="card-body">
             <#assign auleAssociateKeys = attrezzatura.aule?map(it -> it.key)/>
             <#if Aule?has_content>
@@ -66,6 +66,12 @@
             </#if>
         </div>
     </div>
-
-    <a href="attrezzature" class="btn btn-secondary">Torna alla Lista Attrezzature</a>
+    <div class="row">        
+    <!-- Bottone per tornare alla lista attrezzature -->
+        <div class="col-6 form-button text-start">
+            <a href="attrezzature">
+                <img class="go-back mt-3" data-toggle="tooltip" data-placement="right" title="Torna alla lista delle attrezzature"></img> 
+            </a>
+        </div>
+    </div>
 </div>

@@ -3,8 +3,8 @@
         <div class="card-header">
             <h1>Modifica Corso</h1>
         </div>
-        <div class="card-body">
-            <form class="row g-3 align-items-center mb-5" action="modifica-corso" method="post">
+        <div class="card-body border border-secondary rounded p-2">
+            <form class="row g-3 align-items-center" action="modifica-corso" method="post">
                 <input type="hidden" name="id_corso" value="${corso.key}" />
                 
                 <div class="col-auto">
@@ -20,11 +20,11 @@
         </div>
 
     <!-- Sezione Eventi Associati -->
-    <div class="card">
+    <div class="mt-4">
         <div class="card-header">
             <h3>Eventi Associati</h3>
         </div>
-        <div class="card-body">
+        <div class="p-3">
             <#if corso.eventi?has_content>
                 <div class="table-responsive">
                     <table class="table table-striped table-hover">
@@ -62,8 +62,8 @@
         <div class="card-header mt-2 mb-2">
             <h3>Eventi associati ad altri corsi</h3>
         </div>
-        <div class="card"> 
-            <div class="card-body">
+        <div class=""> 
+            <div class="p-3">
                 <#assign eventiAssociateKeys = corso.eventi?map(it -> it.key)/>
                 <#if Eventi?has_content>
                     <div class="table-responsive">
