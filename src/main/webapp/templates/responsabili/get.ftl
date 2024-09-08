@@ -81,8 +81,8 @@
                                                 <#assign count = count + 1 />
                                             </#if>
                                         </#list>
-                                    <div class="col-md-4 mb-3">
-                                        <div class="card border border-secondary rounded h-100">
+                                        <div class="col-md-4 mb-3">
+                                            <div class="card border border-secondary rounded h-100">
                                             <div class="card-header bg-grad">
                                                 <h6 class="card-title">${evento.nome}</h6>
                                             </div>
@@ -95,8 +95,7 @@
                                                 <br> <small class="recurrent-warning text-muted">Questo evento è ricorrente in altre ${count - 1} date.</small>
                                             </#if>                                            
                                             </div>
-                                        </div>
-                                            
+                                        </div>  
                                     </div>
                                     </#if>
                                 </#list>

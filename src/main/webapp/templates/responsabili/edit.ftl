@@ -37,7 +37,7 @@
         <div class="p-3">
             <#if responsabile.aule?has_content>
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="aule-associate-table">
                         <thead>
                             <tr>
                                 <th>Nome Aula</th>
@@ -62,6 +62,9 @@
                         </tbody>
                     </table>
                 </div>
+                <nav class="mt-2">
+                    <ul class="pagination justify-content-center" id="aule-associate-pagination"></ul>
+                </nav>
             <#else>
                 <p class="text-muted">Nessuna aula associata.</p>
             </#if>
@@ -77,7 +80,7 @@
         <div class="p-3">
             <#if responsabile.eventi?has_content>
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="eventi-associati-table">
                         <thead>
                             <tr>
                                 <th>Nome Evento</th>
@@ -100,6 +103,9 @@
                         </tbody>
                     </table>
                 </div>
+                <nav class="mt-2">
+                    <ul class="pagination justify-content-center" id="eventi-associati-pagination"></ul>
+                </nav>
             <#else>
                 <p>Nessun evento associato.</p>
             </#if>
@@ -115,7 +121,7 @@
             <#assign auleAssociateKeys = responsabile.aule?map(it -> it.key)/>
             <#if Aule?has_content>
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="aule-non-associate-table">
                         <thead class="table-light">
                             <tr>
                                 <th>Nome Aula</th>
@@ -147,6 +153,9 @@
                         </tbody>
                     </table>
                 </div>
+                <nav class="mt-2">
+                    <ul class="pagination justify-content-center" id="aule-non-associate-pagination"></ul>
+                </nav>
             <#else>
                 <p>Nessuna aula disponibile.</p>
             </#if>
@@ -163,7 +172,7 @@
             <div class="table-responsive">
                 <#assign eventiAssociatiKeys = responsabile.eventi?map(it -> it.key)/>
                 <#if Eventi?has_content>
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="eventi-non-associati-table">
                         <thead>
                             <tr>
                                 <th>Nome Evento</th>
@@ -192,6 +201,9 @@
                             </#list>
                         </tbody>
                     </table>
+                    <nav class="mt-2">
+                        <ul class="pagination justify-content-center" id="eventi-non-associati-pagination"></ul>
+                    </nav>
                 <#else>
                     <p>Nessun evento disponibile.</p>
                 </#if>

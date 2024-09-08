@@ -22,7 +22,7 @@
             <div class="p-3">
                 <#if attrezzatura.aule?has_content>
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="aule-associate-table">
                             <thead>
                                 <tr>
                                     <th>Nome Aula</th>
@@ -52,6 +52,9 @@
                             </tbody>
                         </table>
                     </div>
+                    <nav class="mt-2">
+                        <ul class="pagination justify-content-center" id="aule-associate-pagination"></ul>
+                    </nav>
                 <#else>
                     <p class="text-muted mb-0">Nessuna aula associata.</p>
                 </#if>
@@ -67,7 +70,7 @@
                 <#assign auleAssociateKeys = attrezzatura.aule?map(it -> it.key)/>
                 <#if Aule?has_content>
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="aule-non-associate-table">
                             <thead class="table-light">
                                 <tr>
                                     <th>Nome Aula</th>
@@ -99,6 +102,9 @@
                         </tbody>
                     </table>
                 </div>
+                <nav class="mt-2">
+                    <ul class="pagination justify-content-center" id="aule-non-associate-pagination"></ul>
+                </nav>
             <#else>
                 <p class="text-muted mb-0">Nessuna aula disponibile.</p>
             </#if>

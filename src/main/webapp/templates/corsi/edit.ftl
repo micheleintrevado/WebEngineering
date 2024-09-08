@@ -27,7 +27,7 @@
         <div class="p-3">
             <#if corso.eventi?has_content>
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover">
+                    <table class="table table-striped table-hover"  id="eventi-associati-table">
                         <thead>
                             <tr>
                                 <th>Nome Evento</th>
@@ -51,6 +51,9 @@
                         </tbody>
                     </table>
                 </div>
+                <nav class="mt-2">
+                    <ul class="pagination justify-content-center" id="eventi-associati-pagination"></ul>
+                </nav>
             <#else>
                 <p class="text-muted">Nessun evento associato.</p>
             </#if>
@@ -67,7 +70,7 @@
                 <#assign eventiAssociateKeys = corso.eventi?map(it -> it.key)/>
                 <#if Eventi?has_content>
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover">
+                        <table class="table table-striped table-hover"  id="eventi-non-associati-table">
                             <thead>
                                 <tr>
                                     <th>Nome Evento</th>
@@ -97,6 +100,9 @@
                             </tbody>
                         </table>
                     </div>
+                    <nav class="mt-2">
+                        <ul class="pagination justify-content-center" id="eventi-non-associati-pagination"></ul>
+                    </nav>
                 <#else>
                     <p class="text-muted">Nessun evento disponibile.</p>
                 </#if>

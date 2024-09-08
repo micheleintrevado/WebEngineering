@@ -265,20 +265,19 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// Funzione per determinare dinamicamente il numero di eventi per pagina
+function getEventiPerPage(totalEventi) {
+    if (totalEventi <= 10) {
+        return totalEventi;
+    } else if (totalEventi <= 20) {
+        return 9;
+    } else {
+        return 12;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const eventi = Array.from(document.querySelectorAll('#eventi-list .col-md-4'));
-
-    // Funzione per determinare dinamicamente il numero di eventi per pagina
-    function getEventiPerPage(totalEventi) {
-        if (totalEventi <= 10) {
-            return totalEventi; // Mostra 3 eventi per pagina se ci sono 10 o meno eventi
-        } else if (totalEventi <= 20) {
-            return 9; // Mostra 6 eventi se ci sono tra 11 e 20 eventi
-        } else {
-            return 12; // Mostra 9 eventi se ci sono più di 20 eventi
-        }
-    }
-
     let eventiPerPage = getEventiPerPage(eventi.length);
 
     function showPage(pageNumber) {
@@ -330,6 +329,96 @@ document.addEventListener('DOMContentLoaded', function () {
         showPage(1);
     }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Configurazione eventi per pagina
+    const eventiPerPage = 12;
+    
+    // Gestione paginazione per la tabella degli eventi associati
+    try {
+        paginateTable('eventi-associati-table', 'eventi-associati-pagination', eventiPerPage);
+    } catch (error) {
+        console.log('Errore durante la paginazione degli eventi associati:', error);
+    }
+
+    // Gestione paginazione per la tabella degli eventi non associati
+    try {
+        paginateTable('eventi-non-associati-table', 'eventi-non-associati-pagination', eventiPerPage);
+    } catch (error) {
+        console.log('Errore durante la paginazione degli eventi non associati:', error);
+    }
+
+    // Gestione paginazione per la tabella delle aule associate
+    try {
+        paginateTable('aule-associate-table', 'aule-associate-pagination', eventiPerPage);
+    } catch (error) {
+        console.log('Errore durante la paginazione delle aule associate:', error);
+    }
+
+    // Gestione paginazione per la tabella delle aule non associate
+    try {
+        paginateTable('aule-non-associate-table', 'aule-non-associate-pagination', eventiPerPage);
+    } catch (error) {
+        console.log('Errore durante la paginazione delle aule non associate:', error);
+    }
+});
+
+
+function paginateTable(tableId, paginationId, eventiPerPage) {
+    const table = document.getElementById(tableId);
+    const pagination = document.getElementById(paginationId);
+    const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+    function showPage(pageNumber) {
+        const start = (pageNumber - 1) * eventiPerPage;
+        const end = start + eventiPerPage;
+
+        rows.forEach((row, index) => {
+            if (index >= start && index < end) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    function createPagination(totalRows) {
+        const pageCount = Math.ceil(totalRows / eventiPerPage);
+        pagination.innerHTML = '';
+
+        for (let i = 1; i <= pageCount; i++) {
+            const li = document.createElement('li');
+            li.classList.add('page-item');
+            const a = document.createElement('a');
+            a.classList.add('page-link');
+            a.textContent = i;
+            a.href = '#';
+            a.dataset.page = i;
+
+            a.addEventListener('click', function (e) {
+                e.preventDefault();
+                const page = parseInt(this.dataset.page);
+                showPage(page);
+                document.querySelectorAll(`#${paginationId} .page-item`).forEach(item => item.classList.remove('active'));
+                li.classList.add('active');
+            });
+
+            if (i === 1) {
+                li.classList.add('active');
+            }
+
+            li.appendChild(a);
+            pagination.appendChild(li);
+        }
+    }
+
+    if (rows.length > 0) {
+        createPagination(rows.length);
+        showPage(1);
+    }
+}
+
+
 
 // Funzione per creare e visualizzare un avviso
 function showAlert(message, alertsContainer, type = 'danger') {

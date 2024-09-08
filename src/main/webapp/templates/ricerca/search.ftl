@@ -60,7 +60,6 @@
                     <h3>Eventi</h3>
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center" id="eventi-pagination">
-                            <!-- Pagine generate dinamicamente -->
                         </ul>
                     </nav>
                     <div class="row" id="eventi-list">
