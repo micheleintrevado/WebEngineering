@@ -2,14 +2,17 @@
     <!-- Header Responsabile -->
     <div class="card mb-2">
         <div class="card-header">
-            <div class="row align-items-center">
+            <div class="row align-items-center justify-content-between">
                 <!-- Colonna per il nome del responsabile -->
                 <div class="col-md-6 col-12">
                     <h3>${responsabile.nome}</h3>
                 </div>
                 <!-- Colonna per l'email -->
                 <div class="col-md-4 col-12">
-                    <strong>Contatto:</strong> <a href="mailto:${responsabile.email}">${responsabile.email}</a>
+                    <a href="mailto:${responsabile.email}" style="text-decoration:none;">
+                        <img class="mail-img"> </img>                   
+                        <span class="mx-auto small"> ${responsabile.email}</span> 
+                    </a>
                 </div>
                 <!-- Colonna per il bottone di modifica -->
                 <#if logininfo??>

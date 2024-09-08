@@ -1,42 +1,84 @@
-<div class="container mt-4">
-    <div class="card">
-        <div class="card-header">
-            <h3 class="mb-0">${evento.nome}</h3>
+<div class="container info mt-5">
+    <div class="row mb-4">
+        <div class="col text-center">
+            <h1 class="display-4">${evento.nome}</h1>
+            <h4 class="text-muted badge badge-info" style="font-size: calc(1.275rem + .3vw) !important; color: white !important;">${evento.giorno?string["dd/MM/yyyy"]} - Dalle ore ${evento.orarioInizio?string["HH:mm"]} alle ore ${evento.orarioFine?string["HH:mm"]}</h4>
         </div>
-        <div class="card-body">
-            <p><strong>Data:</strong> ${evento.giorno?string["dd/MM/yyyy"]}</p>
-            <p><strong>Orario: </strong> ${evento.orarioInizio?string["HH:mm"]} - ${evento.orarioFine?string["HH:mm"]}</p>
-            <p><strong>Descrizione:</strong> ${evento.descrizione}</p>
-            <p><strong>Tipologia:</strong> ${evento.tipoEvento}</p>
-            <p><strong>Responsabile:</strong> ${evento.responsabile.nome}</p>
-            <p><strong>Aula:</strong> ${evento.aula.nome}</p>
-            <#if evento.corso??>
-                <p><strong>Corso:</strong> ${evento.corso.nome}</p>
-            </#if>
+        <i class="mt-2">${evento.descrizione}</i>
+    </div>
 
-            <#if evento.ricorrenza??>
-                <div class="mt-4">
-                    <h5 class="mb-3">Giorni degli eventi ricorrenti:</h5>
-                    <table id="sortableTable" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="col" onclick="sortTable(0)">Data <span class="sort-indicator"></span></th>
-                                <th scope="col" onclick="sortTable(1)">Orario <span class="sort-indicator"></span></th>
-                                <th scope="col" onclick="sortTable(2)">Aula <span class="sort-indicator"></span></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <#list eventiRicorrenti as eventoRicorrente>
-                                <tr>
-                                    <td>${eventoRicorrente.giorno?string["dd/MM/yyyy"]}</td>
-                                    <td>${eventoRicorrente.orarioInizio?string["HH:mm"]} - ${eventoRicorrente.orarioFine?string["HH:mm"]}</td>
-                                    <td>${eventoRicorrente.aula.nome}</td>
-                                </tr>
-                            </#list>
-                        </tbody>
-                    </table>
+    <!-- Dettagli Evento -->
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body rounded text-center">
+                    <h6 class="card-title">Tipologia</h6>
+                    <p class="card-text text-capitalize display-6">${evento.tipoEvento}</p>
                 </div>
-            </#if>
+            </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body rounded text-center">
+                    <h6 class="card-title">Responsabile</h6>
+                    <p class="card-text display-6"><i class="bi bi-person-circle"></i> ${evento.responsabile.nome}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body rounded text-center">
+                    <h6 class="card-title">Aula</h6>
+                    <p class="card-text display-6">${evento.aula.nome}, ${evento.aula.edificio} (${evento.aula.luogo})</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body rounded text-center">
+                    <h6 class="card-title">Corso</h6>
+                    <#if evento.corso??>
+                        <p class="card-text display-6">${evento.corso.nome}</p>
+                    <#else>
+                        <i>Nessun corso è associato a questo evento.</i>
+                    </#if>
+                </div>
+            </div>
+        </div>
+    <div class="col-lg-12"> 
+        <div class="card">
+            <div class="card-header">
+                <h3 class="mb-0">Ricorrenza</h3>
+            </div>
+            <div class="card-body">
+                <#if evento.ricorrenza??>
+                    <div class="mt-4">
+                        <h5 class="mb-3">Giorni degli eventi ricorrenti:</h5>
+                        <div class="table-responsive">
+                        <table id="sortableTable" class="table rounded table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col" onclick="sortTable(0)">Data <span class="sort-indicator"></span></th>
+                                    <th scope="col" onclick="sortTable(1)">Orario <span class="sort-indicator"></span></th>
+                                    <th scope="col" onclick="sortTable(2)">Aula <span class="sort-indicator"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <#list eventiRicorrenti as eventoRicorrente>
+                                    <tr>
+                                        <td>${eventoRicorrente.giorno?string["dd/MM/yyyy"]}</td>
+                                        <td>${eventoRicorrente.orarioInizio?string["HH:mm"]} - ${eventoRicorrente.orarioFine?string["HH:mm"]}</td>
+                                        <td>${eventoRicorrente.aula.nome}</td>
+                                    </tr>
+                                </#list>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                <#else>
+                    <i>Questo evento non è ricorrente.</i>
+                </#if>
+            </div>
         </div>
     </div>
 </div>

@@ -136,6 +136,7 @@ a:hover {
     --bs-card-color: black;
 }
 .card-with-link:hover {
+    text-decoration: none !important;
     cursor: pointer;
     --bs-card-color: blue;
 }
@@ -195,6 +196,18 @@ a:hover {
     max-height: 15px;
     max-width: 15px;
 }
+
+.mail-img {
+    content: url("https://img.icons8.com/?size=100&id=12623&format=png&color=000000");
+    max-height: 30px;
+    max-width: 30px;
+}
+
+.drop-img {
+    content: url("https://img.icons8.com/?size=100&id=3720&format=png&color=000000");
+    max-height: 20px;
+    max-width: 20px;
+}
 .card-header-responsabile {
     border: 0px solid;
     background-color: azure !important;
@@ -240,6 +253,16 @@ input, select, .form-control, .form-button, .btn-outline-danger, .btn-outline-pr
     max-width: 75%;
 }
 
+.groups-section {
+    border: 1px solid #8080806e;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 2rem 0;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: #96d8c1;
+    text-align: center;
+}
+
 .bottone-modifica {
     --bs-btn-bg: #0d6efd
 }
@@ -258,9 +281,10 @@ tbody, thead {
     width: fit-content;
 }
 
-.form-check {
+.form-check:not(.form-switch) {
     padding: 5px;
 }
+
 
 .badge-info {
     color: #FFFFFF;
@@ -347,4 +371,65 @@ tbody, thead {
 
 table:has(thead th:nth-child(5)) th {
     width: 20%;
+}
+
+.filter-section {
+    background-color: #f7f9fa;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-section h5 {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.filter-section .form-check .form-check-input {
+    cursor: pointer;
+}
+
+.filter-section .form-check .form-check-label {
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.form-check-input:checked {
+    background-color: #50bf8c;
+    border-color: #50bf8c;
+}
+
+@media (max-width: 768px) {
+    .filter-section {
+        padding: 1.5rem;
+    }
+
+    .filter-section h5 {
+        font-size: 1.1rem;
+    }
+}
+
+.pagination {
+    --bs-pagination-padding-x: 0.75rem;
+    --bs-pagination-padding-y: 0.375rem;
+    --bs-pagination-font-size: 1rem;
+    --bs-pagination-color: #343a40;
+    --bs-pagination-bg: #dae6f2;
+    --bs-pagination-border-width: var(--bs-border-width);
+    --bs-pagination-border-color: #637b93;
+    --bs-pagination-border-radius: var(--bs-border-radius);
+    --bs-pagination-hover-color: #f8f9fa;
+    --bs-pagination-hover-bg: rgba(0, 0, 0, 0.125);
+    --bs-pagination-hover-border-color: #0d0f10;
+    --bs-pagination-focus-color: #198754;
+    --bs-pagination-focus-bg: var(--bs-secondary-bg);
+    --bs-pagination-focus-box-shadow: 0 0 0 0.05rem rgba(13, 110, 253, 0.25);
+    --bs-pagination-active-color: #fff;
+    --bs-pagination-active-bg: #198754b0;
+    --bs-pagination-active-border-color: #198754b0;
+    --bs-pagination-disabled-color: var(--bs-secondary-color);
+    --bs-pagination-disabled-bg: var(--bs-secondary-bg);
+    --bs-pagination-disabled-border-color: var(--bs-border-color);
+    display: flex;
+    padding-left: 0;
+    list-style: none;
 }

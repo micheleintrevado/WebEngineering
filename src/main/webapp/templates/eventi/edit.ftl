@@ -18,7 +18,6 @@
         <h1 class="mb-3">Modifica Evento</h1>
         <p>Inserisci i nuovi dettagli dell'evento.</p>
 
-        <!-- Input fields organized in two columns -->
         <div class="row mb-3">
             <div class="col-md-6">
                 <label for="nome" class="form-label">Nome:</label>
