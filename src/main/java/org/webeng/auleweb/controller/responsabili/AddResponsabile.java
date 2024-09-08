@@ -67,7 +67,6 @@ public class AddResponsabile extends AulewebBaseController {
 
             List<Aula> aule = new ArrayList<>();
             var auleInput = request.getParameterValues("aule");
-            System.out.println(auleInput);
             if (auleInput != null) {
                 for (var aula : auleInput) {
                     aule.add(dataLayer.getAulaDAO().getAula(Integer.valueOf(aula)));

@@ -69,10 +69,12 @@ public class AddAttrezzatura extends AulewebBaseController {
             AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
 
             List<Aula> aule = new ArrayList<>();
-            for (var aula : request.getParameterValues("aule")) {
-                aule.add(dataLayer.getAulaDAO().getAula(Integer.valueOf(aula)));
+            if (request.getParameterValues("aule") != null){
+                for (var aula : request.getParameterValues("aule")) {
+                    aule.add(dataLayer.getAulaDAO().getAula(Integer.valueOf(aula)));
+                }
             }
-
+            
             Attrezzatura a = new AttrezzaturaImpl(
                     request.getParameter("tipo"),
                     aule);
@@ -84,8 +86,8 @@ public class AddAttrezzatura extends AulewebBaseController {
 
             response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "attrezzature"));
         } catch (Exception ex) {
-            ex.printStackTrace();
-            //handleError(ex, request, response);
+            //ex.printStackTrace();
+            handleError(ex, request, response);
         }
     }
 

@@ -249,8 +249,6 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
     public List<Evento> getEventiGiorno(Date giorno) throws DataException {
         List<Evento> result = new ArrayList();
         try {
-            // TODO: CHECK TYPE
-            System.out.println("CHECK TYPE in method getEventiGiorno");
             var giornoSQL = new java.sql.Date(giorno.getTime());
             sEventiByGiorno.setDate(1, giornoSQL);
             try (ResultSet rs = sEventiByGiorno.executeQuery()) {
