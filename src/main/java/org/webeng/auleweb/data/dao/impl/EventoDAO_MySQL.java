@@ -70,7 +70,7 @@ public class EventoDAO_MySQL extends DAO implements EventoDAO {
             sEventiByAulaAndGiorno = connection.prepareStatement("SELECT id FROM evento WHERE evento.id_aula = ? AND evento.giorno = ?"); // GIORNO = '2024-05-14'
             sEventiSovrapposti = connection.prepareStatement("SELECT * FROM evento WHERE id <> ? AND id_aula = ? AND giorno = ? AND ((orario_inizio < ? AND orario_fine > ?))");
             sEventoByAulaGiornoOrario = connection.prepareStatement("SELECT * FROM evento WHERE id_aula = ? AND giorno = ? AND ((orario_inizio < ? AND orario_fine > ?))");
-            sEventiBySearch = connection.prepareStatement("SELECT * FROM webeng.evento where nome like ? or descrizione like ?");
+            sEventiBySearch = connection.prepareStatement("SELECT * FROM webeng.evento where nome like ? or tipologia like ?");
             
             sEventiBySettimanaAula = connection.prepareStatement("SELECT id FROM evento WHERE evento.id_aula = ? and evento.giorno BETWEEN ? AND date_add(?, interval 1 week)");
             sEventiBySettimanaCorso = connection.prepareStatement("SELECT id FROM evento WHERE evento.id_corso = ? and evento.giorno BETWEEN ? AND date_add(?, interval 1 week)");
@@ -709,7 +709,7 @@ Evento e = null;
         List<Evento> result = new ArrayList();
         try {
             sEventiBySearch.setString(1, keyword + "%");
-            sEventiBySearch.setString(2, "%" + keyword + "%");
+            sEventiBySearch.setString(2, keyword + "%");
             try (ResultSet rs = sEventiBySearch.executeQuery()) {
                 while (rs.next()) {
                     result.add((Evento) getEvento(rs.getInt("id")));

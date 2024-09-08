@@ -207,7 +207,7 @@ public class ResponsabileDAO_MySQL extends DAO implements ResponsabileDAO {
     public List<Responsabile> getResponsabiliBySearch(String keyword) throws DataException {
         List<Responsabile> result = new ArrayList();
         try {
-            sResponsabileByKeyword.setString(1, keyword+"%");
+            sResponsabileByKeyword.setString(1, "%"+keyword+"%");
             try (ResultSet rs = sResponsabileByKeyword.executeQuery()) {
                 while (rs.next()) {
                     result.add((Responsabile) getResponsabile(rs.getInt("id")));
