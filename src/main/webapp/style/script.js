@@ -251,3 +251,149 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Aggiungi un event listener alle checkbox
+    const checkboxes = document.querySelectorAll('.filter-section .form-check-input-search');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            const sectionId = `section-${this.value}`;
+            const section = document.getElementById(sectionId);
+            if (this.checked) {
+                section.style.display = 'block';
+            } else {
+                section.style.display = 'none';
+            }
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const eventiPerPage = 9;
+    const eventi = Array.from(document.querySelectorAll('#eventi-list .col-md-4'));
+
+    function showPage(pageNumber) {
+        const start = (pageNumber - 1) * eventiPerPage;
+        const end = start + eventiPerPage;
+
+        eventi.forEach((evento, index) => {
+            if (index >= start && index < end) {
+                evento.style.display = 'block';
+            } else {
+                evento.style.display = 'none';
+            }
+        });
+    }
+
+    function createPagination(totalEventi) {
+        const pageCount = Math.ceil(totalEventi / eventiPerPage);
+        const paginationContainer = document.getElementById('eventi-pagination');
+        paginationContainer.innerHTML = '';
+
+        for (let i = 1; i <= pageCount; i++) {
+            const li = document.createElement('li');
+            li.classList.add('page-item');
+            const a = document.createElement('a');
+            a.classList.add('page-link');
+            a.textContent = i;
+            a.href = '#';
+            a.dataset.page = i;
+
+            a.addEventListener('click', function (e) {
+                e.preventDefault();
+                const page = parseInt(this.dataset.page);
+                showPage(page);
+                document.querySelectorAll('#eventi-pagination .page-item').forEach(item => item.classList.remove('active'));
+                li.classList.add('active');
+            });
+
+            if (i === 1) {
+                li.classList.add('active');
+            }
+
+            li.appendChild(a);
+            paginationContainer.appendChild(li);
+        }
+    }
+
+    if (eventi.length > 0) {
+        createPagination(eventi.length);
+        showPage(1);
+    }
+});
+
+// Funzione per creare e visualizzare un avviso Bootstrap
+function showAlert(message, alertsContainer, type = 'danger') {
+    const alert = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+    alertsContainer.innerHTML += alert;
+}
+
+// Pulisci gli avvisi precedenti
+function clearAlerts(alertsContainer) {
+    alertsContainer.innerHTML = '';
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Seleziona il form specifico tramite il suo ID
+    const form = document.getElementById("evento-form");
+    const tipologia = document.getElementById("tipologia");
+    const corso = document.getElementById("id_corso");
+    const idMaster = document.getElementById("id_master");
+    const fineRicorrenza = document.getElementById("fine_ricorrenza");
+    const giorno = document.getElementById("giorno");
+    const alertsContainer = document.getElementById("form-alerts");
+
+    // Aggiungi un listener all'invio del form
+    if (form)
+        form.addEventListener("submit", function (event) {
+            clearAlerts(alertsContainer);  // Pulisce gli avvisi prima di ogni nuovo invio
+            let valid = true;  // Variabile per tenere traccia della validità del form
+
+            // Ottieni il valore della tipologia selezionata
+            const selectedTipologia = tipologia.value.toLowerCase();
+
+            // Tipologie che richiedono un corso obbligatorio
+            const tipologieConCorsoObbligatorio = ["lezione", "esame", "parziale"];
+
+            // Verifica se la tipologia richiede un corso obbligatorio e se è stato selezionato un corso
+            if (tipologieConCorsoObbligatorio.includes(selectedTipologia) && corso.value === "") {
+                valid = false;
+                showAlert("Per le tipologie 'lezione', 'esame' e 'parziale', è obbligatorio selezionare un corso.", alertsContainer);
+            }
+
+            // Verifica che la data del giorno non sia nel passato
+            const oggi = new Date();
+            const dataGiorno = new Date(giorno.value);
+
+            if (dataGiorno < oggi.setHours(0, 0, 0, 0)) {  // Confronta solo la data, ignorando l'ora
+                valid = false;
+                showAlert("Il giorno dell'evento non può essere nel passato.", alertsContainer);
+            }
+
+            // Verifica se è stata selezionata una ricorrenza e che la fine ricorrenza sia obbligatoria
+            if (idMaster.value !== "" && fineRicorrenza.value === "") {
+                valid = false;
+                showAlert("Se è stata selezionata una ricorrenza, la data di fine ricorrenza è obbligatoria.", alertsContainer);
+            }
+
+            // Verifica che la fine ricorrenza sia uguale o successiva al giorno dell'evento
+            if (fineRicorrenza.value !== "") {
+                const dataFineRicorrenza = new Date(fineRicorrenza.value);
+                if (dataFineRicorrenza < dataGiorno) {
+                    valid = false;
+                    showAlert("La fine della ricorrenza deve essere uguale o successiva al giorno dell'evento.", alertsContainer);
+                }
+            }
+
+            // Se il form non è valido, impedisci l'invio
+            if (!valid) {
+                event.preventDefault(); // Impedisce l'invio del form
+            }
+        });
+});

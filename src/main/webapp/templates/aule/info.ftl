@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-<div class="col-lg-6 mb-4">
+        <div class="col-lg-6 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body border border-secondary rounded text-center">
                     <h6 class="card-title">Responsabile</h6>
