@@ -118,6 +118,7 @@
             </select>
         </div>
     </div>
+    <div id="form-alerts"></div>
     <div class="text-center">
         <button type="submit" class="btn btn-primary">Filtra</button>
     </div>
@@ -162,100 +163,3 @@
 
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(document).ready(function() {
-    // Seleziona la form che ha come action "filtra-da-gruppo"
-    var $formFiltraDaGruppo = $('form[action="filtra-da-gruppo"]');
-
-    // Funzione per aggiornare le select delle aule e dei corsi in base al gruppo selezionato
-    function aggiornaAuleECorsi(idGruppo) {
-        $.ajax({
-            url: 'gruppi',
-            method: 'GET',
-            data: {
-                action: 'getAuleCorsi',
-                id_gruppo: idGruppo
-            },
-            dataType: 'json',
-            success: function(data) {
-                console.log('Dati ricevuti:', data);
-
-                // Aggiorna la select delle aule
-                var $aulaSelect = $formFiltraDaGruppo.find('#id_aula');
-                $aulaSelect.empty().append('<option value="">Seleziona aula</option>');
-                $.each(data.aule, function(index, aula) {
-                    $aulaSelect.append(new Option(aula.nome, aula.id));
-                });
-
-                // Aggiorna la select dei corsi
-                var $corsoSelect = $formFiltraDaGruppo.find('#id_corso');
-                $corsoSelect.empty().append('<option value="">Seleziona corso</option>');
-                $.each(data.corsi, function(index, corso) {
-                    $corsoSelect.append(new Option(corso.nome, corso.id));
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error('Errore durante il caricamento di aule e corsi:', error);
-            }
-        });
-    }
-
-    // Gestione del cambiamento nel select "id_gruppo"
-    $formFiltraDaGruppo.find('#id_gruppo').change(function() {
-        var idGruppo = $(this).val();
-        console.log(idGruppo);
-        aggiornaAuleECorsi(idGruppo); // Chiama la funzione per aggiornare le select
-    });
-
-    // Mostra o nasconde i container delle aule e dei corsi in base ai checkbox e aggiorna le select
-    $formFiltraDaGruppo.find('#aula_settimana').change(function() {
-        var idGruppo = $formFiltraDaGruppo.find('#id_gruppo').val();
-        $formFiltraDaGruppo.find('#aulaSelectContainer').toggle(this.checked);
-        if (this.checked && idGruppo) {
-            aggiornaAuleECorsi(idGruppo); // Aggiorna le select quando la checkbox è cliccata
-        }
-    });
-
-    $formFiltraDaGruppo.find('#corso_settimana').change(function() {
-        var idGruppo = $formFiltraDaGruppo.find('#id_gruppo').val();
-        $formFiltraDaGruppo.find('#corsoSelectContainer').toggle(this.checked);
-        if (this.checked && idGruppo) {
-            aggiornaAuleECorsi(idGruppo); // Aggiorna le select quando la checkbox è cliccata
-        }
-    });
-
-    // Validazione del form prima dell'invio
-    $formFiltraDaGruppo.submit(function(event) {
-        var valid = true;
-
-        if ($formFiltraDaGruppo.find('#aula_settimana').is(':checked') && !$formFiltraDaGruppo.find('#id_aula').val()) {
-            alert("Per favore, seleziona un'aula.");
-            valid = false;
-        }
-
-        if ($formFiltraDaGruppo.find('#corso_settimana').is(':checked') && !$formFiltraDaGruppo.find('#id_corso').val()) {
-            alert("Per favore, seleziona un corso.");
-            valid = false;
-        }
-
-        if (!valid) {
-            event.preventDefault();
-        }
-
-        // Validazione generale per i campi required
-        $formFiltraDaGruppo.find('select[required], input[required]').each(function() {
-            if (!$(this).val()) {
-                alert('Per favore, compila tutti i campi richiesti.');
-                valid = false;
-                return false; // Esce dal ciclo each
-            }
-        });
-
-        if (!valid) {
-            event.preventDefault();
-        }
-    });
-});
-
-</script>

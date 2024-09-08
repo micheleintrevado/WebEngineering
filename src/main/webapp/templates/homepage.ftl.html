@@ -48,7 +48,7 @@
                     <h2 class="mt-3">Aule Libere</h2>
                     <div class="scroll-container">    
                         <#list auleLibere as aula>
-                        <div class="card card-with-link mb-2">
+                        <div class="card card-with-link mb-2" style="min-height: auto;">
                             <a href="info-aula?id_aula=${aula.key}">
                                 <div class="card-body border border-secondary rounded">
                                     <h3 class="card-title">${aula.nome}</h3>
@@ -79,7 +79,7 @@
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                         <#list eventiAttuali as eventoAttuale>
                         <div class="col">
-                            <div class="card card-with-link h-100">
+                            <div class="card card-with-link h-100" style="min-height: auto;" >
                                 <a href="info-evento?id_evento=${eventoAttuale.key}">
                                     <div class="card-body border border-secondary rounded">
                                         <h3 class="card-title">${eventoAttuale.nome}</h3>
@@ -103,7 +103,7 @@
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                         <#list eventiProssimi as eventoProssimo>
                         <div class="col">
-                            <div class="card card-with-link h-100">
+                            <div class="card card-with-link h-100" style="min-height: auto;">
                                 <a href="info-evento?id_evento=${eventoProssimo.key}">
                                     <div class="card-body border border-secondary rounded">
                                         <h3 class="card-title">${eventoProssimo.nome}</h3>

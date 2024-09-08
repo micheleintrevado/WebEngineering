@@ -140,6 +140,7 @@ a:hover {
 }
 
 .card-with-link {
+    min-height: 9rem;
     --bs-card-color: black;
 }
 .card-with-link:hover {
@@ -312,7 +313,7 @@ tbody, thead {
 }
 
 .list-group {
-    --bs-list-group-bg: #0b7f7f8c; /*rgb(0 127 255 / 26%);*/
+    --bs-list-group-bg: #48bebe8c; /*rgb(0 127 255 / 26%);*/
 }
 
 .list-group a {
@@ -455,6 +456,7 @@ table:has(thead th:nth-child(5)) th {
 
 #search-container form.d-flex {
     position: relative;
+    place-content: center;
     height: fit-content;
     transition: width 0.5s ease-in-out; /* Aggiungiamo una transizione alla larghezza */
 }

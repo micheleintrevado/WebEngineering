@@ -1,6 +1,6 @@
 <div class="container download-tab">
     <div class="row">
-        <h1 class="col-md-6 mb-4">Lista di tutti gli eventi</h1>
+        <h1 class="col-md-6 mb-4">Lista di tutti gli eventi</h1>       
         <div class="col-md-6 d-flex justify-content-end align-items-start">
             <a href="#" class="btn btn-success me-2" data-bs-toggle="modal" style="text-decoration:none; background-color: deepskyblue; color: unset;" data-bs-target="#downloadModal">
                 <img class="download-img" data-toggle="tooltip" data-placement="right" title="Download" alt="Download">
@@ -18,9 +18,14 @@
             </#if>
         </div>
     </div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center" id="eventi-pagination">
+            <!-- Pagine generate dinamicamente -->
+        </ul>
+    </nav>
     <!-- Visualizza eventi -->
     <#if (eventi?size > 0)>
-        <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="row" id="eventi-list">
             <#assign displayedEvents = [] />
             <#list eventi as evento>
                 <!-- Logica per visualizzare eventi -->
@@ -28,7 +33,7 @@
                     <#if !(displayedEvents?seq_contains(evento.nome + "-" + evento.ricorrenza.key))>
                         <#assign displayedEvents = displayedEvents + [evento.nome + "-" + evento.ricorrenza.key] />
                         <!-- Card evento con ricorrenza -->
-                        <div class="col">
+                        <div class="col-md-4 mb-3">
                             <div class="card h-100">
                                 <a href="info-evento?id_evento=${evento.key}">
                                     <div class="card-body rounded card-with-link">
@@ -44,7 +49,7 @@
                     <#if !(displayedEvents?seq_contains(evento.nome + "-no-ricorrenza"))>
                         <#assign displayedEvents = displayedEvents + [evento.nome + "-no-ricorrenza"] />
                         <!-- Card evento senza ricorrenza -->
-                        <div class="col">
+                        <div class="col-md-4 mb-3">
                             <div class="card h-100">
                                 <a href="info-evento?id_evento=${evento.key}">
                                     <div class="card-body rounded card-with-link">

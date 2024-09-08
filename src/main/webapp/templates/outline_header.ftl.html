@@ -8,7 +8,7 @@
             <p>Autenticato come: <strong>${logininfo.username}</strong> </p>
             </#if>
             <#if !(thispageurl?contains("search"))>
-                <button class="btn btn-primary" onclick="showSearchBar()">Ricerca</button>
+                <button class="btn btn-primary" id="searchButton" onclick="showSearchBar()">Ricerca</button>
             </#if>
         </div>
         <div>

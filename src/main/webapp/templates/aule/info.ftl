@@ -53,24 +53,24 @@
     </div>
 
     <!-- Sezione Attrezzature -->
-                    <div class="row mt-2">
-                        <h2>Attrezzature</h2>
-                        <#if (aula.attrezzature?? && aula.attrezzature?size > 0)>
-                            <div class="d-flex flex-wrap">
-                                <#list aula.attrezzature as attrezzatura>
-                                    <div class="form-check mb-2">
-                                        <p class="border border-dark p-2 badge-info">
-                                            ${attrezzatura.tipo?capitalize}
-                                        </p>
-                                    </div>
-                                </#list>
-                            </div> 
-                        <#else>
-                            <p class="mt-3">Nessuna attrezzatura è associata a questa aula</p>
-                        </#if>
+    <div class="row mt-2">
+        <h2>Attrezzature</h2>
+        <#if (aula.attrezzature?? && aula.attrezzature?size > 0)>
+            <div class="d-flex flex-wrap">
+                <#list aula.attrezzature as attrezzatura>
+                    <div class="form-check mb-2">
+                        <p class="border border-dark p-2 badge-info">
+                            ${attrezzatura.tipo?capitalize}
+                        </p>
                     </div>
+                </#list>
+            </div> 
+        <#else>
+            <p class="mt-3">Nessuna attrezzatura è associata a questa aula</p>
+        </#if>
+    </div>
     <!-- Sezione Gruppi Associati -->
-    <div class="groups-section">
+    <div class="row mt-2">
         <h2>Gruppi Associati</h2>
         <div class="row">
         <#if (aula.gruppi?? && aula.gruppi?size > 0)>

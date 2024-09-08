@@ -9,7 +9,7 @@
     <#if eventiWarning??>
         <#list eventiWarning as ev>
             <div class="alert alert-warning" role="alert">
-                Evento NON inserito: ${ev.nome} ${ev.giorno}
+                L'evento "${ev.nome}" non è stato inserito in data ${ev.giorno} in quanto l'aula è già occupata!
             </div>
         </#list>
     </#if>

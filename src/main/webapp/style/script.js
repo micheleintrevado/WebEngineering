@@ -41,13 +41,11 @@ function unsetCardBackgroundOnModificaPage() {
     }
 }
 
-// Esegui la funzione quando il DOM è caricato
 document.addEventListener('DOMContentLoaded', function () {
     unsetCardBackgroundOnModificaPage();
 });
 
 
-// Esegui la funzione quando il DOM è pronto e passa il selettore desiderato
 document.addEventListener('DOMContentLoaded', function () {
     applyBodyFontSizeToSelectedElements('p');
     applyBodyFontSizeToSelectedElements('.header-button');
@@ -58,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-// Esegui la funzione quando il DOM è pronto
 document.addEventListener('DOMContentLoaded', applySemiboldToLinks);
 document.addEventListener("DOMContentLoaded", function () {
     const filterNomeInput = document.getElementById("filter-events");
@@ -253,7 +250,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Aggiungi un event listener alle checkbox
     const checkboxes = document.querySelectorAll('.filter-section .form-check-input-search');
 
     checkboxes.forEach(checkbox => {
@@ -270,8 +266,20 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    const eventiPerPage = 9;
     const eventi = Array.from(document.querySelectorAll('#eventi-list .col-md-4'));
+
+    // Funzione per determinare dinamicamente il numero di eventi per pagina
+    function getEventiPerPage(totalEventi) {
+        if (totalEventi <= 10) {
+            return totalEventi; // Mostra 3 eventi per pagina se ci sono 10 o meno eventi
+        } else if (totalEventi <= 20) {
+            return 9; // Mostra 6 eventi se ci sono tra 11 e 20 eventi
+        } else {
+            return 12; // Mostra 9 eventi se ci sono più di 20 eventi
+        }
+    }
+
+    let eventiPerPage = getEventiPerPage(eventi.length);
 
     function showPage(pageNumber) {
         const start = (pageNumber - 1) * eventiPerPage;
@@ -323,7 +331,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// Funzione per creare e visualizzare un avviso Bootstrap
+// Funzione per creare e visualizzare un avviso
 function showAlert(message, alertsContainer, type = 'danger') {
     const alert = `
                 <div class="alert alert-${type} alert-dismissible fade show" role="alert">
@@ -340,7 +348,6 @@ function clearAlerts(alertsContainer) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Seleziona il form specifico tramite il suo ID
     const form = document.getElementById("evento-form");
     const tipologia = document.getElementById("tipologia");
     const corso = document.getElementById("id_corso");
@@ -352,8 +359,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Aggiungi un listener all'invio del form
     if (form)
         form.addEventListener("submit", function (event) {
-            clearAlerts(alertsContainer);  // Pulisce gli avvisi prima di ogni nuovo invio
-            let valid = true;  // Variabile per tenere traccia della validità del form
+            clearAlerts(alertsContainer);
+            let valid = true;
 
             // Ottieni il valore della tipologia selezionata
             const selectedTipologia = tipologia.value.toLowerCase();
@@ -371,7 +378,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const oggi = new Date();
             const dataGiorno = new Date(giorno.value);
 
-            if (dataGiorno < oggi.setHours(0, 0, 0, 0)) {  // Confronta solo la data, ignorando l'ora
+            if (dataGiorno < oggi.setHours(0, 0, 0, 0)) {
                 valid = false;
                 showAlert("Il giorno dell'evento non può essere nel passato.", alertsContainer);
             }
@@ -393,7 +400,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Se il form non è valido, impedisci l'invio
             if (!valid) {
-                event.preventDefault(); // Impedisce l'invio del form
+                event.preventDefault();
             }
         });
 });
@@ -403,7 +410,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const existingSearchForms = document.querySelectorAll('form[action="search"]');
 
     if (existingSearchForms.length > 1) {
-        // Nasconde la barra di ricerca se ce n'è già un'altra
         const newSearchContainer = document.getElementById('search-container');
         newSearchContainer.style.display = 'none';
     }
@@ -411,22 +417,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function showSearchBar() {
     const searchBar = document.getElementById('search-container');
-    
+    const searchButton = document.getElementById('searchButton');
+
     if (searchBar.classList.contains('show')) {
-        // Nasconde la barra di ricerca con animazione
+        // Nasconde la barra di ricerca
         searchBar.style.opacity = 0;
+        searchButton.innerHTML = "Ricerca";
         setTimeout(() => {
             searchBar.style.display = 'none';
             searchBar.classList.remove('show');
-        }, 200); // 500 ms corrispondono alla durata della transizione
+        }, 200);
     } else {
-        // Mostra la barra di ricerca con animazione
+        // Mostra la barra di ricerca 
         searchBar.style.display = 'block';
         setTimeout(() => {
             searchBar.style.opacity = 1;
             searchBar.classList.add('show');
-        }, 3); // Breve timeout per avviare l'animazione
+            searchButton.innerHTML = "Chiudi ricerca";
+        }, 3);
     }
-    
+
 }
 
