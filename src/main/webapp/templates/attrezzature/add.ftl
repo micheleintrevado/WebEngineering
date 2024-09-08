@@ -27,12 +27,14 @@
                 </div>
             </div>
 
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary bottone-modifica">Salva</button>
+            <div class="d-flex justify-content-between">
+                <div class="form-button text-start">
+                    <a href="attrezzature">
+                        <img class="go-back mt-3" data-toggle="tooltip" data-placement="right" title="Torna alla lista delle attrezzature"></img> 
+                    </a>
+                </div>
+                <button type="submit" class="btn btn-success">Salva e aggiungi attrezzatura</button>
             </div>
         </form>
     </div>
-
-    <!-- Link per tornare alla lista delle attrezzature -->
-    <a href="attrezzature" class="btn btn-secondary mt-3">Torna alla Lista Attrezzature</a>
 </div>
