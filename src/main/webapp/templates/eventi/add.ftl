@@ -1,15 +1,15 @@
 <div class="container download-tab mt-5">
     <!-- Verifica se ci sono eventi di avvertimento e mostra un alert -->
     <#if eventoWarning??>
-        <div class="alert alert-warning">
-            C'è già un evento nell'aula e nel giorno indicati!
+        <div class="alert alert-warning text-center">
+            C'è già un evento nell'aula ${eventoWarning.nome} e nel giorno indicati!
         </div>
     </#if>
 
     <#if eventiWarning??>
         <#list eventiWarning as ev>
-            <div class="alert alert-warning">
-                Evento non inserito: ${ev.nome} ${ev.giorno}
+            <div class="alert alert-warning text-center">
+                L'evento "${ev.nome}" non è stato inserito in data ${ev.giorno} in quanto l'aula è già occupata!
             </div>
         </#list>
     </#if>

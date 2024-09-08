@@ -397,3 +397,36 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 });
+
+// Controlla se esiste già un'altra barra di ricerca
+document.addEventListener("DOMContentLoaded", function () {
+    const existingSearchForms = document.querySelectorAll('form[action="search"]');
+
+    if (existingSearchForms.length > 1) {
+        // Nasconde la barra di ricerca se ce n'è già un'altra
+        const newSearchContainer = document.getElementById('search-container');
+        newSearchContainer.style.display = 'none';
+    }
+});
+
+function showSearchBar() {
+    const searchBar = document.getElementById('search-container');
+    
+    if (searchBar.classList.contains('show')) {
+        // Nasconde la barra di ricerca con animazione
+        searchBar.style.opacity = 0;
+        setTimeout(() => {
+            searchBar.style.display = 'none';
+            searchBar.classList.remove('show');
+        }, 200); // 500 ms corrispondono alla durata della transizione
+    } else {
+        // Mostra la barra di ricerca con animazione
+        searchBar.style.display = 'block';
+        setTimeout(() => {
+            searchBar.style.opacity = 1;
+            searchBar.classList.add('show');
+        }, 3); // Breve timeout per avviare l'animazione
+    }
+    
+}
+

@@ -7,6 +7,9 @@
             <#if logininfo??>
             <p>Autenticato come: <strong>${logininfo.username}</strong> </p>
             </#if>
+            <#if !(thispageurl?contains("search"))>
+                <button class="btn btn-primary" onclick="showSearchBar()">Ricerca</button>
+            </#if>
         </div>
         <div>
             <img src="assets/images/logo.png" alt="logo AuleWeb" id="auleweb-logo">
@@ -23,6 +26,7 @@
             </a>
             </#if>
         </div>
+
 
         <!-- Modale Bootstrap per il Login -->
         <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -108,4 +112,10 @@
             <br>Attrezzature
         </a>
     </nav>
+    <div id="search-container" class="mt-4">
+        <form action="search" method="get" class="d-flex">
+            <input type="text" name="keyword" placeholder="Cerca..." aria-label="Cerca" class="form-control me-2" required>
+            <button type="submit" class="btn btn-primary">Cerca</button>
+        </form>
+    </div>
 </div>

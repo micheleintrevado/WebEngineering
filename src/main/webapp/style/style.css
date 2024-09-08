@@ -102,17 +102,24 @@ footer {
 .content-tabs{
     background-color: #8bd9c3;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 0px 10px 10px 10px;
     box-shadow: -5px -5px 10px 0px gray
+}
+.nav-item {
+    background-color: #8bd9c3;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.nav-item:hover {
+    background-color: #64bfa6;
 }
 
 .nav-pills{
     --bs-border-radius: 10px 10px 0px 0px;
-    border-bottom: 1px solid #0b7f7f;
     --bs-nav-pills-border-radius: var(--bs-border-radius);
     --bs-nav-pills-link-active-color: white;
     --bs-nav-pills-link-active-bg: #0b7f7f;
-    --bs-link-color: #ffffff;
+    --bs-link-color: darkgreen;
     --bs-nav-link-hover-color: dark
 }
 
@@ -432,4 +439,59 @@ table:has(thead th:nth-child(5)) th {
     display: flex;
     padding-left: 0;
     list-style: none;
+}
+
+#search-container {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; /* Transizione più fluida */
+    display: none; /* Nasconde l'elemento inizialmente */
+    position: relative; /* Aggiunto per posizionamento del bottone */
+}
+
+#search-container.show {
+    opacity: 1;
+    display: block;
+}
+
+#search-container form.d-flex {
+    position: relative;
+    height: fit-content;
+    transition: width 0.5s ease-in-out; /* Aggiungiamo una transizione alla larghezza */
+}
+
+#search-container form.d-flex input {
+    height: 50px;
+    width: 25%;
+    padding: 10px;
+    border: none;
+    font-size: 18px;
+    border-radius: 25px;
+    transition: width 0.5s ease-in-out, border-radius 0.5s ease-in-out;
+    background-color: white;
+    color: dark;
+}
+
+#search-container form.d-flex input:focus {
+    border-radius: 0;
+    width: 100%;
+    background-color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2); /* Animazione più fluida */
+}
+
+#search-container form.d-flex button {
+    cursor: pointer;
+    color: white;
+    transition: color 0.5s ease-in-out;
+}
+
+#search-container form.d-flex button:hover {
+    color: #ffffff;
+}
+
+#search-container form.d-flex button:focus ~ input {
+    width: 300px; /* Modifica la larghezza quando il bottone è focalizzato */
+    border-radius: 0;
+    background-color: whitesmoke;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }

@@ -80,7 +80,10 @@ public class AddEvento extends AulewebBaseController {
             AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
             Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabile(Integer.valueOf(request.getParameter("id_responsabile")));
             Aula aula = dataLayer.getAulaDAO().getAula(Integer.valueOf(request.getParameter("id_aula")));
-            Corso corso = dataLayer.getCorsoDAO().getCorso(Integer.valueOf(request.getParameter("id_corso")));
+            Corso corso = null;
+            if (!request.getParameter("id_corso").equals("")){
+                corso = dataLayer.getCorsoDAO().getCorso(Integer.valueOf(request.getParameter("id_corso")));
+            }
             Date giorno = Date.valueOf(request.getParameter("giorno"));
             Time orarioInizio = Time.valueOf(request.getParameter("orario_inizio") + ":00");
             Time orarioFine = Time.valueOf(request.getParameter("orario_fine") + ":00");

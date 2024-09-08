@@ -53,3 +53,8 @@
     </div>
     </#if>
 </div>
+<script>
+    if (window.history && window.history.pushState) {
+        window.history.pushState({}, document.title, "login");
+    }
+</script>
