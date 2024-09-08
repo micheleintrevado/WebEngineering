@@ -14,15 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.webeng.auleweb.application.AulewebBaseController;
 import org.webeng.auleweb.application.AulewebDataLayer;
-import static org.webeng.auleweb.controller.aule.AddAula.REFERRER;
 import org.webeng.auleweb.data.dao.AdminDAO;
 import org.webeng.auleweb.data.model.Admin;
-import org.webeng.auleweb.data.model.Attrezzatura;
 import org.webeng.auleweb.data.model.Aula;
 import org.webeng.auleweb.data.model.Evento;
-import org.webeng.auleweb.data.model.Gruppo;
 import org.webeng.auleweb.data.model.Responsabile;
-import org.webeng.auleweb.data.model.impl.AulaImpl;
 import org.webeng.auleweb.data.model.impl.ResponsabileImpl;
 import org.webeng.auleweb.framework.data.DataException;
 import org.webeng.auleweb.framework.security.SecurityHelpers;
@@ -70,13 +66,20 @@ public class AddResponsabile extends AulewebBaseController {
             AulewebDataLayer dataLayer = ((AulewebDataLayer) request.getAttribute("datalayer"));
 
             List<Aula> aule = new ArrayList<>();
-            for (var aula : request.getParameterValues("aule")) {
-                aule.add(dataLayer.getAulaDAO().getAula(Integer.valueOf(aula)));
+            var auleInput = request.getParameterValues("aule");
+            System.out.println(auleInput);
+            if (auleInput != null) {
+                for (var aula : auleInput) {
+                    aule.add(dataLayer.getAulaDAO().getAula(Integer.valueOf(aula)));
+                }
             }
 
             List<Evento> eventi = new ArrayList<>();
-            for (var evento : request.getParameterValues("eventi")) {
-                eventi.add(dataLayer.getEventoDAO().getEvento(Integer.valueOf(evento)));
+            var eventiInput = request.getParameterValues("eventi");
+            if (eventiInput != null) {
+                for (var evento : eventiInput) {
+                    eventi.add(dataLayer.getEventoDAO().getEvento(Integer.valueOf(evento)));
+                }
             }
 
             Responsabile r = new ResponsabileImpl(
@@ -98,8 +101,8 @@ public class AddResponsabile extends AulewebBaseController {
 
             response.sendRedirect(Objects.requireNonNullElse(request.getParameter(REFERRER), "responsabili"));
         } catch (Exception ex) {
-            ex.printStackTrace();
-            //handleError(ex, request, response);
+            //ex.printStackTrace();
+            handleError(ex, request, response);
         }
     }
 
