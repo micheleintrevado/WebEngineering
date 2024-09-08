@@ -77,7 +77,7 @@
                 <!-- Campo Note -->
                 <div class="col-md-6">
                     <label for="note" class="form-label">Note:</label>
-                    <textarea name="note" id="note" type="text" placeholder="Eventuali note aggiuntive" class="form-control"></textarea>
+                    <textarea name="note" id="note" type="text" placeholder="Eventuali note aggiuntive" class="form-control" style="overflow: hidden"></textarea>
                 </div>
             </div>
 

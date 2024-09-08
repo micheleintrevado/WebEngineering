@@ -20,7 +20,7 @@
                 <div class="card rounded">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title m-0">${attrezzatura.tipo}</h5>
+                            <h5 class="card-title m-0 text-truncate" data-toggle="tooltip" data-placement="top" title="${attrezzatura.tipo}">${attrezzatura.tipo}</h5>
                             <#if logininfo??>
                                 <div class="btn-group" role="group" aria-label="Azioni">
                                     <a href="modifica-attrezzatura?id_attrezzatura=${attrezzatura.key}" class="btn btn-sm btn-secondary ml-2 edit-button" data-toggle="tooltip" data-placement="top" title="Modifica">

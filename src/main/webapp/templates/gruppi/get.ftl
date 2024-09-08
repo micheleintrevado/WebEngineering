@@ -19,7 +19,7 @@
             <div class="col-md-4 mb-4">
                 <div class="card rounded h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="card-title m-0">${gruppo.nome}</h5>
+                        <h5 class="card-title m-0 text-truncate" data-toggle="tooltip" data-placement="top" title="${gruppo.nome}">${gruppo.nome}</h5>
                         <#if logininfo??>
                             <div class="btn-group" role="group" aria-label="Azioni">
                                 <a href="modifica-gruppo?id_gruppo=${gruppo.key}" class="btn btn-sm btn-secondary ml-2 edit-button" data-toggle="tooltip" data-placement="top" title="Modifica">
