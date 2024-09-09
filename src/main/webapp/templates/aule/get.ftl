@@ -25,10 +25,15 @@
             </#if>
         </div>
     </div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center" id="eventi-pagination">
+            <!-- Pagine generate dinamicamente -->
+        </ul>
+    </nav>
     <#if (aule?size > 0)>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4" id="eventi-list">
         <#list aule as aula>
-        <div class="col">
+        <div class="col-md-4">
             <div class="card h-100">
                 <div class="card-header"> 
                     <h5 class="card-title justify-content-between d-flex fs-2">

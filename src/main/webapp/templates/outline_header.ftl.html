@@ -1,32 +1,50 @@
 <div class="container">
     <!-- Header -->
-    <header class="header-auleweb d-flex flex-wrap justify-content-between align-items-center pb-3 mb-4">
-        <div>
-            <h1 class="h3 mb-0">AuleWeb</h1>
-            <h6>${compiled_on.format('dd/MM/yyyy')}</h6>
-            <#if logininfo??>
-            <p>Autenticato come: <strong>${logininfo.username}</strong> </p>
-            </#if>
-            <#if !(thispageurl?contains("search"))>
-                <button class="btn btn-primary" id="searchButton" onclick="showSearchBar()">Ricerca</button>
-            </#if>
+    <header class="header-auleweb pb-3 mb-4">
+        <div class="row align-items-center justify-content-between">
+            <div class="col-4">
+                <h1 class="h3 mb-0">AuleWeb</h1>
+                <h6>${compiled_on.format('dd/MM/yyyy')}</h6>
+                <#if logininfo??>
+                <p>Autenticato come: <strong>${logininfo.username}</strong> </p>
+                </#if>
+                <#if !(thispageurl?contains("search"))>
+                    <button class="btn btn-primary text-uppercase fw-bold" id="searchButton" onclick="showSearchBar()">Ricerca</button>
+                </#if>
+            </div>
+            <div class="col-4 text-center">
+                <img src="assets/images/logo.png" alt="logo AuleWeb" id="auleweb-logo">
+            </div>
+            <div class="col-4 text-end wrapper">
+                <div class="link_wrapper">
+                    <#if logininfo??>
+                        <a href="logout?referrer=${thispageurl?url}" class="btn-login">Logout</a>
+                        <div class="icon">
+                            <img src="https://img.icons8.com/?size=100&id=83179&format=png&color=000000" alt="Icona Torna alla homepage">
+                        </div>
+                    <#else>
+                        <a href="#" class="btn-login" data-bs-toggle="modal" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+                        <div class="icon">
+                            <img src="https://img.icons8.com/?size=100&id=59818&format=png&color=000000" alt="Icona Torna alla homepage">
+                        </div>
+                    </#if>
+                </div>
+            </div>
         </div>
-        <div>
-            <img src="assets/images/logo.png" alt="logo AuleWeb" id="auleweb-logo">
-        </div>
+        <!--
         <div>
             <#if logininfo??>
-            <a id="login-button" href="logout?referrer=${thispageurl?url}" class="btn btn-outline-secondary">
+            <a id="login-button" href="logout?referrer=${thispageurl?url}" class="btn btn-outline-secondary btn-login">
                 Logout<img src="https://img.icons8.com/?size=100&id=83179&format=png&color=000000" alt="Icona Torna alla homepage">
             </a>
-            <#else>
-            <!-- Trigger per il Modale -->
-            <a id="login-button" href="#" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#loginModal">
+            <#else> -->
+            <!-- Trigger per il Modale 
+            <a id="login-button" href="#" class="btn btn-outline-secondary btn-login" data-bs-toggle="modal" data-bs-target="#loginModal">
                 Login<img src="https://img.icons8.com/?size=100&id=59818&format=png&color=000000" alt="Icona Torna alla homepage">
             </a>
             </#if>
         </div>
-
+        -->
 
         <!-- Modale Bootstrap per il Login -->
         <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">

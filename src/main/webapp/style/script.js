@@ -45,18 +45,19 @@ document.addEventListener('DOMContentLoaded', function () {
     unsetCardBackgroundOnModificaPage();
 });
 
-
-document.addEventListener('DOMContentLoaded', function () {
-    applyBodyFontSizeToSelectedElements('p');
-    applyBodyFontSizeToSelectedElements('.header-button');
-    applyBodyFontSizeToSelectedElements('.btn');
-    applyBodyFontSizeToSelectedElements('label');
-    applyBodyFontSizeToSelectedElements('input');
-    applyBodyFontSizeToSelectedElements('select');
-
-});
-
+/*
+ document.addEventListener('DOMContentLoaded', function () {
+ applyBodyFontSizeToSelectedElements('p');
+ applyBodyFontSizeToSelectedElements('.header-button');
+ applyBodyFontSizeToSelectedElements('.btn');
+ applyBodyFontSizeToSelectedElements('label');
+ applyBodyFontSizeToSelectedElements('input');
+ applyBodyFontSizeToSelectedElements('select');
+ });
+ */
 document.addEventListener('DOMContentLoaded', applySemiboldToLinks);
+
+// Filtri nelle pagine di modifica
 document.addEventListener("DOMContentLoaded", function () {
     const filterNomeInput = document.getElementById("filter-events");
     const filterGiornoInput = document.getElementById("filter-giorno");
@@ -125,7 +126,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        // Aggiorna il DOM con l'ordine selezionato
         const eventiLista = document.getElementById("eventi-lista");
         if (eventiLista) {
             eventiLista.innerHTML = "";
@@ -169,8 +169,12 @@ document.addEventListener("DOMContentLoaded", function () {
             options.forEach(function (option) {
                 const nomeEvento = option.getAttribute("data-nome")?.toLowerCase() || '';
                 const giornoEvento = option.getAttribute("data-giorno")?.toLowerCase() || '';
+                const auleEvento = option.getAttribute("data-aula")?.toLowerCase() || '';
+                const responsabileEvento = option.getAttribute("data-responsabile")?.toLowerCase() || '';
+                const corsoEvento = option.getAttribute("data-corso")?.toLowerCase() || '';
 
-                if (nomeEvento.includes(filterValue) || giornoEvento.includes(filterValue)) {
+                if (nomeEvento.includes(filterValue) || giornoEvento.includes(filterValue) || auleEvento.includes(filterValue) 
+                        || responsabileEvento.includes(filterValue) || corsoEvento.includes(filterValue)) {
                     option.style.display = "block";
                 } else {
                     option.style.display = "none";
@@ -333,33 +337,29 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
     // Configurazione eventi per pagina
     const eventiPerPage = 12;
-    
+
     // Gestione paginazione per la tabella degli eventi associati
     try {
         paginateTable('eventi-associati-table', 'eventi-associati-pagination', eventiPerPage);
     } catch (error) {
-        console.log('Errore durante la paginazione degli eventi associati:', error);
     }
 
     // Gestione paginazione per la tabella degli eventi non associati
     try {
         paginateTable('eventi-non-associati-table', 'eventi-non-associati-pagination', eventiPerPage);
     } catch (error) {
-        console.log('Errore durante la paginazione degli eventi non associati:', error);
     }
 
     // Gestione paginazione per la tabella delle aule associate
     try {
         paginateTable('aule-associate-table', 'aule-associate-pagination', eventiPerPage);
     } catch (error) {
-        console.log('Errore durante la paginazione delle aule associate:', error);
     }
 
     // Gestione paginazione per la tabella delle aule non associate
     try {
         paginateTable('aule-non-associate-table', 'aule-non-associate-pagination', eventiPerPage);
     } catch (error) {
-        console.log('Errore durante la paginazione delle aule non associate:', error);
     }
 });
 

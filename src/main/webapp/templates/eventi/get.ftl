@@ -139,7 +139,7 @@
                     <form method="GET" action="modifica-evento">
                         <!-- Filtro per la select -->
                         <div class="mb-3">
-                            <label for="filterEventsToEdit" class="form-label">Filtra per nome o giorno:</label>
+                            <label for="filterEventsToEdit" class="form-label">Filtra per nome, giorno, aula, responsabile o corso:</label>
                             <input type="text" id="filterEventsToEdit" class="form-control" placeholder="Scrivi per filtrare...">
                         </div>
 
@@ -148,7 +148,7 @@
                             <select name="id_evento" id="id_evento" class="form-select">
                                 <option value="">Seleziona un evento</option>
                                 <#list eventi as evento>
-                                    <option value="${evento.key}" data-nome="${evento.nome}" data-giorno="${evento.giorno}">
+                                    <option value="${evento.key}" data-nome="${evento.nome}" data-giorno="${evento.giorno}" data-aula="${evento.aula.nome}" data-responsabile="${evento.responsabile.nome}" <#if evento.corso??> data-corso="${evento.corso.nome}" </#if>>
                                         ${evento.nome} <#if evento.ricorrenza??> - ${evento.giorno}</#if>
                                     </option>
                                 </#list>
