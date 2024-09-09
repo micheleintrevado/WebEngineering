@@ -55,7 +55,7 @@ public class UploadAuleCSV extends AulewebBaseController {
                 if (admin != null) {
                     request.setAttribute("admin", admin);
                     action_upload_aule_csv(request, response);
-                    //response.sendRedirect(request.getContextPath() + "/modifica-responsabile?id_responsabile=" + request.getParameter("id_responsabile"));
+                    response.sendRedirect(request.getContextPath() + "/aule");
                 }
             }
         } catch (DataException | IOException ex) {
